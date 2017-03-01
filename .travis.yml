@@ -1,0 +1,24 @@
+language: php
+
+ sudo: false
+
+ cache:
+   yarn: true
+   directories:
+     - $HOME/.composer/cache/files
+
+ php:
+   - 5.6
+   - 7.0
+   - 7.1
+   - hhvm
+   - nightly
+
+ install:
+   - composer install --no-interaction
+
+ script:
+   - phpunit
+
+ notifications:
+   email: family.brueckner@googlemail.com
