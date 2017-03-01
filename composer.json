@@ -1,0 +1,32 @@
+{
+  "name": "chrico/wp-fields",
+  "description": "Package which provides some re-usable fields for WordPress.",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Christian Brückner",
+      "email": "chris@chrico.info",
+      "homepage": "https://www.chrico.info",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=5.5"
+  },
+  "require-dev": {
+    "php": ">=5.5",
+    "brain/monkey": "~1.0",
+    "phpunit/phpunit": "~4.8|~5.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "ChriCo\\Fields\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "ChriCo\\Fields\\Tests\\": "tests/phpunit/"
+    }
+  }
+}
