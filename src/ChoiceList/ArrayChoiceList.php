@@ -32,7 +32,7 @@ class ArrayChoiceList implements ChoiceListInterface {
 	 */
 	public function get_values() {
 
-		return array_map( 'strval', array_keys( $this->choices ) );
+		return array_map( 'strval', array_keys( $this->get_choices() ) );
 	}
 
 	/**
@@ -40,14 +40,15 @@ class ArrayChoiceList implements ChoiceListInterface {
 	 */
 	public function get_choices_for_value( array $values = [] ) {
 
-		$choices = [];
+		$choices  = $this->get_choices();
+		$selected = [];
 		foreach ( $values as $value ) {
 			if ( array_key_exists( $value, $this->choices ) ) {
-				$choices[ $value ] = $this->choices[ $value ];
+				$selected[ $value ] = $choices[ $value ];
 			}
 		}
 
-		return $choices;
+		return $selected;
 	}
 
 }

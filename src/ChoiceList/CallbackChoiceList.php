@@ -62,25 +62,4 @@ class CallbackChoiceList extends ArrayChoiceList {
 
 		return parent::get_choices();
 	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function get_values() {
-
-		$this->maybe_load_choices();
-
-		return parent::get_values();
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function get_choices_for_value( array $values = [] ) {
-
-		$this->maybe_load_choices();
-
-		return parent::get_choices_for_value( $values );
-	}
-
 }
