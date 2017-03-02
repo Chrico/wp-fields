@@ -123,6 +123,47 @@ $collection = new CollectionElement( 'my-collection' );
 $collection->add_elements( [ $text, $select ] );
 ```
 
+### Adding choices
+The `ChoiceElement` allows us to add different choices. This package ships 2 implementations of choices:
+
+- `ArrayChoiceList` - gets choices assigned via constructor.
+- `CallbackChoiceList` - loads the choices based on a given `callable` on first access.
+
+To show the differences for both, here's a short example:
+
+```php
+<?php
+use ChriCo\Fields\Element\ChoiceElement;
+use ChriCo\Fields\ChoiceList\ArrayChoiceList;
+use ChriCo\Fields\ChoiceList\CallbackChoiceList;
+
+// normal ArrayChoiceList
+$feature_select = new ChoiceElement( 'active-feature' );
+$feature_select->set_attributes( [ 'type' => 'select' ] );
+$feature_select->set_choices( new ArrayChoiceList( [ '0' => 'Enable the feature X', '1' => 'Disable the feature' ] ) );
+
+// a CallbackChoiceList which loads posts.
+$post_choices = function() {
+
+	return array_reduce( 
+		get_posts(), 
+		function( $data, \WP_Post $post ) {
+			$data[ $post->ID ] = "#{$post->ID} {$post->post_title}";
+
+			return $data;
+		}, 
+		[]
+	);
+};
+
+$post_select = new ChoiceElement( 'my-post-select' );
+$post_select->set_attributes( [ 'type' => 'select' ] );
+$post_select->set_choices( new CallbackChoiceList( $post_choices ) );
+```
+
+The main point here is: The `CallbackChoichList` only loads the posts, when they are accessed.
+
+
 ### Adding a label
 All elements are implementing the `LabelAwareInterface` which allows us to add a `<label>` and label attributes:
 
