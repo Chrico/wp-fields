@@ -30,7 +30,7 @@ There are several different locations in WordPress, where you can use form field
 - Comment edit screen
 - Customizer
 
-Each location has different possibilities to add custom fields. For example in "Post edit"-screen you're within a form within a `<form>`, on a "Settings page" you're forced to write everything from scratch.
+Each location has different possibilities to add custom fields. For example in "Post edit"-screen you're already within a `<form>`, on a "Settings page" you're forced to write everything from scratch.
 
 Here's a short example of writing a so called "Metabox" to the "Post edit"-screen:
 
@@ -91,9 +91,7 @@ will be done in separate packages.
 ---
 
 ## Creating elements
-To save writing and creating objects by hand, you can use the `ElementFactory` to create elements via specification.
-
-There are by default 3 different types of Elements:
+To work later in view with Elements, you have first to create the Element itself. There are by default 3 different types of Elements:
 
 - `Element` - the default implementation with attributes, labels and errors.
 - `ChoiceElement` - extends the `Element` and allows us to set and get choices.
@@ -127,7 +125,7 @@ $collection->add_elements( [ $text, $select ] );
 The `ChoiceElement` allows us to add different choices. This package ships 2 implementations of choices:
 
 - `ArrayChoiceList` - gets choices assigned via constructor.
-- `CallbackChoiceList` - loads the choices based on a given `callable` on first access.
+- `CallbackChoiceList` - loads the choices based on a given `callable` first time it is accessed in view.
 
 To show the differences for both, here's a short example:
 
@@ -142,7 +140,10 @@ $feature_select = new ChoiceElement( 'active-feature' );
 $feature_select->set_attributes( [ 'type' => 'select' ] );
 $feature_select->set_choices( new ArrayChoiceList( [ '0' => 'Enable the feature X', '1' => 'Disable the feature' ] ) );
 
-// a CallbackChoiceList which loads posts.
+/**
+ * A CallbackChoiceList which loads posts.
+ * @return array( int => string )
+ */
 $post_choices = function() {
 
 	return array_reduce( 
@@ -161,7 +162,7 @@ $post_select->set_attributes( [ 'type' => 'select' ] );
 $post_select->set_choices( new CallbackChoiceList( $post_choices ) );
 ```
 
-The main point here is: The `CallbackChoichList` only loads the posts, when they are accessed.
+The main difference here is: The `CallbackChoichList` only loads the choices, when they are first accessed in view. The `ArrayChoiceList` already has assigned the complete choices in it's constructor.
 
 
 ### Adding a label
