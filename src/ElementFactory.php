@@ -112,8 +112,15 @@ class ElementFactory extends AbstractFactory {
 	 */
 	protected function configure_chooseable( ChoiceElementInterface $element, array $spec = [] ) {
 
-		if ( isset( $spec[ 'choices' ] ) && is_array( $spec[ 'choices' ] ) ) {
+		if ( ! isset( $spec[ 'choices' ] ) ) {
+
+			return $element;	
+		}
+		
+		if ( is_array( $spec[ 'choices' ] ) ) {
 			$element->set_choices( new ArrayChoiceList( $spec[ 'choices' ] ) );
+		} else if ( is_callable( $spec[ 'choices' ] ) ) {
+			$element->set_choices( new CallbackChoiceList( $spec[ 'choices' ] ) );
 		}
 
 		return $element;
