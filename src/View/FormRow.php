@@ -30,6 +30,7 @@ class FormRow implements RenderableElementInterface {
 		$field = $this->factory->create( $element->get_type() )
 			->render( $element );
 
+		$errors = '';
 		if ( $element instanceof ErrorAwareInterface ) {
 			$errors = $this->factory->create( Errors::class )
 				->render( $element );

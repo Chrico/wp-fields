@@ -59,7 +59,7 @@ class ElementFactory extends AbstractFactory {
 		}
 
 		if ( $element instanceof ChoiceElementInterface ) {
-			$element = $this->configure_chooseable( $element, $spec );
+			$element = $this->configure_choosable( $element, $spec );
 		}
 
 		if ( $element instanceof LabelAwareInterface ) {
@@ -110,7 +110,7 @@ class ElementFactory extends AbstractFactory {
 	 *
 	 * @return ChoiceElementInterface $element
 	 */
-	protected function configure_chooseable( ChoiceElementInterface $element, array $spec = [] ) {
+	protected function configure_choosable( ChoiceElementInterface $element, array $spec = [] ) {
 
 		if ( ! isset( $spec[ 'choices' ] ) ) {
 
@@ -120,7 +120,7 @@ class ElementFactory extends AbstractFactory {
 		if ( is_array( $spec[ 'choices' ] ) ) {
 			$element->set_choices( new ArrayChoiceList( $spec[ 'choices' ] ) );
 		} else if ( is_callable( $spec[ 'choices' ] ) ) {
-			$element->set_choices( new CallbackChoiceList( $spec[ 'choices' ] ) );
+			$element->set_choices( new ChoiceList\CallbackChoiceList( $spec[ 'choices' ] ) );
 		}
 
 		return $element;

@@ -1,6 +1,8 @@
 <?php
 namespace ChriCo\Fields\Tests\Unit;
 
+use ChriCo\Fields\ChoiceList\ArrayChoiceList;
+use ChriCo\Fields\ChoiceList\CallbackChoiceList;
 use ChriCo\Fields\Element\ChoiceElementInterface;
 use ChriCo\Fields\ChoiceList\ChoiceListInterface;
 use ChriCo\Fields\Element\CollectionElementInterface;
@@ -146,8 +148,15 @@ class ElementFactoryTest extends AbstractTestCase {
 
 	/**
 	 * Test creation of a ChoiceElement.
+	 *
+	 * @dataProvider provide_create__with_choices
+	 *
+	 * @param array|callable $choices
+	 * @param array          $expected
+	 * @param string         $instance_of
+	 *
 	 */
-	public function test_create__with_choices() {
+	public function test_create__with_choices( $choices, $expected, $instance_of ) {
 
 		$testee = new ElementFactory();
 
@@ -156,17 +165,39 @@ class ElementFactoryTest extends AbstractTestCase {
 				'type' => 'select',
 				'name' => 'test',
 			],
-			'choices'    => [
-				'foo' => 'bar',
-				'baz' => 'bam'
-			]
+			'choices'    => $choices
 		];
 
 		$element = $testee->create( $spec );
 
 		$choices = $element->get_choices();
-		$this->assertInstanceOf( ChoiceListInterface::class, $choices );
-		$this->assertNotEmpty( $choices->get_choices() );
+		$this->assertInstanceOf( $instance_of, $choices );
+		$this->assertSame( $expected, $choices->get_choices() );
+	}
+
+	public function provide_create__with_choices() {
+
+		$data = [];
+
+		// normal choice list
+		$data [ 'choice array' ] = [
+			[ 'foo' => 'bar', 'baz' => 'bam' ],
+			[ 'foo' => 'bar', 'baz' => 'bam' ],
+			ArrayChoiceList::class
+		];
+
+		// choice list with callback
+		$expected                       = [ 'foo' => 'bar', 'baz' => 'bam' ];
+		$data[ 'choices via callable' ] = [
+			function () use ( $expected ) {
+
+				return $expected;
+			},
+			$expected,
+			CallbackChoiceList::class
+		];
+
+		return $data;
 	}
 
 	public function test_create__with_collection() {
@@ -227,7 +258,7 @@ class ElementFactoryTest extends AbstractTestCase {
 				'type' => 'text',
 				'name' => 'my-text'
 			],
-			'label' => 'My label'
+			'label'      => 'My label'
 		];
 		// ChoiceElement
 		$choice = [
