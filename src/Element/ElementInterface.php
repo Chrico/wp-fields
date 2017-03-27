@@ -62,4 +62,31 @@ interface ElementInterface {
 	 * @return int|string $value
 	 */
 	public function get_attribute( $key );
+
+	/**
+	 * Get all field options for this element.
+	 *
+	 * @return array
+	 */
+	public function get_options();
+
+	/**
+	 * Set specific options which can be used in e.G. JavaScript.
+	 *
+	 * @param array $options
+	 */
+	public function set_options( array $options = [] );
+
+	/**
+	 * @param string     $key
+	 * @param int|string $value
+	 */
+	public function set_option( $key, $value );
+
+	/**
+	 * @param string $key
+	 *
+	 * @return int|string $value
+	 */
+	public function get_option( $key );
 }

@@ -107,4 +107,26 @@ class ElementTest extends AbstractTestCase {
 		$this->assertSame( [ 'foo' => 'bar' ], $testee->get_attributes() );
 	}
 
+	public function test_set_get_options() {
+
+		$expected = [ 'name' => 'text', 'type' => 'bam' ];
+
+		$testee = new Element( 'id' );
+		$testee->set_options( $expected );
+
+		$this->assertSame( $expected, $testee->get_options() );
+	}
+
+	/**
+	 * Basic test to check, if we can set and get a single option.
+	 */
+	public function set_get_option() {
+
+		$testee = new Element( 'id' );
+		$testee->set_option( 'foo', 'bar' );
+
+		$this->assertSame( 'bar', $testee->get_option( 'foo' ) );
+		$this->assertSame( [ 'foo' => 'bar' ], $testee->get_options() );
+	}
+
 }

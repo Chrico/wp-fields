@@ -73,7 +73,7 @@ add_action(
 );
 ```
 
-That's a lot of code for just creating 1 single input field. So, this package will provide an elegant way to create form fields via configuration or in an OOP-way. This can save a lot of time when and solves the most common problems in WordPress.
+That's a lot of code for just creating 1 single input field. And the field has also to be created completely by hand. No help, no API anywhere. So, this package will provide an elegant way to create form fields via easy configuration to save some time.
 
 ---
 
@@ -83,7 +83,7 @@ This package will only provide form fields *for WordPress*. Nothing more and not
 - Validation of data - use [Inpsyde-Validator](https://github.com/inpsyde/inpsyde-validator)
 - Filtering data - use [Inpsyde-Filter](https://github.com/inpsyde/inpsyde-filter)
 - Creating MetaBoxes - coming soon
-- creating Settings pages - coming soon
+- Creating Settings pages - coming soon
 - Saving fields to database(s) - coming soon
 
 will be done in separate packages.
@@ -93,7 +93,7 @@ will be done in separate packages.
 ## Creating elements
 To work later in view with Elements, you have first to create the Element itself. There are by default 3 different types of Elements:
 
-- `Element` - the default implementation with attributes, labels and errors.
+- `Element` - the default implementation with attributes, options, labels and errors.
 - `ChoiceElement` - extends the `Element` and allows us to set and get choices.
 - `CollectionElement` - extends the `Element` and allows us to group multiple elements together.
 

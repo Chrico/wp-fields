@@ -17,6 +17,11 @@ class Element implements ElementInterface, LabelAwareInterface, ErrorAwareInterf
 	protected $attributes = [];
 
 	/**
+	 * @var array
+	 */
+	protected $options = [];
+
+	/**
 	 * Element constructor.
 	 *
 	 * @param string $name
@@ -108,6 +113,45 @@ class Element implements ElementInterface, LabelAwareInterface, ErrorAwareInterf
 		}
 
 		return $this->attributes[ $key ];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get_options() {
+
+		return $this->options;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function set_options( array $options = [] ) {
+
+		$this->options = array_merge(
+			$this->options,
+			$options
+		);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function set_option( $key, $value ) {
+
+		$this->options[ $key ] = $value;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get_option( $key ) {
+
+		if ( ! isset( $this->options[ $key ] ) ) {
+			return '';
+		}
+
+		return $this->options[ $key ];
 	}
 
 }
