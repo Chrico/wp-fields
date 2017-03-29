@@ -7,7 +7,7 @@ ChriCo Fields is a Composer package (not a plugin) that allows to generate form 
 
 ChriCo Fields requires:
 
-* PHP 5.6+
+* PHP 7+
 * WordPress latest - 0.1
 * Composer to be installed
 

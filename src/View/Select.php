@@ -1,4 +1,5 @@
-<?php
+<?php declare( strict_types=1 );
+
 namespace ChriCo\Fields\View;
 
 use ChriCO\Fields\ChoiceList\ChoiceListInterface;
@@ -10,7 +11,7 @@ class Select implements RenderableElementInterface {
 
 	use AttributeFormatterTrait;
 
-	public function render( ElementInterface $element ) {
+	public function render( ElementInterface $element ): string {
 
 		if ( ! $element instanceof ChoiceElementInterface ) {
 			throw new InvalidClassException(
@@ -38,7 +39,7 @@ class Select implements RenderableElementInterface {
 	 *
 	 * @return string $html
 	 */
-	protected function render_choices( ChoiceListInterface $list, $current_value ) {
+	protected function render_choices( ChoiceListInterface $list, $current_value ): string {
 
 		if ( ! is_array( $current_value ) ) {
 			$current_value = [ $current_value ];

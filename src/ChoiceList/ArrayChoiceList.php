@@ -1,4 +1,4 @@
-<?php
+<?php declare( strict_types=1 );
 
 namespace ChriCo\Fields\ChoiceList;
 
@@ -19,26 +19,17 @@ class ArrayChoiceList implements ChoiceListInterface {
 		$this->choices = $choices;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function get_choices() {
+	public function get_choices(): array {
 
 		return $this->choices;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function get_values() {
+	public function get_values(): array {
 
 		return array_map( 'strval', array_keys( $this->get_choices() ) );
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function get_choices_for_value( array $values = [] ) {
+	public function get_choices_for_value( array $values = [] ): array {
 
 		$choices  = $this->get_choices();
 		$selected = [];

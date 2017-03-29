@@ -1,7 +1,8 @@
-<?php
+<?php declare( strict_types=1 );
+
 namespace ChriCo\Fields\View;
 
-use \ChriCo\Fields\Element;
+use ChriCo\Fields\Element;
 use ChriCo\Fields\Element\ElementInterface;
 use ChriCo\Fields\Exception\InvalidClassException;
 use ChriCo\Fields\ViewFactory;
@@ -23,7 +24,7 @@ class Collection implements RenderableElementInterface {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function render( ElementInterface $element ) {
+	public function render( ElementInterface $element ): string {
 
 		if ( ! $element instanceof Element\CollectionElement ) {
 			throw new InvalidClassException(

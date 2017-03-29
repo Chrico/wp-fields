@@ -1,4 +1,4 @@
-<?php
+<?php declare( strict_types=1 );
 
 namespace ChriCo\Fields\Element;
 
@@ -18,15 +18,9 @@ class CollectionElement extends Element implements CollectionElementInterface {
 	 */
 	protected $elements = [];
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function add_element( ElementInterface $element ) {
 
 		$name = $element->get_name();
-
-		// setting the name to element.
-		$element->set_attribute( 'name', $this->get_name() . '[' . $name . ']' );
 
 		// adding the name of the collection to the id.
 		$id = $element->get_id();
@@ -36,21 +30,18 @@ class CollectionElement extends Element implements CollectionElementInterface {
 
 		$element->set_attribute( 'id', $id );
 
+		// adding the CollectionElement name to the Element name as prefix.
+		$element->set_attribute( 'name', $this->get_name() . '[' . $name . ']' );
+
 		$this->elements[ $id ] = $element;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function add_elements( array $elements = [] ) {
 
 		array_walk( $elements, [ $this, 'add_element' ] );
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function get_elements() {
+	public function get_elements(): array {
 
 		return $this->elements;
 	}

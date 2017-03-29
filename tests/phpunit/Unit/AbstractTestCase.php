@@ -2,9 +2,9 @@
 namespace ChriCo\Fields\Tests\Unit;
 
 use Brain\Monkey;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-abstract class AbstractTestCase extends PHPUnit_Framework_TestCase {
+abstract class AbstractTestCase extends TestCase {
 
 	/**
 	 * Sets up the environment.

@@ -31,25 +31,17 @@ class CollectionElementTest extends AbstractTestCase {
 	 */
 	public function test_add_get_elements( $element_name, $element_id, $collection_name, $expected_element_id ) {
 
-		$stub = $this->getMockBuilder( ElementInterface::class )
-			->getMock();
-		$stub->expects( $this->once() )
-			->method( 'get_name' )
-			->willReturn( $element_name );
-		$stub->expects( $this->once() )
-			->method( 'get_id' )
-			->willReturn( $element_id );
-		$stub->expects( $this->exactly( 2 ) )
-			->method( 'set_attribute' );
+		$element = new Element( $element_name );
+		$element->set_attribute( 'id', $element_id );
 
 		$testee = new CollectionElement( $collection_name );
-		$testee->add_element( $stub );
+		$testee->add_element( $element );
 
 		$elements = $testee->get_elements();
 
 		$this->assertCount( 1, $elements );
 		$this->assertArrayHasKey( $expected_element_id, $elements );
-		$this->assertSame( $stub, $elements[ $expected_element_id ] );
+		$this->assertSame( $element, $elements[ $expected_element_id ] );
 	}
 
 	public function provide_add_get_elements() {

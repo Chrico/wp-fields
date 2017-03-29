@@ -1,4 +1,5 @@
-<?php
+<?php declare( strict_types=1 );
+
 namespace ChriCo\Fields\View;
 
 use ChriCo\Fields\Element\ElementInterface;
@@ -33,7 +34,7 @@ class Errors implements RenderableElementInterface {
 		);
 	}
 
-	public function render( ElementInterface $element ) {
+	public function render( ElementInterface $element ): string {
 
 		if ( ! $element instanceof ErrorAwareInterface ) {
 			throw new InvalidClassException(

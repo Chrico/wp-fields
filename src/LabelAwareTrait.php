@@ -1,4 +1,5 @@
-<?php
+<?php declare( strict_types=1 );
+
 namespace ChriCo\Fields;
 
 trait LabelAwareTrait {
@@ -13,9 +14,9 @@ trait LabelAwareTrait {
 	 */
 	protected $label_attributes = [];
 
-	public function get_label() {
+	public function get_label(): string {
 
-		return $this->label;
+		return (string) $this->label;
 	}
 
 	public function set_label( $label ) {
@@ -23,7 +24,7 @@ trait LabelAwareTrait {
 		$this->label = $label;
 	}
 
-	public function get_label_attributes() {
+	public function get_label_attributes(): array {
 
 		return $this->label_attributes;
 	}

@@ -1,4 +1,4 @@
-<?php
+<?php declare( strict_types=1 );
 
 namespace ChriCo\Fields\Element;
 
@@ -12,18 +12,12 @@ class ChoiceElement extends Element implements ChoiceElementInterface {
 	 */
 	protected $list;
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function set_choices( ChoiceListInterface $list ) {
 
 		$this->list = $list;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function get_choices() {
+	public function get_choices(): ChoiceListInterface {
 
 		if ( $this->list === NULL ) {
 			$this->list = new ArrayChoiceList();

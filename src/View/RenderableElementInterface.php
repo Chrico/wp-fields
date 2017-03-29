@@ -1,4 +1,5 @@
-<?php
+<?php declare( strict_types=1 );
+
 namespace ChriCo\Fields\View;
 
 use ChriCo\Fields\Element\ElementInterface;
@@ -15,6 +16,6 @@ interface RenderableElementInterface {
 	 *
 	 * @return string $html
 	 */
-	public function render( ElementInterface $element );
+	public function render( ElementInterface $element ): string;
 
 }

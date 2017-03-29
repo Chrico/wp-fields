@@ -1,4 +1,4 @@
-<?php
+<?php declare( strict_types=1 );
 
 namespace ChriCo\Fields\Element;
 
@@ -17,5 +17,5 @@ interface CollectionElementInterface {
 	/**
 	 * @return ElementInterface[]
 	 */
-	public function get_elements();
+	public function get_elements(): array;
 }

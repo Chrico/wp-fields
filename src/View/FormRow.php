@@ -1,4 +1,5 @@
-<?php
+<?php declare( strict_types=1 );
+
 namespace ChriCo\Fields\View;
 
 use ChriCo\Fields\Element\ElementInterface;
@@ -25,7 +26,7 @@ class FormRow implements RenderableElementInterface {
 	 *
 	 * @return string
 	 */
-	public function render( ElementInterface $element ) {
+	public function render( ElementInterface $element ): string {
 
 		$field = $this->factory->create( $element->get_type() )
 			->render( $element );
@@ -39,8 +40,8 @@ class FormRow implements RenderableElementInterface {
 		$html = '<tr class="form-row">';
 		if ( $element instanceof LabelAwareInterface && $element->get_label() !== NULL ) {
 			$label = $this->factory->create( Label::class );
-			$html .= '<th>' . $label->render( $element ) . '</th>';
-			$html .= '<td>' . $field . $errors . '</td>';
+			$html  .= '<th>' . $label->render( $element ) . '</th>';
+			$html  .= '<td>' . $field . $errors . '</td>';
 
 		} else {
 			$html .= '<td colspan="2">' . $field . $errors . '</td>';

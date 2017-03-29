@@ -1,4 +1,4 @@
-<?php
+<?php declare( strict_types=1 );
 
 namespace ChriCo\Fields;
 
@@ -17,7 +17,7 @@ class ElementFactory extends AbstractFactory {
 	 *
 	 * @return ElementInterface[] $elements
 	 */
-	public function create_multiple( array $specs = [] ) {
+	public function create_multiple( array $specs = [] ): array {
 
 		return array_map( [ $this, 'create' ], $specs );
 	}
@@ -26,6 +26,7 @@ class ElementFactory extends AbstractFactory {
 	 * @param array $spec
 	 *
 	 * @return ElementInterface|LabelAwareInterface|ChoiceElementInterface|CollectionElementInterface $element
+	 *
 	 */
 	public function create( array $spec = [] ) {
 
@@ -59,7 +60,7 @@ class ElementFactory extends AbstractFactory {
 		}
 
 		if ( $element instanceof ChoiceElementInterface ) {
-			$element = $this->configure_choosable( $element, $spec );
+			$element = $this->configure_choice_element( $element, $spec );
 		}
 
 		if ( $element instanceof LabelAwareInterface ) {
@@ -110,13 +111,13 @@ class ElementFactory extends AbstractFactory {
 	 *
 	 * @return ChoiceElementInterface $element
 	 */
-	protected function configure_choosable( ChoiceElementInterface $element, array $spec = [] ) {
+	protected function configure_choice_element( ChoiceElementInterface $element, array $spec = [] ): ChoiceElementInterface {
 
 		if ( ! isset( $spec[ 'choices' ] ) ) {
 
-			return $element;	
+			return $element;
 		}
-		
+
 		if ( is_array( $spec[ 'choices' ] ) ) {
 			$element->set_choices( new ArrayChoiceList( $spec[ 'choices' ] ) );
 		} else if ( is_callable( $spec[ 'choices' ] ) ) {
@@ -132,7 +133,7 @@ class ElementFactory extends AbstractFactory {
 	 *
 	 * @return LabelAwareInterface $element
 	 */
-	protected function configure_label( LabelAwareInterface $element, array $spec = [] ) {
+	protected function configure_label( LabelAwareInterface $element, array $spec = [] ): LabelAwareInterface {
 
 		if ( isset( $spec[ 'label' ] ) ) {
 			$element->set_label( $spec[ 'label' ] );
@@ -150,7 +151,7 @@ class ElementFactory extends AbstractFactory {
 	 *
 	 * @return CollectionElementInterface $element
 	 */
-	protected function configure_collection( CollectionElementInterface $element, array $spec = [] ) {
+	protected function configure_collection( CollectionElementInterface $element, array $spec = [] ): CollectionElementInterface {
 
 		if ( isset( $spec[ 'elements' ] ) && is_array( $spec[ 'elements' ] ) ) {
 			$element->add_elements( $this->create_multiple( $spec[ 'elements' ] ) );

@@ -1,4 +1,5 @@
-<?php
+<?php declare( strict_types=1 );
+
 namespace ChriCo\Fields\View;
 
 use ChriCo\Fields\Element\ElementInterface;
@@ -9,7 +10,7 @@ class Label implements RenderableElementInterface {
 
 	use AttributeFormatterTrait;
 
-	public function render( ElementInterface $element ) {
+	public function render( ElementInterface $element ): string {
 
 		if ( ! $element instanceof LabelAwareInterface ) {
 			throw new InvalidClassException(

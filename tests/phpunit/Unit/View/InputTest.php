@@ -2,6 +2,7 @@
 
 namespace ChriCo\Fields\Tests\Unit\View;
 
+use ChriCo\Fields\Element\Element;
 use ChriCo\Fields\Element\ElementInterface;
 use ChriCo\Fields\View\Input;
 use ChriCo\Fields\View\RenderableElementInterface;
@@ -22,20 +23,12 @@ class InputTest extends AbstractViewTestCase {
 	 */
 	public function test_render() {
 
-		$expected = [
-			'name' => 'foo',
-			'type' => 'text'
-		];
-
-		$stub = $this->getMockBuilder( ElementInterface::class )
-			->getMock();
-		$stub->expects( $this->once() )
-			->method( 'get_attributes' )
-			->willReturn( $expected );
+		$element = new Element( 'foo' );
+		$element->set_attribute( 'type', 'text' );
 
 		$this->assertSame(
 			'<input name="foo" type="text" />',
-			( new Input() )->render( $stub )
+			( new Input() )->render( $element )
 		);
 	}
 }

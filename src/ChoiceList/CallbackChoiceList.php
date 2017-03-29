@@ -1,4 +1,4 @@
-<?php
+<?php declare( strict_types=1 );
 
 namespace ChriCo\Fields\ChoiceList;
 
@@ -31,7 +31,7 @@ class CallbackChoiceList extends ArrayChoiceList {
 	/**
 	 * @return bool
 	 */
-	public function is_loaded() {
+	public function is_loaded(): bool {
 
 		return $this->is_loaded;
 	}
@@ -41,7 +41,7 @@ class CallbackChoiceList extends ArrayChoiceList {
 	 *
 	 * @return bool
 	 */
-	private function maybe_load_choices() {
+	private function maybe_load_choices(): bool {
 
 		if ( ! $this->is_loaded() ) {
 			$this->choices   = call_user_func( $this->callback );
@@ -53,10 +53,7 @@ class CallbackChoiceList extends ArrayChoiceList {
 		return FALSE;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function get_choices() {
+	public function get_choices(): array {
 
 		$this->maybe_load_choices();
 

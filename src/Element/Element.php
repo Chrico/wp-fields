@@ -1,4 +1,5 @@
-<?php
+<?php declare( strict_types=1 );
+
 namespace ChriCo\Fields\Element;
 
 use ChriCo\Fields\ErrorAwareInterface;
@@ -31,10 +32,7 @@ class Element implements ElementInterface, LabelAwareInterface, ErrorAwareInterf
 		$this->set_attribute( 'name', (string) $name );
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function get_id() {
+	public function get_id(): string {
 
 		$id = (string) $this->get_attribute( 'id' );
 		if ( $id === '' ) {
@@ -44,49 +42,31 @@ class Element implements ElementInterface, LabelAwareInterface, ErrorAwareInterf
 		return $id;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function get_type() {
+	public function get_type(): string {
 
 		return (string) $this->get_attribute( 'type' );
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function get_name() {
+	public function get_name(): string {
 
 		return (string) $this->get_attribute( 'name' );
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function get_value() {
+	public function get_value(): string {
 
 		return $this->get_attribute( 'value' );
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function set_value( $value ) {
 
 		$this->set_attribute( 'value', $value );
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function get_attributes() {
+	public function get_attributes(): array {
 
 		return $this->attributes;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function set_attributes( array $attributes = [] ) {
 
 		$this->attributes = array_merge(
@@ -95,17 +75,11 @@ class Element implements ElementInterface, LabelAwareInterface, ErrorAwareInterf
 		);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function set_attribute( $key, $value ) {
 
 		$this->attributes[ $key ] = $value;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function get_attribute( $key ) {
 
 		if ( ! isset( $this->attributes[ $key ] ) ) {
@@ -115,17 +89,11 @@ class Element implements ElementInterface, LabelAwareInterface, ErrorAwareInterf
 		return $this->attributes[ $key ];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function get_options() {
+	public function get_options(): array {
 
 		return $this->options;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function set_options( array $options = [] ) {
 
 		$this->options = array_merge(
@@ -134,17 +102,11 @@ class Element implements ElementInterface, LabelAwareInterface, ErrorAwareInterf
 		);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function set_option( $key, $value ) {
 
 		$this->options[ $key ] = $value;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function get_option( $key ) {
 
 		if ( ! isset( $this->options[ $key ] ) ) {

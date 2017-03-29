@@ -1,4 +1,5 @@
-<?php
+<?php declare( strict_types=1 );
+
 namespace ChriCo\Fields\View;
 
 use ChriCo\Fields\Element\ElementInterface;
@@ -7,7 +8,7 @@ class Input implements RenderableElementInterface {
 
 	use AttributeFormatterTrait;
 
-	public function render( ElementInterface $element ) {
+	public function render( ElementInterface $element ): string {
 
 		$attributes = $element->get_attributes();
 

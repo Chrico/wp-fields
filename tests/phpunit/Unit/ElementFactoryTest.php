@@ -4,7 +4,6 @@ namespace ChriCo\Fields\Tests\Unit;
 use ChriCo\Fields\ChoiceList\ArrayChoiceList;
 use ChriCo\Fields\ChoiceList\CallbackChoiceList;
 use ChriCo\Fields\Element\ChoiceElementInterface;
-use ChriCo\Fields\ChoiceList\ChoiceListInterface;
 use ChriCo\Fields\Element\CollectionElementInterface;
 use ChriCo\Fields\ElementFactory;
 use ChriCo\Fields\Element\ElementInterface;

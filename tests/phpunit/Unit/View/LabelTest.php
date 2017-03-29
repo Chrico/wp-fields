@@ -3,7 +3,7 @@
 namespace ChriCo\Fields\Tests\Unit\View;
 
 use ChriCo\Fields\Element\Element;
-use ChriCo\Fields\Element\ElementInterface;
+use ChriCo\Fields\Tests\Unit\Fixtures;
 use ChriCo\Fields\View\Label;
 use ChriCo\Fields\View\RenderableElementInterface;
 
@@ -27,19 +27,13 @@ class LabelTest extends AbstractViewTestCase {
 		$expected_attr  = [ 'for' => 'foo' ];
 		$expected_label = 'Foo';
 
-		$stub = $this->getMockBuilder( Element::class )
-			->setConstructorArgs( [ 'name' ] )
-			->getMock();
-		$stub->expects( $this->once() )
-			->method( 'get_label_attributes' )
-			->willReturn( $expected_attr );
-		$stub->expects( $this->once() )
-			->method( 'get_label' )
-			->willReturn( $expected_label );
+		$element = new Element( 'name' );
+		$element->set_label( $expected_label );
+		$element->set_label_attributes( $expected_attr );
 
 		$this->assertSame(
 			'<label for="foo">Foo</label>',
-			( new Label() )->render( $stub )
+			( new Label() )->render( $element )
 		);
 	}
 
@@ -48,10 +42,7 @@ class LabelTest extends AbstractViewTestCase {
 	 */
 	public function test_render__invalid_element() {
 
-		$stub = $this->getMockBuilder( ElementInterface::class )
-			->getMock();
-
-		( new Label() )->render( $stub );
+		( new Label() )->render( new Fixtures\ElementWithoutLabelAwareInterface() );
 	}
 
 	/**
@@ -62,22 +53,12 @@ class LabelTest extends AbstractViewTestCase {
 		$expected_name  = 'name';
 		$expected_label = 'Foo';
 
-		$stub = $this->getMockBuilder( Element::class )
-			->setConstructorArgs( [ $expected_name ] )
-			->getMock();
-		$stub->expects( $this->once() )
-			->method( 'get_id' )
-			->willReturn( $expected_name );
-		$stub->expects( $this->once() )
-			->method( 'get_label_attributes' )
-			->willReturn( [] );
-		$stub->expects( $this->once() )
-			->method( 'get_label' )
-			->willReturn( $expected_label );
+		$element = new Element( $expected_name );
+		$element->set_label( $expected_label );
 
 		$this->assertSame(
 			'<label for="' . $expected_name . '">Foo</label>',
-			( new Label() )->render( $stub )
+			( new Label() )->render( $element )
 		);
 	}
 }

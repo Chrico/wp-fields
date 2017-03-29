@@ -2,10 +2,7 @@
 
 namespace ChriCo\Fields\Tests\Unit;
 
-use ChriCo\Fields\Element;
-use ChriCo\Fields\ElementInterface;
 use ChriCo\Fields\ViewFactory;
-use ChriCo\Fields\LabelAwareInterface;
 use ChriCo\Fields\View\Errors;
 use ChriCo\Fields\View\Input;
 use ChriCo\Fields\View\Label;

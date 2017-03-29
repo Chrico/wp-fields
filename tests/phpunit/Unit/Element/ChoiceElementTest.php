@@ -25,20 +25,11 @@ class ChoiceElementTest extends AbstractTestCase {
 	 */
 	public function test_set_get_choices() {
 
-		$expected_values = [ 'foo' => 'bar' ];
+		$expected = new ArrayChoiceList();
+		$testee   = new ChoiceElement( 'name' );
+		$testee->set_choices( $expected );
 
-		$stub = $this->getMockBuilder( ChoiceListInterface::class )
-			->getMock();
-		$stub->expects( $this->once() )
-			->method( 'get_choices' )
-			->willReturn( $expected_values );
-
-		$testee = new ChoiceElement( 'name' );
-		$testee->set_choices( $stub );
-
-		$list = $testee->get_choices();
-		$this->assertSame( $stub, $list );
-		$this->assertSame( $expected_values, $list->get_choices() );
+		$this->assertSame( $expected, $testee->get_choices() );
 	}
 
 }

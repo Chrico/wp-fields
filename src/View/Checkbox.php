@@ -1,21 +1,19 @@
-<?php
+<?php declare( strict_types=1 );
+
 namespace ChriCo\Fields\View;
 
 use ChriCo\Fields\Element\ChoiceElementInterface;
 use ChriCo\Fields\Element\ElementInterface;
-use Inpsyde\MetaBox\Exception\InvalidArgumentException;
+use ChriCo\Fields\Exception\InvalidClassException;
 
 class Checkbox implements RenderableElementInterface {
 
 	use AttributeFormatterTrait;
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function render( ElementInterface $element ) {
+	public function render( ElementInterface $element ): string {
 
 		if ( ! $element instanceof ChoiceElementInterface ) {
-			throw new InvalidArgumentException(
+			throw new InvalidClassException(
 				sprintf(
 					'The given element "%s" has to implement "%s"',
 					$element->get_name(),

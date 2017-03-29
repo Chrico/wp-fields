@@ -1,4 +1,5 @@
-<?php
+<?php declare( strict_types=1 );
+
 namespace ChriCo\Fields;
 
 trait ErrorAwareTrait {
@@ -13,7 +14,7 @@ trait ErrorAwareTrait {
 	 *
 	 * @return array
 	 */
-	public function get_errors() {
+	public function get_errors(): array {
 
 		return $this->errors;
 	}

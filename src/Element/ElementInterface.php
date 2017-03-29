@@ -1,4 +1,5 @@
-<?php
+<?php declare( strict_types=1 );
+
 namespace ChriCo\Fields\Element;
 
 interface ElementInterface {
@@ -8,21 +9,21 @@ interface ElementInterface {
 	 *
 	 * @return string
 	 */
-	public function get_id();
+	public function get_id(): string;
 
 	/**
 	 * Proxy to get the "type" in field attributes.
 	 *
 	 * @return string
 	 */
-	public function get_type();
+	public function get_type(): string;
 
 	/**
 	 * Proxy to get the name in field attributes.
 	 *
 	 * @return string
 	 */
-	public function get_name();
+	public function get_name(): string;
 
 	/**
 	 * Proxy to get the value in field attributes.
@@ -43,7 +44,7 @@ interface ElementInterface {
 	 *
 	 * @return array
 	 */
-	public function get_attributes();
+	public function get_attributes(): array;
 
 	/**
 	 * @param array $attributes
@@ -68,7 +69,7 @@ interface ElementInterface {
 	 *
 	 * @return array
 	 */
-	public function get_options();
+	public function get_options(): array;
 
 	/**
 	 * Set specific options which can be used in e.G. JavaScript.

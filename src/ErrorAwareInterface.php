@@ -1,4 +1,5 @@
-<?php
+<?php declare( strict_types=1 );
+
 namespace ChriCo\Fields;
 
 interface ErrorAwareInterface {
@@ -8,7 +9,7 @@ interface ErrorAwareInterface {
 	 *
 	 * @return array
 	 */
-	public function get_errors();
+	public function get_errors(): array;
 
 	/**
 	 * Set a list of error messages when validation fails.

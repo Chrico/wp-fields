@@ -1,4 +1,5 @@
-<?php
+<?php declare( strict_types=1 );
+
 namespace ChriCo\Fields\View;
 
 trait AttributeFormatterTrait {
@@ -10,7 +11,7 @@ trait AttributeFormatterTrait {
 	 *
 	 * @return string $html
 	 */
-	public function get_attributes_as_string( array $attributes = [] ) {
+	public function get_attributes_as_string( array $attributes = [] ): string {
 
 		$html = [];
 		foreach ( $attributes as $key => $value ) {
@@ -34,7 +35,7 @@ trait AttributeFormatterTrait {
 	 *
 	 * @return string $value
 	 */
-	public function esc_attr( $value ) {
+	public function esc_attr( string $value ): string {
 
 		return esc_attr( (string) $value );
 	}
@@ -46,7 +47,7 @@ trait AttributeFormatterTrait {
 	 *
 	 * @return string $value
 	 */
-	public function esc_html( $value ) {
+	public function esc_html( string $value ): string {
 
 		return esc_html( (string) $value );
 	}

@@ -1,4 +1,5 @@
-<?php
+<?php declare( strict_types=1 );
+
 namespace ChriCo\Fields\Element;
 
 use ChriCo\Fields\ChoiceList\ChoiceListInterface;
@@ -13,5 +14,5 @@ interface ChoiceElementInterface {
 	/**
 	 * @return ChoiceListInterface $list
 	 */
-	public function get_choices();
+	public function get_choices(): ChoiceListInterface;
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare( strict_types=1 );
 
 namespace ChriCo\Fields;
 
@@ -13,9 +13,9 @@ class ViewFactory extends AbstractFactory {
 	 *
 	 * @throws Exception\UnknownTypeException
 	 *
-	 * @return View\RenderableElementInterface $class
+	 * @return RenderableElementInterface $class
 	 */
-	public function create( $type ) {
+	public function create( $type ): RenderableElementInterface {
 
 		$type   = (string) $type;
 		$search = strtolower( $type );

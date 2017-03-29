@@ -1,9 +1,10 @@
-<?php
+<?php declare( strict_types=1 );
 
 namespace ChriCo\Fields\Tests\Unit\View;
 
 use ChriCo\Fields\Element\Element;
 use ChriCo\Fields\Element\ElementInterface;
+use ChriCo\Fields\ErrorAwareInterface;
 use ChriCo\Fields\View\Errors;
 use ChriCo\Fields\View\RenderableElementInterface;
 
@@ -28,16 +29,12 @@ class ErrorsTest extends AbstractViewTestCase {
 	 */
 	public function test_render( $input, $expected ) {
 
-		$stub = $this->getMockBuilder( Element::class )
-			->setConstructorArgs( [ 'name' ] )
-			->getMock();
-		$stub->expects( $this->once() )
-			->method( 'get_errors' )
-			->willReturn( $input );
+		$element = new Element( 'name' );
+		$element->set_errors( $input );
 
 		$this->assertSame(
 			$expected,
-			( new Errors() )->render( $stub )
+			( new Errors() )->render( $element )
 		);
 	}
 
@@ -63,12 +60,8 @@ class ErrorsTest extends AbstractViewTestCase {
 	 */
 	public function test_render__changed_markup() {
 
-		$stub = $this->getMockBuilder( Element::class )
-			->setConstructorArgs( [ 'name' ] )
-			->getMock();
-		$stub->expects( $this->once() )
-			->method( 'get_errors' )
-			->willReturn( [ 'foo' => 'bar' ] );
+		$element = new Element( 'name' );
+		$element->set_errors( [ 'foo' => 'bar' ] );
 
 		$markup = [
 			'wrapper' => '<ul>%s</ul>',
@@ -77,7 +70,7 @@ class ErrorsTest extends AbstractViewTestCase {
 
 		$this->assertSame(
 			'<ul><li>bar</li></ul>',
-			( new Errors( $markup ) )->render( $stub )
+			( new Errors( $markup ) )->render( $element )
 		);
 	}
 }
