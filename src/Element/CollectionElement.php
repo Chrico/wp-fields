@@ -20,20 +20,7 @@ class CollectionElement extends Element implements CollectionElementInterface {
 
 	public function add_element( ElementInterface $element ) {
 
-		$name = $element->get_name();
-
-		// adding the name of the collection to the id.
-		$id = $element->get_id();
-		$id = $id === ''
-			? $this->get_name() . '_' . $name
-			: $this->get_name() . '_' . $id;
-
-		$element->set_attribute( 'id', $id );
-
-		// adding the CollectionElement name to the Element name as prefix.
-		$element->set_attribute( 'name', $this->get_name() . '[' . $name . ']' );
-
-		$this->elements[ $id ] = $element;
+		$this->elements[ $element->get_id() ] = $element;
 	}
 
 	public function add_elements( array $elements = [] ) {

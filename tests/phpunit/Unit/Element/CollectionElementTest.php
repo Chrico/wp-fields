@@ -51,13 +51,13 @@ class CollectionElementTest extends AbstractTestCase {
 				'element-name',
 				'element-id',
 				'collection-name',
-				"collection-name_element-id"
+				"element-id"
 			],
 			'get_id is empty' => [
 				'element-name',
 				'',
 				'collection-name',
-				"collection-name_element-name"
+				"element-name"
 			]
 		];
 	}

@@ -36,12 +36,21 @@ class Collection implements RenderableElementInterface {
 			);
 		}
 
-		$row  = $this->factory->create( FormRow::class );
-		$html = '';
-		foreach ( $element->get_elements() as $element ) {
-			$html .= $row->render( $element );
-		}
+		$row = $this->factory->create( FormRow::class );
 
-		return $html;
+		return array_reduce(
+			$element->get_elements(),
+			function ( $html, ElementInterface $next ) use ( $element, $row ) {
+
+				// adding the CollectionElement name to the Element name and ID as prefix.
+				$next->set_attribute( 'id', $element->get_name() . '_' . $next->get_id() );
+				$next->set_attribute( 'name', $element->get_name() . '[' . $next->get_name() . ']' );
+
+				$html .= $row->render( $next );
+
+				return $html;
+			},
+			''
+		);
 	}
 }
