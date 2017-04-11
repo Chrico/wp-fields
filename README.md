@@ -233,7 +233,7 @@ $select = $factory->create( $select_spec );
 $collection_spec = [
 	'attributes' => [
 		'name' => 'my-collection',
-		'type' => 'colection'
+		'type' => 'collection'
 	],
 	'elements' => [ $text_spec, $select_spec ]
 ];
