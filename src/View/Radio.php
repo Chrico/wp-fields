@@ -29,7 +29,7 @@ class Radio implements RenderableElementInterface {
 		$html = [];
 
 		foreach ( $choices as $key => $name ) {
-			$attributes[ 'id' ]    = $element->get_name() . '_' . $key;
+			$attributes[ 'id' ]    = $element->get_id() . '_' . $key;
 			$attributes[ 'value' ] = $key;
 
 			$label = sprintf(
@@ -39,7 +39,7 @@ class Radio implements RenderableElementInterface {
 			);
 
 			$html[] = sprintf(
-				'<input %s %s /> %s',
+				'<p><input %s %s /> %s</p>',
 				$this->get_attributes_as_string( $attributes ),
 				isset( $selected[ $key ] ) ? 'checked="checked"' : '',
 				$label

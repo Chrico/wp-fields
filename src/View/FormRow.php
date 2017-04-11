@@ -42,7 +42,7 @@ class FormRow implements RenderableElementInterface {
 			: '';
 
 		$html = '<tr class="form-row">';
-		if ( $element instanceof LabelAwareInterface && $element->get_label() !== NULL ) {
+		if ( $element instanceof LabelAwareInterface && $element->get_label() !== '' ) {
 			$label = $this->factory->create( Label::class );
 			$html  .= '<th>' . $label->render( $element ) . '</th>';
 			$html  .= '<td>' . $field . $description . $errors . '</td>';

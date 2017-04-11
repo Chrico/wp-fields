@@ -7,7 +7,7 @@ trait LabelAwareTrait {
 	/**
 	 * @var string
 	 */
-	protected $label;
+	protected $label = '';
 
 	/**
 	 * @var array
