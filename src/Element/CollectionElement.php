@@ -32,4 +32,22 @@ class CollectionElement extends Element implements CollectionElementInterface {
 
 		return $this->elements;
 	}
+
+	/**
+	 * If the key is "value" and the $value an array, we assign all values to the children.
+	 *
+	 * {@inheritdoc}
+	 */
+	public function set_attribute( $key, $value ) {
+
+		if ( $key === 'value' && is_array( $value ) ) {
+			foreach ( $value as $k => $v ) {
+				if ( isset( $this->elements[ $k ] ) ) {
+					$this->elements[ $k ]->set_value( $v );
+				}
+			}
+		} else {
+			parent::set_attribute( $key, $value );
+		}
+	}
 }
