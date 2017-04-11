@@ -2,15 +2,18 @@
 
 namespace ChriCo\Fields\Element;
 
+use ChriCo\Fields\DescriptionAwareInterface;
+use ChriCo\Fields\DescriptionAwareTrait;
 use ChriCo\Fields\ErrorAwareInterface;
 use ChriCo\Fields\ErrorAwareTrait;
 use ChriCo\Fields\LabelAwareInterface;
 use ChriCo\Fields\LabelAwareTrait;
 
-class Element implements ElementInterface, LabelAwareInterface, ErrorAwareInterface {
+class Element implements ElementInterface, LabelAwareInterface, ErrorAwareInterface, DescriptionAwareInterface {
 
 	use LabelAwareTrait;
 	use ErrorAwareTrait;
+	use DescriptionAwareTrait;
 
 	/**
 	 * @var array

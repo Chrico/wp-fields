@@ -75,6 +75,10 @@ class ElementFactory extends AbstractFactory {
 			$element = $this->configure_collection( $element, $spec );
 		}
 
+		if ( $element instanceof DescriptionAwareInterface ) {
+			$element = $this->configure_description( $element, $spec );
+		}
+
 		$element = $this->configure_element( $element, $spec );
 
 		return $element;
@@ -140,6 +144,21 @@ class ElementFactory extends AbstractFactory {
 		}
 		if ( isset( $spec[ 'label_attributes' ] ) && is_array( $spec[ 'label_attributes' ] ) ) {
 			$element->set_label_attributes( $spec[ 'label_attributes' ] );
+		}
+
+		return $element;
+	}
+
+	/**
+	 * @param DescriptionAwareTrait $element
+	 * @param array                 $spec
+	 *
+	 * @return DescriptionAwareTrait $element
+	 */
+	protected function configure_description( DescriptionAwareTrait $element, array $spec = [] ): DescriptionAwareTrait {
+
+		if ( isset( $spec[ 'description' ] ) ) {
+			$element->set_description( $spec[ 'description' ] );
 		}
 
 		return $element;

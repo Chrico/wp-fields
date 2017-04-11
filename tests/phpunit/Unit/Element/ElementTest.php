@@ -34,6 +34,19 @@ class ElementTest extends AbstractTestCase {
 	}
 
 	/**
+	 * Test if we can set and get again the description.
+	 */
+	public function test_set_get_description() {
+
+		$expected = 'test';
+
+		$testee = new Element( 'id' );
+		$testee->set_description( $expected );
+
+		$this->assertSame( $expected, $testee->get_description() );
+	}
+
+	/**
 	 * Test if we can set and get again the label.
 	 */
 	public function test_set_get_label() {

@@ -2,6 +2,7 @@
 
 namespace ChriCo\Fields\View;
 
+use ChriCo\Fields\DescriptionAwareInterface;
 use ChriCo\Fields\Element\ElementInterface;
 use ChriCo\Fields\ErrorAwareInterface;
 use ChriCo\Fields\ViewFactory;
@@ -31,20 +32,23 @@ class FormRow implements RenderableElementInterface {
 		$field = $this->factory->create( $element->get_type() )
 			->render( $element );
 
-		$errors = '';
-		if ( $element instanceof ErrorAwareInterface ) {
-			$errors = $this->factory->create( Errors::class )
-				->render( $element );
-		}
+		$errors = $element instanceof ErrorAwareInterface
+			? $this->factory->create( Errors::class )
+				->render( $element )
+			: '';
+
+		$description = $element instanceof DescriptionAwareInterface
+			? printf( '<span class="description">%s</span>', $element->get_description() )
+			: '';
 
 		$html = '<tr class="form-row">';
 		if ( $element instanceof LabelAwareInterface && $element->get_label() !== NULL ) {
 			$label = $this->factory->create( Label::class );
 			$html  .= '<th>' . $label->render( $element ) . '</th>';
-			$html  .= '<td>' . $field . $errors . '</td>';
+			$html  .= '<td>' . $field . $description . $errors . '</td>';
 
 		} else {
-			$html .= '<td colspan="2">' . $field . $errors . '</td>';
+			$html .= '<td colspan="2">' . $field . $description . $errors . '</td>';
 		}
 		$html .= '</tr>';
 

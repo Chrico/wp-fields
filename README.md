@@ -164,7 +164,20 @@ $post_select->set_choices( new CallbackChoiceList( $post_choices ) );
 
 The main difference here is: The `CallbackChoichList` only loads the choices, when they are first accessed in view. The `ArrayChoiceList` already has assigned the complete choices in it's constructor.
 
-
+### Adding a description
+ All elements are implementing the `DescriptionAwareInterface` which allows us to add a description to each field:
+ 
+```php
+<?php
+use ChriCo\Fields\Element\Element;
+ 
+$text = new Element( 'my-text' );
+$text->set_description( 'Some additional description for our form field.' );
+  
+echo $text->get_description(); 
+```
+ 
+ 
 ### Adding a label
 All elements are implementing the `LabelAwareInterface` which allows us to add a `<label>` and label attributes:
 
