@@ -25,7 +25,7 @@ class ElementFactory extends AbstractFactory {
 	/**
 	 * @param array $spec
 	 *
-	 * @return ElementInterface|LabelAwareInterface|ChoiceElementInterface|CollectionElementInterface $element
+	 * @return ElementInterface|LabelAwareInterface|DescriptionAwareInterface|ChoiceElementInterface|CollectionElementInterface $element
 	 *
 	 */
 	public function create( array $spec = [] ) {
@@ -150,12 +150,12 @@ class ElementFactory extends AbstractFactory {
 	}
 
 	/**
-	 * @param DescriptionAwareTrait $element
+	 * @param DescriptionAwareInterface $element
 	 * @param array                 $spec
 	 *
-	 * @return DescriptionAwareTrait $element
+	 * @return DescriptionAwareInterface $element
 	 */
-	protected function configure_description( DescriptionAwareTrait $element, array $spec = [] ): DescriptionAwareTrait {
+	protected function configure_description( DescriptionAwareInterface $element, array $spec = [] ): DescriptionAwareInterface {
 
 		if ( isset( $spec[ 'description' ] ) ) {
 			$element->set_description( $spec[ 'description' ] );
