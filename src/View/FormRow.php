@@ -38,7 +38,7 @@ class FormRow implements RenderableElementInterface {
 			: '';
 
 		$description = $element instanceof DescriptionAwareInterface
-			? printf( '<span class="description">%s</span>', $element->get_description() )
+			? sprintf( '<p class="description">%s</p>', $element->get_description() )
 			: '';
 
 		$html = '<tr class="form-row">';
