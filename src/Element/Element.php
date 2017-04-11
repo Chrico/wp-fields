@@ -55,7 +55,7 @@ class Element implements ElementInterface, LabelAwareInterface, ErrorAwareInterf
 		return (string) $this->get_attribute( 'name' );
 	}
 
-	public function get_value(): string {
+	public function get_value() {
 
 		return $this->get_attribute( 'value' );
 	}
