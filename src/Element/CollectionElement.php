@@ -2,6 +2,8 @@
 
 namespace ChriCo\Fields\Element;
 
+use ChriCo\Fields\ErrorAwareInterface;
+
 class CollectionElement extends Element implements CollectionElementInterface {
 
 	/**
@@ -48,6 +50,22 @@ class CollectionElement extends Element implements CollectionElementInterface {
 			}
 		} else {
 			parent::set_attribute( $key, $value );
+		}
+	}
+
+	/**
+	 * Delegate errors down to the children.
+	 *
+	 * {@inheritdoc}
+	 */
+	public function set_errors( array $errors = [] ) {
+
+		foreach ( $this->elements as $element ) {
+			$id = $element->get_id();
+			if ( isset( $errors[ $id ] ) && $element instanceof ErrorAwareInterface ) {
+				$element->set_errors( $errors );
+				unset( $errors[ $id ] );
+			}
 		}
 	}
 }
