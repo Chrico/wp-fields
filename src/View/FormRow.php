@@ -37,7 +37,7 @@ class FormRow implements RenderableElementInterface {
 				->render( $element )
 			: '';
 
-		$description = $element instanceof DescriptionAwareInterface
+		$description = $element instanceof DescriptionAwareInterface && $element->get_description() !== ''
 			? sprintf( '<p class="description">%s</p>', $element->get_description() )
 			: '';
 

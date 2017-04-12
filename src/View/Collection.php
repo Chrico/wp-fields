@@ -38,7 +38,7 @@ class Collection implements RenderableElementInterface {
 
 		$row = $this->factory->create( FormRow::class );
 
-		return array_reduce(
+		$html = array_reduce(
 			$element->get_elements(),
 			function ( $html, ElementInterface $next ) use ( $element, $row ) {
 
@@ -52,5 +52,7 @@ class Collection implements RenderableElementInterface {
 			},
 			''
 		);
+
+		return sprintf( '<table class="form-table">%s</table>', $html );
 	}
 }
