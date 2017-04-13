@@ -2,6 +2,8 @@
 
 namespace ChriCo\Fields\Tests\Unit;
 
+use ChriCo\Fields\Tests\Unit\Fixtures\CustomViewElement;
+use ChriCo\Fields\View\Textarea;
 use ChriCo\Fields\ViewFactory;
 use ChriCo\Fields\View\Errors;
 use ChriCo\Fields\View\Input;
@@ -38,10 +40,20 @@ class ViewFactoryTest extends AbstractTestCase {
 	public function provide_create() {
 
 		return [
-			'label'  => [ 'label', Label::class ],
-			'errors' => [ 'errors', Errors::class ],
-			'text'   => [ 'text', Input::class ]
+			'label type'  => [ 'label', Label::class ],
+			'errors type' => [ 'errors', Errors::class ],
+			'text type'   => [ 'text', Input::class ],
+			'class name'  => [ Textarea::class, Textarea::class ]
 		];
+	}
+
+	/**
+	 * Test if we can create an instance of a custom view-element.
+	 */
+	public function test_create__custom_view_element() {
+
+		$expected = CustomViewElement::class;
+		$this->assertInstanceOf( $expected, ( new ViewFactory() )->create( $expected ) );
 	}
 
 	/**
@@ -49,7 +61,7 @@ class ViewFactoryTest extends AbstractTestCase {
 	 *
 	 * @expectedException \ChriCo\Fields\Exception\UnknownTypeException
 	 */
-	public function test_create_by_type__unknown_type() {
+	public function test_create__unknown_type() {
 
 		$testee = new ViewFactory();
 		$testee->create( 'i am an unknown type' );

@@ -3,6 +3,7 @@
 namespace ChriCo\Fields\Element;
 
 use ChriCo\Fields\ErrorAwareInterface;
+use ChriCo\Fields\Exception\ElementNotFoundException;
 
 class CollectionElement extends Element implements CollectionElementInterface {
 
@@ -20,6 +21,7 @@ class CollectionElement extends Element implements CollectionElementInterface {
 	 */
 	protected $elements = [];
 
+
 	public function add_element( ElementInterface $element ) {
 
 		$this->elements[ $element->get_id() ] = $element;
@@ -33,6 +35,23 @@ class CollectionElement extends Element implements CollectionElementInterface {
 	public function get_elements(): array {
 
 		return $this->elements;
+	}
+
+	public function get_element( string $id ): ElementInterface {
+
+		if ( ! isset( $this->elements[ $id ] ) ) {
+
+			throw new ElementNotFoundException(
+				sprintf( 'The element with id <code>%s</code> does not exists', $id )
+			);
+		}
+
+		return $this->elements[ $id ];
+	}
+
+	public function has_element( string $id ) : bool  {
+
+		return isset( $this->elements[ $id ] );
 	}
 
 	/**

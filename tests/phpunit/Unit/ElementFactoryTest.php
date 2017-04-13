@@ -1,4 +1,5 @@
 <?php
+
 namespace ChriCo\Fields\Tests\Unit;
 
 use ChriCo\Fields\ChoiceList\ArrayChoiceList;
@@ -84,16 +85,16 @@ class ElementFactoryTest extends AbstractTestCase {
 	public function provide_create__missing_attributes() {
 
 		return [
-			'missing name' => [
+			'missing name'          => [
 				[ 'attributes' => [ 'type' => 'text' ] ]
 			],
-			'missing type' => [
+			'missing type'          => [
 				[ 'attributes' => [ 'name' => 'foo' ] ]
 			],
-			'both missing' => [
+			'type and name missing' => [
 				[ 'label' => 'foo' ]
 			],
-			'empty specs'  => [
+			'empty specs'           => [
 				[]
 			]
 		];
@@ -106,7 +107,7 @@ class ElementFactoryTest extends AbstractTestCase {
 	 */
 	public function test_create__invalid_class() {
 
-		( new ElementFactory() )->create( [ 'attributes' => [ 'type' => ElementFactory::class, 'name' => '' ] ] );
+		( new ElementFactory() )->create( [ 'attributes' => [ 'type' => \stdClass::class, 'name' => '' ] ] );
 	}
 
 	/**
@@ -116,7 +117,7 @@ class ElementFactoryTest extends AbstractTestCase {
 	 */
 	public function test_create__unknown_type() {
 
-		( new ElementFactory() )->create( [ 'attributes' => [ 'type' => 'foo', 'name' => '' ] ] );
+		( new ElementFactory() )->create( [ 'attributes' => [ 'type' => 'i am an unknown type', 'name' => '' ] ] );
 	}
 
 	/**
@@ -199,6 +200,9 @@ class ElementFactoryTest extends AbstractTestCase {
 		return $data;
 	}
 
+	/**
+	 * Test creation of an Collection element with elements.
+	 */
 	public function test_create__with_collection() {
 
 		$testee = new ElementFactory();
@@ -242,14 +246,14 @@ class ElementFactoryTest extends AbstractTestCase {
 		];
 
 		$element = $testee->create( [ 'attributes' => $expected ] );
-		// cannot use assertSame() because the order of the elements in array will differ.
+		// cannot use assertSame() because the order of the elements in array can differ.
 		$this->assertEquals( $expected, $element->get_attributes() );
 	}
 
 	/**
 	 * Test if we can create multiple Elements from a specification.
 	 */
-	public function test_create_multiple() {
+	public function test_create__multiple() {
 
 		// Element
 		$element = [

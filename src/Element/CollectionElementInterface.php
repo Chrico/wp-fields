@@ -2,6 +2,8 @@
 
 namespace ChriCo\Fields\Element;
 
+use ChriCo\Fields\Exception\ElementNotFoundException;
+
 interface CollectionElementInterface {
 
 	/**
@@ -18,4 +20,20 @@ interface CollectionElementInterface {
 	 * @return ElementInterface[]
 	 */
 	public function get_elements(): array;
+
+	/**
+	 * @param string $id                The ID of the element.
+	 *
+	 * @throws ElementNotFoundException If element is not found in Collection.
+	 *
+	 * @return ElementInterface $element
+	 */
+	public function get_element( string $id ): ElementInterface;
+
+	/**
+	 * @param string $id
+	 *
+	 * @return bool
+	 */
+	public function has_element( string $id ) : bool;
 }
