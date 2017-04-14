@@ -51,17 +51,23 @@ class Errors implements RenderableElementInterface {
 			return '';
 		}
 
-		$html = [];
-		foreach ( $errors as $error ) {
-			$html[] = sprintf(
-				$this->options[ 'error' ],
-				$this->esc_html( $error )
-			);
-		}
+		$html = array_reduce(
+			$errors,
+			function ( $html, $error ): string {
+
+				$html .= sprintf(
+					$this->options[ 'error' ],
+					$error
+				);
+
+				return $html;
+			},
+			''
+		);
 
 		return sprintf(
 			$this->options[ 'wrapper' ],
-			implode( ' ', $html )
+			$html
 		);
 	}
 }

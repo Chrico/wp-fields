@@ -53,6 +53,10 @@ class Collection implements RenderableElementInterface {
 			''
 		);
 
-		return sprintf( '<table class="form-table">%s</table>', $html );
+		$errors = $this->factory->create( Errors::class )
+			->render( $element );
+		$class  = $errors !== '' ? 'form-table--has-errors' : '';
+
+		return sprintf( '%1$s<table class="form-table %2$s">%3$s</table>', $errors, $class, $html );
 	}
 }

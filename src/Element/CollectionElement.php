@@ -86,5 +86,8 @@ class CollectionElement extends Element implements CollectionElementInterface {
 				unset( $errors[ $id ] );
 			}
 		}
+
+		// assign errors without matches to the collection itself.
+		$this->errors = $errors;
 	}
 }

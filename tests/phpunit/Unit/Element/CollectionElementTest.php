@@ -90,10 +90,25 @@ class CollectionElementTest extends AbstractTestCase {
 		$this->assertTrue( $testee->has_element( $expected_element_name ) );
 	}
 
+
+	/**
+	 * Test if errors which are not matching with the element name are assigned to the collection itself.
+	 */
+	public function test_add_errors() {
+
+		$expected_error        = [ 'error_message' ];
+
+		$testee = new CollectionElement( 'collection' );
+		$testee->add_element( new Element( 'element' ) );
+		$testee->set_errors( $expected_error );
+
+		$this->assertSame( $expected_error, $testee->get_errors() );
+	}
+
 	/**
 	 * Test if errors are delegated to the elements in the collection.
 	 */
-	public function test_add_errors() {
+	public function test_add_errors__delegate() {
 
 		$expected_element_name = 'element';
 		$expected_error        = [ $expected_element_name => 'error_message' ];
