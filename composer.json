@@ -13,7 +13,7 @@
   ],
   "require": {
     "php": ">=7.0",
-    "inpsyde/filter": "~1.2",
+    "inpsyde/filter": "~1.0",
     "inpsyde/validator": "~1.2"
   },
   "require-dev": {
