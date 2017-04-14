@@ -280,12 +280,11 @@ To render our `$elements` from above into a complete form, we just assign them t
 <?php
 use ChriCo\Fields\Element\Form;
 use ChriCo\Fields\ViewFactory;
-use ChriCo\Fields\View;
 
 $form = new Form( 'my-form' );
 $form->add_elements( $elements );
 
-echo ( new ViewFactory() )->create( View\FormRow::class )->render( $form );
+echo ( new ViewFactory() )->create( 'form' )->render( $form );
 ```
 
 To render just specific elements, there are a lot of classes available. Just have a look at `ChriCo\Fields\AbstractFactory::$type_to_view`.
