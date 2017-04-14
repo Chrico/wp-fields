@@ -30,9 +30,9 @@ class Element implements ElementInterface, LabelAwareInterface, ErrorAwareInterf
 	 *
 	 * @param string $name
 	 */
-	public function __construct( $name ) {
+	public function __construct( string $name ) {
 
-		$this->set_attribute( 'name', (string) $name );
+		$this->set_attribute( 'name', $name );
 	}
 
 	public function get_id(): string {
@@ -78,12 +78,12 @@ class Element implements ElementInterface, LabelAwareInterface, ErrorAwareInterf
 		);
 	}
 
-	public function set_attribute( $key, $value ) {
+	public function set_attribute( string $key, $value ) {
 
 		$this->attributes[ $key ] = $value;
 	}
 
-	public function get_attribute( $key ) {
+	public function get_attribute( string $key ) {
 
 		if ( ! isset( $this->attributes[ $key ] ) ) {
 			return '';
@@ -105,12 +105,12 @@ class Element implements ElementInterface, LabelAwareInterface, ErrorAwareInterf
 		);
 	}
 
-	public function set_option( $key, $value ) {
+	public function set_option( string $key, $value ) {
 
 		$this->options[ $key ] = $value;
 	}
 
-	public function get_option( $key ) {
+	public function get_option( string $key ) {
 
 		if ( ! isset( $this->options[ $key ] ) ) {
 			return '';

@@ -23,49 +23,22 @@ class CollectionElementTest extends AbstractTestCase {
 
 	/**
 	 * Basic test to add 1 element and get the element back.
-	 *
-	 * @param string $element_name
-	 * @param string $element_id
-	 * @param string $collection_name
-	 * @param string $expected_element_id
-	 *
-	 * @dataProvider provide_add_get_elements
 	 */
-	public function test_add_get_elements( $element_name, $element_id, $collection_name, $expected_element_id ) {
+	public function test_add_get_elements() {
+
+		$element_name = 'element-name';
 
 		$element = new Element( $element_name );
-		$element->set_attribute( 'id', $element_id );
 
-		$testee = new CollectionElement( $collection_name );
+		$testee = new CollectionElement( 'collection-name' );
 		$testee->add_element( $element );
 
 		$elements = $testee->get_elements();
 
 		$this->assertCount( 1, $elements );
-		$this->assertArrayHasKey( $expected_element_id, $elements );
-		$this->assertSame( $element, $elements[ $expected_element_id ] );
-		$this->assertSame( $element, $testee->get_element( $expected_element_id ) );
-	}
-
-	/**
-	 * @return array
-	 */
-	public function provide_add_get_elements() {
-
-		return [
-			'get_id isset'    => [
-				'element-name',
-				'element-id',
-				'collection-name',
-				"element-id"
-			],
-			'get_id is empty' => [
-				'element-name',
-				'',
-				'collection-name',
-				"element-name"
-			]
-		];
+		$this->assertArrayHasKey( $element_name, $elements );
+		$this->assertSame( $element, $elements[ $element_name ] );
+		$this->assertSame( $element, $testee->get_element( $element_name ) );
 	}
 
 	/**
@@ -90,13 +63,12 @@ class CollectionElementTest extends AbstractTestCase {
 		$this->assertTrue( $testee->has_element( $expected_element_name ) );
 	}
 
-
 	/**
 	 * Test if errors which are not matching with the element name are assigned to the collection itself.
 	 */
 	public function test_add_errors() {
 
-		$expected_error        = [ 'error_message' ];
+		$expected_error = [ 'error_message' ];
 
 		$testee = new CollectionElement( 'collection' );
 		$testee->add_element( new Element( 'element' ) );
@@ -138,5 +110,21 @@ class CollectionElementTest extends AbstractTestCase {
 		$element = $testee->get_element( $expected_element_name );
 
 		$this->assertSame( $expected_value, $element->get_value() );
+	}
+
+	/**
+	 * Test if we can get all values back again after delegation on set_value().
+	 */
+	public function test_get_attribute__value() {
+
+		$expected_element_name = 'element';
+		$expected_value        = 'the value';
+		$expected              = [ $expected_element_name => $expected_value ];
+
+		$testee = new CollectionElement( 'collection' );
+		$testee->add_element( new Element( $expected_element_name ) );
+		$testee->set_value( $expected );
+
+		$this->assertSame( $expected, $testee->get_value() );
 	}
 }

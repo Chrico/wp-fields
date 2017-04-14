@@ -22,18 +22,18 @@ interface CollectionElementInterface {
 	public function get_elements(): array;
 
 	/**
-	 * @param string $id                The ID of the element.
+	 * @param string $name                The name of the element.
 	 *
 	 * @throws ElementNotFoundException If element is not found in Collection.
 	 *
 	 * @return ElementInterface $element
 	 */
-	public function get_element( string $id ): ElementInterface;
+	public function get_element( string $name ): ElementInterface;
 
 	/**
-	 * @param string $id
+	 * @param string $name
 	 *
 	 * @return bool
 	 */
-	public function has_element( string $id ) : bool;
+	public function has_element( string $name ) : bool;
 }

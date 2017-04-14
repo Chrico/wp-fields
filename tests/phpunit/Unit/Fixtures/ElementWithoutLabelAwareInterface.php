@@ -76,7 +76,7 @@ class ElementWithoutLabelAwareInterface implements ElementInterface {
 	 * @param string     $key
 	 * @param int|string $value
 	 */
-	public function set_attribute( $key, $value ) {
+	public function set_attribute( string $key, $value ) {
 		// TODO: Implement set_attribute() method.
 	}
 
@@ -85,7 +85,7 @@ class ElementWithoutLabelAwareInterface implements ElementInterface {
 	 *
 	 * @return int|string $value
 	 */
-	public function get_attribute( $key ) {
+	public function get_attribute( string $key ) {
 
 		return '';
 	}
@@ -113,7 +113,7 @@ class ElementWithoutLabelAwareInterface implements ElementInterface {
 	 * @param string     $key
 	 * @param int|string $value
 	 */
-	public function set_option( $key, $value ) {
+	public function set_option( string $key, $value ) {
 		// TODO: Implement set_option() method.
 	}
 
@@ -122,7 +122,7 @@ class ElementWithoutLabelAwareInterface implements ElementInterface {
 	 *
 	 * @return int|string $value
 	 */
-	public function get_option( $key ) {
+	public function get_option( string $key ) {
 		// TODO: Implement get_option() method.
 	}
 }

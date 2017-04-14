@@ -78,24 +78,27 @@ That's a lot of code for just creating 1 single input field. And the field has a
 ---
 
 ## What this package not does
-This package will only provide form fields *for WordPress*. Nothing more and nothing less. Everything related to:
+This package will only provide form fields *for WordPress* and the way to bind everything (data, validation, filtering) to that element. 
+
+Nothing more and nothing less. Everything related to:
  
-- Validation of data - use [Inpsyde-Validator](https://github.com/inpsyde/inpsyde-validator)
-- Filtering data - use [Inpsyde-Filter](https://github.com/inpsyde/inpsyde-filter)
+- Validation of data - see [Inpsyde-Validator](https://github.com/inpsyde/inpsyde-validator)
+- Filtering data - see [Inpsyde-Filter](https://github.com/inpsyde/inpsyde-filter)
 - Creating MetaBoxes - coming soon
 - Creating Settings pages - coming soon
 - Saving fields to database(s) - coming soon
 
-will be done in separate packages.
+will be done in separate packages and just used in this one.
 
 ---
 
 ## Creating elements
-To work later in view with Elements, you have first to create the Element itself. There are by default 3 different types of Elements:
+To work later in view with Elements, you have first to create the Element itself. There are following different types of Elements available:
 
 - `Element` - the default implementation with attributes, options, labels and errors.
 - `ChoiceElement` - extends the `Element` and allows us to set and get choices.
 - `CollectionElement` - extends the `Element` and allows us to group multiple elements together.
+- `Form` - extends `CollectionElement` and implements the `FormInterface` which allows us to work with our data.
 
 Here's a short example of creating...
 
@@ -271,21 +274,49 @@ $elements   = ( new ElementFactory() )->create_multiple( $specs );
 ## Render elements
 Creating elements is only 1 part of this package. The most important one is to render elements into HTML.
 
-To render our `$elements` from above, we just simple use the `ViewFactory` to create a `FormRow`. 
+To render our `$elements` from above into a complete form, we just assign them to a `Element\Form` and use the `ViewFactory` to create a `View\Form`. 
 
 ```php
 <?php
+use ChriCo\Fields\Element\Form;
 use ChriCo\Fields\ViewFactory;
 use ChriCo\Fields\View;
 
-$form_row = ( new ViewFactory() )->create( View\FormRow::class );
+$form = new Form( 'my-form' );
+$form->add_elements( $elements );
 
-foreach ( $elements as $element ) :
-	echo $form_row->render( $element );
-endforeach;
+echo ( new ViewFactory() )->create( View\FormRow::class )->render( $form );
 ```
 
-To render specific elements, there are a lot of classes available. Just have a look at `ChriCo\Fields\AbstractFactory::$type_to_view`.
+To render just specific elements, there are a lot of classes available. Just have a look at `ChriCo\Fields\AbstractFactory::$type_to_view`.
+
+---
+
+## Working with data, validation and filters.
+After knowing how to create an element and render them, we now want to work with some real data which was send via our form.
+
+```php
+<?php
+use ChriCo\Fields\Element\Form;
+use Inpsyde\Validator\NotEmpty;
+use Inpsyde\Filter\WordPress\StripTags;
+
+$form = new Form( 'my-form' );
+$form->add_element( $text );
+
+// add a validator to ensure, the element is not empty.
+$form->add_validator( 'my-text', new NotEmpty() );
+
+// add a filter to remove all HTML-tags
+$form->add_filter( 'my-text', new StripTags() );
+
+// ...and last but not least: add some data to the form
+$form->bind_data( [ 'my-text' => '<strong>my text</strong>' ] );
+
+$form->is_valid(); // TRUE
+
+$form->get_element( 'my-text' )->get_value(); // "my text" --> the HTML-tags are stripped because of our filter.
+```
 
 ---
 

@@ -21,10 +21,9 @@ class CollectionElement extends Element implements CollectionElementInterface {
 	 */
 	protected $elements = [];
 
-
 	public function add_element( ElementInterface $element ) {
 
-		$this->elements[ $element->get_id() ] = $element;
+		$this->elements[ $element->get_name() ] = $element;
 	}
 
 	public function add_elements( array $elements = [] ) {
@@ -37,21 +36,21 @@ class CollectionElement extends Element implements CollectionElementInterface {
 		return $this->elements;
 	}
 
-	public function get_element( string $id ): ElementInterface {
+	public function get_element( string $name ): ElementInterface {
 
-		if ( ! isset( $this->elements[ $id ] ) ) {
+		if ( ! isset( $this->elements[ $name ] ) ) {
 
 			throw new ElementNotFoundException(
-				sprintf( 'The element with id <code>%s</code> does not exists', $id )
+				sprintf( 'The element with name <code>%s</code> does not exists', $name )
 			);
 		}
 
-		return $this->elements[ $id ];
+		return $this->elements[ $name ];
 	}
 
-	public function has_element( string $id ) : bool  {
+	public function has_element( string $name ): bool {
 
-		return isset( $this->elements[ $id ] );
+		return isset( $this->elements[ $name ] );
 	}
 
 	/**
@@ -59,7 +58,7 @@ class CollectionElement extends Element implements CollectionElementInterface {
 	 *
 	 * {@inheritdoc}
 	 */
-	public function set_attribute( $key, $value ) {
+	public function set_attribute( string $key, $value ) {
 
 		if ( $key === 'value' && is_array( $value ) ) {
 			foreach ( $value as $k => $v ) {
@@ -73,21 +72,47 @@ class CollectionElement extends Element implements CollectionElementInterface {
 	}
 
 	/**
+	 * Returns a list of values for each element inside the collection.
+	 *
+	 * @param string $key
+	 *
+	 * @return array
+	 */
+	public function get_attribute( string $key ) {
+
+		if ( $key !== 'value' ) {
+			return parent::get_attribute( $key );
+		}
+
+		return array_map(
+			function ( ElementInterface $element ) {
+
+				return $element->get_value();
+			},
+			$this->get_elements()
+		);
+	}
+
+	/**
 	 * Delegate errors down to the children.
 	 *
 	 * {@inheritdoc}
 	 */
 	public function set_errors( array $errors = [] ) {
 
-		foreach ( $this->elements as $element ) {
-			$id = $element->get_id();
-			if ( isset( $errors[ $id ] ) && $element instanceof ErrorAwareInterface ) {
-				$element->set_errors( $errors );
-				unset( $errors[ $id ] );
+		array_walk(
+			$this->elements,
+			function ( ElementInterface $element ) use ( $errors ) {
+
+				$name = $element->get_name();
+				if ( isset( $errors[ $name ] ) && $element instanceof ErrorAwareInterface ) {
+					$element->set_errors( $errors );
+					unset( $errors[ $name ] );
+				}
 			}
-		}
+		);
 
 		// assign errors without matches to the collection itself.
-		$this->errors = $errors;
+		parent::set_errors( $errors );
 	}
 }

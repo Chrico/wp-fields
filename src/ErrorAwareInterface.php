@@ -17,4 +17,9 @@ interface ErrorAwareInterface {
 	 * @param array
 	 */
 	public function set_errors( array $errors = [] );
+
+	/**
+	 * @return bool
+	 */
+	public function has_errors(): bool;
 }

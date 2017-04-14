@@ -30,6 +30,7 @@ class ElementTest extends AbstractTestCase {
 		$this->assertsame( [ 'name' => $expected_name ], $testee->get_attributes() );
 
 		$this->assertCount( 0, $testee->get_errors() );
+		$this->assertFalse( $testee->has_errors() );
 		$this->assertCount( 0, $testee->get_label_attributes() );
 	}
 
@@ -96,6 +97,7 @@ class ElementTest extends AbstractTestCase {
 		$testee->set_errors( $expected );
 
 		$this->assertSame( $expected, $testee->get_errors() );
+		$this->assertTrue( $testee->has_errors() );
 	}
 
 	public function test_set_get_attributes() {

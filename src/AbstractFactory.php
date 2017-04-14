@@ -5,6 +5,7 @@ namespace ChriCo\Fields;
 use ChriCo\Fields\Element\ChoiceElement;
 use ChriCo\Fields\Element\CollectionElement;
 use ChriCo\Fields\Element\Element;
+use ChriCo\Fields\Element\Form;
 
 abstract class AbstractFactory {
 
@@ -14,6 +15,8 @@ abstract class AbstractFactory {
 	 * @var View\RenderableElementInterface[]
 	 */
 	protected $type_to_view = [
+		'form' => View\Form::class,
+
 		'row'    => View\FormRow::class,
 		'label'  => View\Label::class,
 		'errors' => View\Errors::class,
@@ -55,6 +58,8 @@ abstract class AbstractFactory {
 	 * @var array
 	 */
 	protected $type_to_element = [
+		'form' => Form::class,
+
 		'checkbox' => ChoiceElement::class,
 		'select'   => ChoiceElement::class,
 		'radio'    => ChoiceElement::class,

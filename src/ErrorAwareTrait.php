@@ -9,24 +9,19 @@ trait ErrorAwareTrait {
 	 */
 	protected $errors = [];
 
-	/**
-	 * Returns a list of error messages.
-	 *
-	 * @return array
-	 */
 	public function get_errors(): array {
 
 		return $this->errors;
 	}
 
-	/**
-	 * Set a list of error messages when validation fails.
-	 *
-	 * @param array
-	 */
 	public function set_errors( array $errors = [] ) {
 
 		$this->errors = $errors;
+	}
+
+	public function has_errors(): bool {
+
+		return count( $this->errors ) > 0;
 	}
 
 }

@@ -9,17 +9,11 @@ trait DescriptionAwareTrait {
 	 */
 	protected $description = '';
 
-	/**
-	 * @return string $description
-	 */
 	public function get_description(): string {
 
 		return $this->description;
 	}
 
-	/**
-	 * @param string $description
-	 */
 	public function set_description( string $description ) {
 
 		$this->description = $description;

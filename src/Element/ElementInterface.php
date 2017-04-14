@@ -55,14 +55,14 @@ interface ElementInterface {
 	 * @param string     $key
 	 * @param int|string $value
 	 */
-	public function set_attribute( $key, $value );
+	public function set_attribute( string $key, $value );
 
 	/**
 	 * @param string $key
 	 *
 	 * @return int|string $value
 	 */
-	public function get_attribute( $key );
+	public function get_attribute( string $key );
 
 	/**
 	 * Get all field options for this element.
@@ -82,12 +82,12 @@ interface ElementInterface {
 	 * @param string     $key
 	 * @param int|string $value
 	 */
-	public function set_option( $key, $value );
+	public function set_option( string $key, $value );
 
 	/**
 	 * @param string $key
 	 *
 	 * @return int|string $value
 	 */
-	public function get_option( $key );
+	public function get_option( string $key );
 }
