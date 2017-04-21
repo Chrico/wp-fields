@@ -8,6 +8,13 @@ use ChriCo\Fields\Exception\ElementNotFoundException;
 class CollectionElement extends Element implements CollectionElementInterface {
 
 	/**
+	 * Contains all errors including the element itself and all children.
+	 *
+	 * @var array
+	 */
+	private $all_errors = [];
+
+	/**
 	 * Default attribute type "collection" to assign it to the right view.
 	 *
 	 * @var array
@@ -100,6 +107,8 @@ class CollectionElement extends Element implements CollectionElementInterface {
 	 */
 	public function set_errors( array $errors = [] ) {
 
+		$this->all_errors = $errors;
+
 		array_walk(
 			$this->elements,
 			function ( ElementInterface $element ) use ( $errors ) {
@@ -114,5 +123,13 @@ class CollectionElement extends Element implements CollectionElementInterface {
 
 		// assign errors without matches to the collection itself.
 		parent::set_errors( $errors );
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function has_errors(): bool {
+
+		return count( $this->all_errors ) > 0;
 	}
 }

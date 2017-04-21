@@ -13,6 +13,18 @@ interface FormInterface {
 	public function bind_data( array $input_data = [] );
 
 	/**
+	 * Set data without re-validating and filtering it.
+	 */
+	public function set_data();
+
+	/**
+	 * Returns the assigned data.
+	 *
+	 * @return array
+	 */
+	public function get_data(): array;
+
+	/**
 	 * @return bool
 	 */
 	public function is_valid(): bool;
@@ -34,4 +46,5 @@ interface FormInterface {
 	 * @param ValidatorInterface $validator
 	 */
 	public function add_validator( string $name, ValidatorInterface $validator );
+
 }

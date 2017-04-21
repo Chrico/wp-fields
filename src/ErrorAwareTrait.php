@@ -11,7 +11,7 @@ trait ErrorAwareTrait {
 
 	public function get_errors(): array {
 
-		return $this->errors;
+		return array_unique( $this->errors );
 	}
 
 	public function set_errors( array $errors = [] ) {

@@ -58,6 +58,21 @@ class Form extends CollectionElement implements FormInterface {
 		$this->bind_data( $value );
 	}
 
+	public function get_data(): array {
+
+		return $this->data;
+	}
+
+	public function set_data( array $input_data = [] ) {
+
+		foreach ( $input_data as $name => $value ) {
+			if ( $this->has_element( $name ) ) {
+				$this->get_element( $name )
+					->set_value( $value );
+			}
+		}
+	}
+
 	public function bind_data( array $input_data = [] ) {
 
 		$this->has_validated = FALSE;
@@ -139,7 +154,7 @@ class Form extends CollectionElement implements FormInterface {
 		$is_valid = TRUE;
 		foreach ( $this->validators[ $name ] as $validator ) {
 			if ( ! $validator->is_valid( $value ) ) {
-				$errors[] = $validator->get_error_messages();
+				$errors[] = array_merge( $errors, $validator->get_error_messages() );
 				$is_valid = FALSE;
 			}
 		}
@@ -169,4 +184,5 @@ class Form extends CollectionElement implements FormInterface {
 
 		$this->validators[ $name ][] = $validator;
 	}
+
 }
