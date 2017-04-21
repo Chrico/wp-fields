@@ -154,7 +154,7 @@ class Form extends CollectionElement implements FormInterface {
 		$is_valid = TRUE;
 		foreach ( $this->validators[ $name ] as $validator ) {
 			if ( ! $validator->is_valid( $value ) ) {
-				$errors[] = array_merge( $errors, $validator->get_error_messages() );
+				$errors = array_merge( $errors, $validator->get_error_messages() );
 				$is_valid = FALSE;
 			}
 		}
