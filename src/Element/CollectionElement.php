@@ -2,10 +2,16 @@
 
 namespace ChriCo\Fields\Element;
 
+use ChriCo\Fields\DescriptionAwareInterface;
+use ChriCo\Fields\DescriptionAwareTrait;
 use ChriCo\Fields\ErrorAwareInterface;
+use ChriCo\Fields\ErrorAwareTrait;
 use ChriCo\Fields\Exception\ElementNotFoundException;
 
-class CollectionElement extends Element implements CollectionElementInterface {
+class CollectionElement extends BaseElement implements CollectionElementInterface, DescriptionAwareInterface, ErrorAwareInterface {
+
+	use DescriptionAwareTrait;
+	use ErrorAwareTrait;
 
 	/**
 	 * Contains all errors including the element itself and all children.
@@ -122,7 +128,7 @@ class CollectionElement extends Element implements CollectionElementInterface {
 		);
 
 		// assign errors without matches to the collection itself.
-		parent::set_errors( $errors );
+		$this->errors = $errors;
 	}
 
 	/**

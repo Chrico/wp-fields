@@ -4,8 +4,15 @@ namespace ChriCo\Fields\Element;
 
 use ChriCo\Fields\ChoiceList\ArrayChoiceList;
 use ChriCo\Fields\ChoiceList\ChoiceListInterface;
+use ChriCo\Fields\DescriptionAwareInterface;
+use ChriCo\Fields\DescriptionAwareTrait;
+use ChriCo\Fields\ErrorAwareInterface;
+use ChriCo\Fields\ErrorAwareTrait;
 
-class ChoiceElement extends Element implements ChoiceElementInterface {
+class ChoiceElement extends BaseElement implements ChoiceElementInterface, ErrorAwareInterface, DescriptionAwareInterface {
+
+	use DescriptionAwareTrait;
+	use ErrorAwareTrait;
 
 	/**
 	 * @var ChoiceListInterface
