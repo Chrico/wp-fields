@@ -96,13 +96,12 @@ will be done in separate packages and just used in this one.
 To work later in view with Elements, you have first to create the Element itself. There are following different types of Elements available:
 
 
-| Element | extends | implements | description |
-| ---- | ---- | ---- | ---- | ---- | ---- |
+| name | extends | implements | description |
+| ------------- | ------------- | ------------- | ------------- |
 | `Element` | `BaseElement` | `LabelAwareInterface, ErrorAwareInterface, DescriptionAwareInterface` | default element for inputs, textareas, buttons |
 | `ChoiceElement` | `BaseElement` | `ChoiceElementInterface, ErrorAwareInterface, DescriptionAwareInterface` | allows us to set and get choices for checkboxes or radios |
 | `CollectionElement` | `BaseElement` | `CollectionElementInterface, DescriptionAwareInterface, ErrorAwareInterface` | allows us to group multiple elements into one namespace together |
 | `Form` | `CollectionElement` | `FormInterface` | allows us to work with data and delegate them to containing elements |
-
 
 Here's a short example of creating...
 
