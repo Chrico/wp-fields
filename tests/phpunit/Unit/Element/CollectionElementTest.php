@@ -2,6 +2,7 @@
 
 namespace ChriCo\Fields\Tests\Unit\Element;
 
+use ChriCo\Fields\Element\BaseElement;
 use ChriCo\Fields\Element\Element;
 use ChriCo\Fields\Element\CollectionElement;
 use ChriCo\Fields\Element\ElementInterface;
@@ -15,7 +16,7 @@ class CollectionElementTest extends AbstractTestCase {
 		$expected_name = 'name';
 		$testee        = new CollectionElement( $expected_name );
 
-		$this->assertInstanceOf( Element::class, $testee );
+		$this->assertInstanceOf( BaseElement::class, $testee );
 		$this->assertInstanceOf( ElementInterface::class, $testee );
 
 		$this->assertEmpty( $testee->get_elements() );

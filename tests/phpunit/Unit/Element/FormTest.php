@@ -24,7 +24,6 @@ class FormTest extends AbstractTestCase {
 
 		$this->assertCount( 0, $testee->get_errors() );
 		$this->assertFalse( $testee->has_errors() );
-		$this->assertCount( 0, $testee->get_label_attributes() );
 	}
 
 }
