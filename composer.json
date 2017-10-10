@@ -30,5 +30,8 @@
     "psr-4": {
       "ChriCo\\Fields\\Tests\\": "tests/phpunit/"
     }
+  },
+  "suggest": {
+    "pimple/pimple": "Allows using Pimple, a small Dependency Injection Container for PHP"
   }
 }
