@@ -107,7 +107,7 @@ class ElementFactoryTest extends AbstractTestCase {
 	 */
 	public function test_create__invalid_class() {
 
-		( new ElementFactory() )->create( [ 'attributes' => [ 'type' => \stdClass::class, 'name' => '' ] ] );
+		( new ElementFactory() )->create( [ 'attributes' => [ 'type' => ElementFactory::class, 'name' => '' ] ] );
 	}
 
 	/**
