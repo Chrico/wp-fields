@@ -18,6 +18,7 @@
   },
   "require-dev": {
     "php": ">=7.0",
+    "pimple/pimple": "~3.0",
     "phpunit/phpunit": "6.3.*",
     "brain/monkey": "^2"
   },
