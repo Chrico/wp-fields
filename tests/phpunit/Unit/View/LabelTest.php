@@ -1,4 +1,4 @@
-<?php
+<?php # -*- coding: utf-8 -*-
 
 namespace ChriCo\Fields\Tests\Unit\View;
 
@@ -15,7 +15,7 @@ class LabelTest extends AbstractViewTestCase {
 	public function test_basic() {
 
 		$testee = new Label();
-		$this->assertInstanceOf( RenderableElementInterface::class, $testee );
+		static::assertInstanceOf( RenderableElementInterface::class, $testee );
 	}
 
 	/**
@@ -31,10 +31,11 @@ class LabelTest extends AbstractViewTestCase {
 		$element->set_label( $expected_label );
 		$element->set_label_attributes( $expected_attr );
 
-		$this->assertSame(
-			'<label for="foo">Foo</label>',
-			( new Label() )->render( $element )
-		);
+		$output = ( new Label() )->render( $element );
+		static::assertContains( '<label', $output );
+		static::assertContains( '</label>', $output );
+		static::assertContains( 'for="foo"', $output );
+		static::assertContains( '>Foo</label>', $output );
 	}
 
 	/**
@@ -56,9 +57,9 @@ class LabelTest extends AbstractViewTestCase {
 		$element = new Element( $expected_name );
 		$element->set_label( $expected_label );
 
-		$this->assertSame(
-			'<label for="' . $expected_name . '">Foo</label>',
-			( new Label() )->render( $element )
-		);
+		$output = ( new Label() )->render( $element );
+		static::assertContains( 'for="' . $expected_name . '"', $output );
+		static::assertContains( '>' . $expected_label . '</label>', $output );
+
 	}
 }

@@ -3,17 +3,17 @@
 namespace ChriCo\Fields\Tests\Unit\View;
 
 use ChriCo\Fields\Element\Element;
-use ChriCo\Fields\View\Input;
+use ChriCo\Fields\View\FormRow;
 use ChriCo\Fields\View\RenderableElementInterface;
 
-class InputTest extends AbstractViewTestCase {
+class FormRowTest extends AbstractViewTestCase {
 
 	/**
 	 * Basic test to check the default behavior of the class.
 	 */
 	public function test_basic() {
 
-		$testee = new Input();
+		$testee = new FormRow();
 		static::assertInstanceOf( RenderableElementInterface::class, $testee );
 	}
 
@@ -25,10 +25,9 @@ class InputTest extends AbstractViewTestCase {
 		$element = new Element( 'foo' );
 		$element->set_attribute( 'type', 'text' );
 
-		$output = ( new Input() )->render( $element );
-		static::assertContains( '<input', $output );
-		static::assertContains( 'name="foo"', $output );
-		static::assertContains( 'type="text"', $output );
-		static::assertContains( '/>', $output );
+		$output = ( new FormRow() )->render( $element );
+		static::assertContains( '<tr', $output );
+		static::assertContains( 'class="form-row"', $output );
+		static::assertContains( '</tr>', $output );
 	}
 }

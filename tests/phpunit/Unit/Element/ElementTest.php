@@ -1,4 +1,4 @@
-<?php
+<?php # -*- coding: utf-8 -*-
 
 namespace ChriCo\Fields\Tests\Unit\Element;
 
@@ -17,21 +17,21 @@ class ElementTest extends AbstractTestCase {
 		$expected_name = 'foo';
 		$testee        = new Element( $expected_name );
 
-		$this->assertInstanceOf( ElementInterface::class, $testee );
-		$this->assertInstanceOf( LabelAwareInterface::class, $testee );
+		static::assertInstanceOf( ElementInterface::class, $testee );
+		static::assertInstanceOf( LabelAwareInterface::class, $testee );
 
-		$this->assertSame( $expected_name, $testee->get_name() );
+		static::assertSame( $expected_name, $testee->get_name() );
 
-		$this->assertEmpty( $testee->get_value() );
-		$this->assertEmpty( $testee->get_label() );
-		$this->assertEmpty( $testee->get_type() );
+		static::assertEmpty( $testee->get_value() );
+		static::assertEmpty( $testee->get_label() );
+		static::assertEmpty( $testee->get_type() );
 
-		$this->assertCount( 1, $testee->get_attributes() );
-		$this->assertsame( [ 'name' => $expected_name ], $testee->get_attributes() );
+		static::assertCount( 1, $testee->get_attributes() );
+		static::assertsame( [ 'name' => $expected_name ], $testee->get_attributes() );
 
-		$this->assertCount( 0, $testee->get_errors() );
-		$this->assertFalse( $testee->has_errors() );
-		$this->assertCount( 0, $testee->get_label_attributes() );
+		static::assertCount( 0, $testee->get_errors() );
+		static::assertFalse( $testee->has_errors() );
+		static::assertCount( 0, $testee->get_label_attributes() );
 	}
 
 	/**
@@ -44,7 +44,7 @@ class ElementTest extends AbstractTestCase {
 		$testee = new Element( 'id' );
 		$testee->set_description( $expected );
 
-		$this->assertSame( $expected, $testee->get_description() );
+		static::assertSame( $expected, $testee->get_description() );
 	}
 
 	/**
@@ -57,7 +57,7 @@ class ElementTest extends AbstractTestCase {
 		$testee = new Element( 'id' );
 		$testee->set_label( $expected );
 
-		$this->assertSame( $expected, $testee->get_label() );
+		static::assertSame( $expected, $testee->get_label() );
 	}
 
 	/**
@@ -70,7 +70,7 @@ class ElementTest extends AbstractTestCase {
 		$testee = new Element( 'id' );
 		$testee->set_label_attributes( $expected );
 
-		$this->assertSame( $expected, $testee->get_label_attributes() );
+		static::assertSame( $expected, $testee->get_label_attributes() );
 	}
 
 	/**
@@ -83,7 +83,7 @@ class ElementTest extends AbstractTestCase {
 		$testee = new Element( 'id' );
 		$testee->set_value( $expected );
 
-		$this->assertSame( $expected, $testee->get_value() );
+		static::assertSame( $expected, $testee->get_value() );
 	}
 
 	/**
@@ -96,8 +96,8 @@ class ElementTest extends AbstractTestCase {
 		$testee = new Element( 'id' );
 		$testee->set_errors( $expected );
 
-		$this->assertSame( $expected, $testee->get_errors() );
-		$this->assertTrue( $testee->has_errors() );
+		static::assertSame( $expected, $testee->get_errors() );
+		static::assertTrue( $testee->has_errors() );
 	}
 
 	public function test_set_get_attributes() {
@@ -107,7 +107,7 @@ class ElementTest extends AbstractTestCase {
 		$testee = new Element( 'id' );
 		$testee->set_attributes( $expected );
 
-		$this->assertSame( $expected, $testee->get_attributes() );
+		static::assertSame( $expected, $testee->get_attributes() );
 	}
 
 	/**
@@ -118,8 +118,8 @@ class ElementTest extends AbstractTestCase {
 		$testee = new Element( 'id' );
 		$testee->set_attribute( 'foo', 'bar' );
 
-		$this->assertSame( 'bar', $testee->get_attribute( 'foo' ) );
-		$this->assertSame( [ 'foo' => 'bar' ], $testee->get_attributes() );
+		static::assertSame( 'bar', $testee->get_attribute( 'foo' ) );
+		static::assertSame( [ 'foo' => 'bar' ], $testee->get_attributes() );
 	}
 
 	public function test_set_get_options() {
@@ -129,7 +129,7 @@ class ElementTest extends AbstractTestCase {
 		$testee = new Element( 'id' );
 		$testee->set_options( $expected );
 
-		$this->assertSame( $expected, $testee->get_options() );
+		static::assertSame( $expected, $testee->get_options() );
 	}
 
 	/**
@@ -140,8 +140,8 @@ class ElementTest extends AbstractTestCase {
 		$testee = new Element( 'id' );
 		$testee->set_option( 'foo', 'bar' );
 
-		$this->assertSame( 'bar', $testee->get_option( 'foo' ) );
-		$this->assertSame( [ 'foo' => 'bar' ], $testee->get_options() );
+		static::assertSame( 'bar', $testee->get_option( 'foo' ) );
+		static::assertSame( [ 'foo' => 'bar' ], $testee->get_options() );
 	}
 
 }

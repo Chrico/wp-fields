@@ -1,4 +1,5 @@
-<?php
+<?php # -*- coding: utf-8 -*-
+
 namespace ChriCo\Fields\Tests\Unit;
 
 use Brain\Monkey;
@@ -14,7 +15,7 @@ abstract class AbstractTestCase extends TestCase {
 	protected function setUp() {
 
 		parent::setUp();
-		Monkey::setUpWP();
+		Monkey\setUp();
 	}
 
 	/**
@@ -24,7 +25,7 @@ abstract class AbstractTestCase extends TestCase {
 	 */
 	protected function tearDown() {
 
-		Monkey::tearDownWP();
+		Monkey\tearDown();
 		parent::tearDown();
 	}
 

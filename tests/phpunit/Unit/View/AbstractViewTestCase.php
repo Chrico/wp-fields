@@ -1,4 +1,5 @@
-<?php
+<?php # -*- coding: utf-8 -*-
+
 namespace ChriCo\Fields\Tests\Unit\View;
 
 use Brain\Monkey\Functions;
@@ -17,11 +18,7 @@ abstract class AbstractViewTestCase extends AbstractTestCase {
 	protected function setUp() {
 
 		parent::setUp();
-
-		Functions::when( 'esc_attr' )
-			->returnArg();
-		Functions::when( 'esc_html' )
-			->returnArg();
+		Functions\stubs( [ 'esc_attr', 'esc_html' ] );
 	}
 
 }

@@ -1,4 +1,4 @@
-<?php declare( strict_types=1 );
+<?php declare( strict_types=1 ); # -*- coding: utf-8 -*-
 
 namespace ChriCo\Fields\View;
 
@@ -31,11 +31,11 @@ trait AttributeFormatterTrait {
 	/**
 	 * Wrapper for WordPress function esc_attr().
 	 *
-	 * @param string $value
+	 * @param string|int $value
 	 *
 	 * @return string $value
 	 */
-	public function esc_attr( string $value ): string {
+	public function esc_attr( $value ): string {
 
 		return esc_attr( (string) $value );
 	}
@@ -43,11 +43,11 @@ trait AttributeFormatterTrait {
 	/**
 	 * Wrapper for WordPress function esc_html().
 	 *
-	 * @param string $value
+	 * @param string|int $value
 	 *
 	 * @return string $value
 	 */
-	public function esc_html( string $value ): string {
+	public function esc_html( $value ): string {
 
 		return esc_html( (string) $value );
 	}

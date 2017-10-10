@@ -1,4 +1,4 @@
-<?php
+<?php # -*- coding: utf-8 -*-
 
 namespace ChriCo\Fields\Tests\Unit\Fixtures;
 

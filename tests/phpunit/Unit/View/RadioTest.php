@@ -5,13 +5,14 @@ namespace ChriCo\Fields\Tests\Unit\View;
 use ChriCo\Fields\ChoiceList\ArrayChoiceList;
 use ChriCo\Fields\ChoiceList\ChoiceListInterface;
 use ChriCo\Fields\Element\ChoiceElement;
-use ChriCo\Fields\View\Checkbox;
+use ChriCo\Fields\Element\ElementInterface;
+use ChriCo\Fields\View\Radio;
 use ChriCo\Fields\View\RenderableElementInterface;
 
-class CheckboxTest extends AbstractViewTestCase {
+class RadioTest extends AbstractViewTestCase {
 
 	/**
-	 * Internal function to create a new ChoiceElement with type="checkbox".
+	 * Internal function to create a new ChoiceElement with type="radio".
 	 *
 	 * @param string              $name
 	 * @param ChoiceListInterface $list
@@ -21,7 +22,7 @@ class CheckboxTest extends AbstractViewTestCase {
 	private function get_element( string $name, ChoiceListInterface $list ) {
 
 		$element = new ChoiceElement( $name );
-		$element->set_attribute( 'type', 'checkbox' );
+		$element->set_attribute( 'type', 'radio' );
 		$element->set_choices( $list );
 
 		return $element;
@@ -32,8 +33,19 @@ class CheckboxTest extends AbstractViewTestCase {
 	 */
 	public function test_basic() {
 
-		$testee = new Checkbox();
+		$testee = new Radio();
 		static::assertInstanceOf( RenderableElementInterface::class, $testee );
+	}
+
+	/**
+	 * @expectedException \ChriCo\Fields\Exception\InvalidClassException
+	 */
+	public function test_render__invalid_element() {
+
+		( new Radio() )->render(
+			$this->getMockBuilder( ElementInterface::class )
+				->getMock()
+		);
 	}
 
 	/**
@@ -42,25 +54,27 @@ class CheckboxTest extends AbstractViewTestCase {
 	public function test_render__no_choices() {
 
 		$element = $this->get_element( 'element', new ArrayChoiceList( [] ) );
-		static::assertSame( '', ( new Checkbox() )->render( $element ) );
+		static::assertSame( '', ( new Radio() )->render( $element ) );
 	}
 
 	/**
-	 * Test rendering of an CheckBox with 1 item in ChoiceList.
+	 * Test rendering of an Radio with 1 item in ChoiceList.
 	 */
 	public function test_render__one_choice() {
 
-		$element = $this->get_element( 'element', new ArrayChoiceList( [ 'foo' => 'bar' ] ) );
+		$element = $this->get_element( 'element', new ArrayChoiceList( [ 'foo' => "bar" ] ) );
 
-		$rendered = ( new Checkbox() )->render( $element );
+		$rendered = ( new Radio() )->render( $element );
 		static::assertContains( 'name="element"', $rendered );
-		static::assertContains( 'id="element"', $rendered );
-		static::assertContains( 'for="element"', $rendered );
 		static::assertContains( 'value="foo"', $rendered );
+
+		static::assertContains( '<label', $rendered );
+		static::assertContains( 'for="element_foo"', $rendered );
+		static::assertContains( 'bar</label>', $rendered );
 	}
 
 	/**
-	 * Test rendering of an CheckBox with 1 item in ChoiceList which is checked.
+	 * Test rendering of an Radio with 1 item in ChoiceList which is checked.
 	 */
 	public function test_render__one_choice_checked() {
 
@@ -68,29 +82,35 @@ class CheckboxTest extends AbstractViewTestCase {
 		$element        = $this->get_element( 'element', new ArrayChoiceList( [ $expected_value => 'bar' ] ) );
 		$element->set_value( $expected_value );
 
-		static::assertContains( 'checked="checked"', ( new Checkbox() )->render( $element ) );
+		static::assertContains( 'checked="checked"', ( new Radio() )->render( $element ) );
 	}
 
 	/**
-	 * Test rendering of an CheckBox with multiple items in ChoiceList.
+	 * Test rendering of an Radio with multiple items in ChoiceList.
 	 */
 	public function test_render__multiple_choices() {
 
 		$element = $this->get_element( 'element', new ArrayChoiceList( [ 'foo' => 'bar', 'baz' => 'bam' ] ) );
 
-		$rendered = ( new Checkbox() )->render( $element );
+		$rendered = ( new Radio() )->render( $element );
 		// both elements are having this name.
-		static::assertContains( 'name="element[]"', $rendered );
+		static::assertContains( 'name="element"', $rendered );
 
 		// first element
 		static::assertContains( 'value="foo"', $rendered );
 		static::assertContains( 'id="element_foo"', $rendered );
+
+		static::assertContains( '<label', $rendered );
 		static::assertContains( 'for="element_foo"', $rendered );
+		static::assertContains( 'bar</label>', $rendered );
 
 		// second element
 		static::assertContains( 'value="baz"', $rendered );
 		static::assertContains( 'id="element_baz"', $rendered );
+
+		static::assertContains( '<label', $rendered );
 		static::assertContains( 'for="element_baz"', $rendered );
+		static::assertContains( 'bam</label>', $rendered );
 	}
 
 }

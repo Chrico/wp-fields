@@ -1,13 +1,13 @@
-<?php
+<?php # -*- coding: utf-8 -*-
 
 namespace ChriCo\Fields\Tests\Unit;
 
 use ChriCo\Fields\Tests\Unit\Fixtures\CustomViewElement;
-use ChriCo\Fields\View\Textarea;
-use ChriCo\Fields\ViewFactory;
 use ChriCo\Fields\View\Errors;
 use ChriCo\Fields\View\Input;
 use ChriCo\Fields\View\Label;
+use ChriCo\Fields\View\Textarea;
+use ChriCo\Fields\ViewFactory;
 
 class ViewFactoryTest extends AbstractTestCase {
 
@@ -17,7 +17,7 @@ class ViewFactoryTest extends AbstractTestCase {
 	public function test_basic() {
 
 		$testee = new ViewFactory();
-		$this->assertInstanceOf( ViewFactory::class, $testee );
+		static::assertInstanceOf( ViewFactory::class, $testee );
 	}
 
 	/**
@@ -31,7 +31,7 @@ class ViewFactoryTest extends AbstractTestCase {
 	public function test_create( $type, $expected ) {
 
 		$testee = new ViewFactory();
-		$this->assertInstanceOf( $expected, $testee->create( $type ) );
+		static::assertInstanceOf( $expected, $testee->create( $type ) );
 	}
 
 	/**
@@ -53,7 +53,7 @@ class ViewFactoryTest extends AbstractTestCase {
 	public function test_create__custom_view_element() {
 
 		$expected = CustomViewElement::class;
-		$this->assertInstanceOf( $expected, ( new ViewFactory() )->create( $expected ) );
+		static::assertInstanceOf( $expected, ( new ViewFactory() )->create( $expected ) );
 	}
 
 	/**

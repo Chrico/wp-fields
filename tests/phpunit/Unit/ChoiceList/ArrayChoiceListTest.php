@@ -1,4 +1,4 @@
-<?php
+<?php # -*- coding: utf-8 -*-
 
 namespace ChriCo\Tests\Fields\ChoiceList;
 
@@ -15,10 +15,10 @@ class ArrayChoiceListTest extends AbstractTestCase {
 
 		$testee = new ArrayChoiceList();
 
-		$this->assertInstanceOf( ChoiceListInterface::class, $testee );
-		$this->assertEmpty( $testee->get_choices() );
-		$this->assertEmpty( $testee->get_values() );
-		$this->assertEmpty( $testee->get_choices_for_value() );
+		static::assertInstanceOf( ChoiceListInterface::class, $testee );
+		static::assertEmpty( $testee->get_choices() );
+		static::assertEmpty( $testee->get_values() );
+		static::assertEmpty( $testee->get_choices_for_value() );
 
 	}
 
@@ -27,7 +27,7 @@ class ArrayChoiceListTest extends AbstractTestCase {
 		$expected = [ 'foo' => 'bar' ];
 		$testee   = new ArrayChoiceList( $expected );
 
-		$this->assertSame( $expected, $testee->get_choices() );
+		static::assertSame( $expected, $testee->get_choices() );
 	}
 
 	/**
@@ -38,7 +38,7 @@ class ArrayChoiceListTest extends AbstractTestCase {
 	 */
 	public function test_get_values( $input, $expected ) {
 
-		$this->assertSame( $expected, ( new ArrayChoiceList( $input ) )->get_values() );
+		static::assertSame( $expected, ( new ArrayChoiceList( $input ) )->get_values() );
 	}
 
 	/**
@@ -61,7 +61,7 @@ class ArrayChoiceListTest extends AbstractTestCase {
 	 */
 	public function test_get_choices_for_value( $list, $selected, $expected ) {
 
-		$this->assertSame( $expected, ( new ArrayChoiceList( $list ) )->get_choices_for_value( $selected ) );
+		static::assertSame( $expected, ( new ArrayChoiceList( $list ) )->get_choices_for_value( $selected ) );
 
 	}
 

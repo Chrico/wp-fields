@@ -1,4 +1,4 @@
-<?php declare( strict_types=1 );
+<?php declare( strict_types=1 ); # -*- coding: utf-8 -*-
 
 namespace ChriCo\Fields\Element;
 
@@ -8,11 +8,14 @@ use ChriCo\Fields\DescriptionAwareInterface;
 use ChriCo\Fields\DescriptionAwareTrait;
 use ChriCo\Fields\ErrorAwareInterface;
 use ChriCo\Fields\ErrorAwareTrait;
+use ChriCo\Fields\LabelAwareInterface;
+use ChriCo\Fields\LabelAwareTrait;
 
-class ChoiceElement extends BaseElement implements ChoiceElementInterface, ErrorAwareInterface, DescriptionAwareInterface {
+class ChoiceElement extends BaseElement implements ChoiceElementInterface, ErrorAwareInterface, DescriptionAwareInterface, LabelAwareInterface {
 
 	use DescriptionAwareTrait;
 	use ErrorAwareTrait;
+	use LabelAwareTrait;
 
 	/**
 	 * @var ChoiceListInterface

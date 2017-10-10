@@ -1,5 +1,6 @@
-# ChriCo Fields
-ChriCo Fields is a Composer package (not a plugin) that allows to generate form fields in WordPress.
+# ChriCo WP-Fields 
+
+ChriCo WP-Fields is a Composer package (not a plugin) that allows to generate form fields in WordPress.
 
 ---
 
@@ -84,9 +85,6 @@ Nothing more and nothing less. Everything related to:
  
 - Validation of data - see [Inpsyde-Validator](https://github.com/inpsyde/inpsyde-validator)
 - Filtering data - see [Inpsyde-Filter](https://github.com/inpsyde/inpsyde-filter)
-- Creating MetaBoxes - coming soon
-- Creating Settings pages - coming soon
-- Saving fields to database(s) - coming soon
 
 will be done in separate packages and just used in this one.
 
@@ -99,8 +97,8 @@ To work later in view with Elements, you have first to create the Element itself
 | name | extends | implements | description |
 | ------------- | ------------- | ------------- | ------------- |
 | `Element` | `BaseElement` | `LabelAwareInterface, ErrorAwareInterface, DescriptionAwareInterface` | default element for inputs, textareas, buttons |
-| `ChoiceElement` | `BaseElement` | `ChoiceElementInterface, ErrorAwareInterface, DescriptionAwareInterface` | allows us to set and get choices for checkboxes or radios |
-| `CollectionElement` | `BaseElement` | `CollectionElementInterface, DescriptionAwareInterface, ErrorAwareInterface` | allows us to group multiple elements into one namespace together |
+| `ChoiceElement` | `BaseElement` | `LabelAwareInterface, ChoiceElementInterface, ErrorAwareInterface, DescriptionAwareInterface` | allows us to set and get choices for checkboxes or radios |
+| `CollectionElement` | `BaseElement` | `LabelAwareInterface, CollectionElementInterface, DescriptionAwareInterface, ErrorAwareInterface` | allows us to group multiple elements into one namespace together |
 | `Form` | `CollectionElement` | `FormInterface` | allows us to work with data and delegate them to containing elements |
 
 Here's a short example of creating...
@@ -324,7 +322,7 @@ $form->get_element( 'my-text' )->get_value(); // "my text" --> the HTML-tags are
 
 ## Frequently Asked Questions
 
-> Why are you not just using existing Packages like the [Symfony Forms](http://symfony.com/doc/current/forms.html) or [Zend Form](https://framework.zend.com/manual/2.4/en/modules/zend.form.intro.html)?
+> Why are you not just using existing packages like the [Symfony Forms](http://symfony.com/doc/current/forms.html) or [Zend Form](https://framework.zend.com/manual/2.4/en/modules/zend.form.intro.html)?
 
 That's a good question! As already mentioned above, WordPress has different pages and scenarios where to use form fields. Both packages are excellent and i worked a lot with them in past. 
 

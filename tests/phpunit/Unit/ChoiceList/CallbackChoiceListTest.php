@@ -1,4 +1,4 @@
-<?php
+<?php # -*- coding: utf-8 -*-
 
 namespace ChriCo\Tests\Fields\ChoiceList;
 
@@ -17,8 +17,8 @@ class CallbackChoiceListTest extends AbstractTestCase {
 		};
 		$testee   = new CallbackChoiceList( $callback );
 
-		$this->assertInstanceOf( ChoiceListInterface::class, $testee );
-		$this->assertFalse( $testee->is_loaded() );
+		static::assertInstanceOf( ChoiceListInterface::class, $testee );
+		static::assertFalse( $testee->is_loaded() );
 
 	}
 
@@ -35,8 +35,8 @@ class CallbackChoiceListTest extends AbstractTestCase {
 		};
 
 		$testee = new CallbackChoiceList( $callback );
-		$this->assertSame( $expected, $testee->get_choices() );
-		$this->assertTrue( $testee->is_loaded() );
+		static::assertSame( $expected, $testee->get_choices() );
+		static::assertTrue( $testee->is_loaded() );
 	}
 
 }

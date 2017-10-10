@@ -1,10 +1,10 @@
-<?php
+<?php # -*- coding: utf-8 -*-
 
 namespace ChriCo\Fields\Tests\Unit\Element;
 
 use ChriCo\Fields\Element\BaseElement;
-use ChriCo\Fields\Element\Element;
 use ChriCo\Fields\Element\CollectionElement;
+use ChriCo\Fields\Element\Element;
 use ChriCo\Fields\Element\ElementInterface;
 use ChriCo\Fields\ErrorAwareInterface;
 use ChriCo\Fields\Tests\Unit\AbstractTestCase;
@@ -16,10 +16,10 @@ class CollectionElementTest extends AbstractTestCase {
 		$expected_name = 'name';
 		$testee        = new CollectionElement( $expected_name );
 
-		$this->assertInstanceOf( BaseElement::class, $testee );
-		$this->assertInstanceOf( ElementInterface::class, $testee );
+		static::assertInstanceOf( BaseElement::class, $testee );
+		static::assertInstanceOf( ElementInterface::class, $testee );
 
-		$this->assertEmpty( $testee->get_elements() );
+		static::assertEmpty( $testee->get_elements() );
 	}
 
 	/**
@@ -36,10 +36,10 @@ class CollectionElementTest extends AbstractTestCase {
 
 		$elements = $testee->get_elements();
 
-		$this->assertCount( 1, $elements );
-		$this->assertArrayHasKey( $element_name, $elements );
-		$this->assertSame( $element, $elements[ $element_name ] );
-		$this->assertSame( $element, $testee->get_element( $element_name ) );
+		static::assertCount( 1, $elements );
+		static::assertArrayHasKey( $element_name, $elements );
+		static::assertSame( $element, $elements[ $element_name ] );
+		static::assertSame( $element, $testee->get_element( $element_name ) );
 	}
 
 	/**
@@ -58,10 +58,10 @@ class CollectionElementTest extends AbstractTestCase {
 		$expected_element_name = 'element';
 		$testee                = new CollectionElement( 'collection' );
 
-		$this->assertFalse( $testee->has_element( $expected_element_name ) );
+		static::assertFalse( $testee->has_element( $expected_element_name ) );
 
 		$testee->add_element( new Element( $expected_element_name ) );
-		$this->assertTrue( $testee->has_element( $expected_element_name ) );
+		static::assertTrue( $testee->has_element( $expected_element_name ) );
 	}
 
 	/**
@@ -75,7 +75,7 @@ class CollectionElementTest extends AbstractTestCase {
 		$testee->add_element( new Element( 'element' ) );
 		$testee->set_errors( $expected_error );
 
-		$this->assertSame( $expected_error, $testee->get_errors() );
+		static::assertSame( $expected_error, $testee->get_errors() );
 	}
 
 	/**
@@ -93,7 +93,7 @@ class CollectionElementTest extends AbstractTestCase {
 		/** @var ErrorAwareInterface $element */
 		$element = $testee->get_element( $expected_element_name );
 
-		$this->assertSame( $expected_error, $element->get_errors() );
+		static::assertSame( $expected_error, $element->get_errors() );
 	}
 
 	/**
@@ -110,7 +110,7 @@ class CollectionElementTest extends AbstractTestCase {
 
 		$element = $testee->get_element( $expected_element_name );
 
-		$this->assertSame( $expected_value, $element->get_value() );
+		static::assertSame( $expected_value, $element->get_value() );
 	}
 
 	/**
@@ -126,6 +126,6 @@ class CollectionElementTest extends AbstractTestCase {
 		$testee->add_element( new Element( $expected_element_name ) );
 		$testee->set_value( $expected );
 
-		$this->assertSame( $expected, $testee->get_value() );
+		static::assertSame( $expected, $testee->get_value() );
 	}
 }

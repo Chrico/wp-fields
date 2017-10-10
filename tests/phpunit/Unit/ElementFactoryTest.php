@@ -1,4 +1,4 @@
-<?php
+<?php # -*- coding: utf-8 -*-
 
 namespace ChriCo\Fields\Tests\Unit;
 
@@ -6,8 +6,8 @@ use ChriCo\Fields\ChoiceList\ArrayChoiceList;
 use ChriCo\Fields\ChoiceList\CallbackChoiceList;
 use ChriCo\Fields\Element\ChoiceElementInterface;
 use ChriCo\Fields\Element\CollectionElementInterface;
-use ChriCo\Fields\ElementFactory;
 use ChriCo\Fields\Element\ElementInterface;
+use ChriCo\Fields\ElementFactory;
 
 class ElementFactoryTest extends AbstractTestCase {
 
@@ -17,7 +17,7 @@ class ElementFactoryTest extends AbstractTestCase {
 	public function test_basic() {
 
 		$testee = new ElementFactory();
-		$this->assertInstanceOf( ElementFactory::class, $testee );
+		static::assertInstanceOf( ElementFactory::class, $testee );
 	}
 
 	/**
@@ -31,7 +31,7 @@ class ElementFactoryTest extends AbstractTestCase {
 	public function test_create( $spec, $expected ) {
 
 		$testee = new ElementFactory();
-		$this->assertInstanceOf( $expected, $testee->create( $spec ) );
+		static::assertInstanceOf( $expected, $testee->create( $spec ) );
 	}
 
 	/**
@@ -140,10 +140,10 @@ class ElementFactoryTest extends AbstractTestCase {
 
 		$element = $testee->create( $spec );
 
-		$this->assertSame( $expected_label, $element->get_label() );
+		static::assertSame( $expected_label, $element->get_label() );
 
 		// order in array is not the same.
-		$this->assertEquals( $expected_label_attributes, $element->get_label_attributes() );
+		static::assertEquals( $expected_label_attributes, $element->get_label_attributes() );
 	}
 
 	/**
@@ -171,8 +171,8 @@ class ElementFactoryTest extends AbstractTestCase {
 		$element = $testee->create( $spec );
 
 		$choices = $element->get_choices();
-		$this->assertInstanceOf( $instance_of, $choices );
-		$this->assertSame( $expected, $choices->get_choices() );
+		static::assertInstanceOf( $instance_of, $choices );
+		static::assertSame( $expected, $choices->get_choices() );
 	}
 
 	public function provide_create__with_choices() {
@@ -223,11 +223,11 @@ class ElementFactoryTest extends AbstractTestCase {
 		];
 
 		$element = $testee->create( $spec );
-		$this->assertInstanceOf( CollectionElementInterface::class, $element );
+		static::assertInstanceOf( CollectionElementInterface::class, $element );
 
 		$elements = $element->get_elements();
-		$this->assertNotEmpty( $elements );
-		$this->assertInstanceOf( ElementInterface::class, reset( $elements ) );
+		static::assertNotEmpty( $elements );
+		static::assertInstanceOf( ElementInterface::class, reset( $elements ) );
 	}
 
 	/**
@@ -247,7 +247,7 @@ class ElementFactoryTest extends AbstractTestCase {
 
 		$element = $testee->create( [ 'attributes' => $expected ] );
 		// cannot use assertSame() because the order of the elements in array can differ.
-		$this->assertEquals( $expected, $element->get_attributes() );
+		static::assertEquals( $expected, $element->get_attributes() );
 	}
 
 	/**
@@ -281,9 +281,9 @@ class ElementFactoryTest extends AbstractTestCase {
 
 		$elements = ( new ElementFactory() )->create_multiple( [ $element, $choice, $collection ] );
 
-		$this->assertCount( 3, $elements );
-		$this->assertInstanceOf( ElementInterface::class, $elements[ 0 ] );
-		$this->assertInstanceOf( ChoiceElementInterface::class, $elements[ 1 ] );
-		$this->assertInstanceOf( CollectionElementInterface::class, $elements[ 2 ] );
+		static::assertCount( 3, $elements );
+		static::assertInstanceOf( ElementInterface::class, $elements[ 0 ] );
+		static::assertInstanceOf( ChoiceElementInterface::class, $elements[ 1 ] );
+		static::assertInstanceOf( CollectionElementInterface::class, $elements[ 2 ] );
 	}
 }

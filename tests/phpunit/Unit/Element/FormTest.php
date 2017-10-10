@@ -1,4 +1,4 @@
-<?php
+<?php # -*- coding: utf-8 -*-
 
 namespace ChriCo\Fields\Tests\Unit\Element;
 
@@ -16,14 +16,15 @@ class FormTest extends AbstractTestCase {
 		$expected_name = 'foo';
 		$testee        = new Form( $expected_name );
 
-		$this->assertInstanceOf( FormInterface::class, $testee );
+		static::assertInstanceOf( FormInterface::class, $testee );
 
-		$this->assertSame( $expected_name, $testee->get_name() );
+		static::assertSame( $expected_name, $testee->get_name() );
 
-		$this->assertEmpty( $testee->get_value() );
+		static::assertEmpty( $testee->get_value() );
+		static::assertEmpty( $testee->get_data() );
 
-		$this->assertCount( 0, $testee->get_errors() );
-		$this->assertFalse( $testee->has_errors() );
+		static::assertCount( 0, $testee->get_errors() );
+		static::assertFalse( $testee->has_errors() );
 	}
 
 }

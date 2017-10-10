@@ -1,10 +1,8 @@
-<?php declare( strict_types=1 );
+<?php # -*- coding: utf-8 -*-
 
 namespace ChriCo\Fields\Tests\Unit\View;
 
 use ChriCo\Fields\Element\Element;
-use ChriCo\Fields\Element\ElementInterface;
-use ChriCo\Fields\ErrorAwareInterface;
 use ChriCo\Fields\View\Errors;
 use ChriCo\Fields\View\RenderableElementInterface;
 
@@ -16,7 +14,7 @@ class ErrorsTest extends AbstractViewTestCase {
 	public function test_basic() {
 
 		$testee = new Errors();
-		$this->assertInstanceOf( RenderableElementInterface::class, $testee );
+		static::assertInstanceOf( RenderableElementInterface::class, $testee );
 	}
 
 	/**
@@ -32,7 +30,7 @@ class ErrorsTest extends AbstractViewTestCase {
 		$element = new Element( 'name' );
 		$element->set_errors( $input );
 
-		$this->assertSame(
+		static::assertSame(
 			$expected,
 			( new Errors() )->render( $element )
 		);
@@ -68,7 +66,7 @@ class ErrorsTest extends AbstractViewTestCase {
 			'error'   => '<li>%s</li>'
 		];
 
-		$this->assertSame(
+		static::assertSame(
 			'<ul><li>bar</li></ul>',
 			( new Errors( $markup ) )->render( $element )
 		);

@@ -1,10 +1,13 @@
-<?php
+<?php # -*- coding: utf-8 -*-
 
 namespace ChriCo\Fields\Tests\Unit\Element;
 
 use ChriCo\Fields\ChoiceList\ArrayChoiceList;
-use ChriCo\Fields\ChoiceList\ChoiceListInterface;
+use ChriCo\Fields\DescriptionAwareInterface;
 use ChriCo\Fields\Element\ChoiceElement;
+use ChriCo\Fields\Element\ElementInterface;
+use ChriCo\Fields\ErrorAwareInterface;
+use ChriCo\Fields\LabelAwareInterface;
 use ChriCo\Fields\Tests\Unit\AbstractTestCase;
 
 class ChoiceElementTest extends AbstractTestCase {
@@ -15,9 +18,15 @@ class ChoiceElementTest extends AbstractTestCase {
 	public function test_basic() {
 
 		$testee = new ChoiceElement( 'name' );
-		$list   = $testee->get_choices();
-		$this->assertInstanceOf( ArrayChoiceList::class, $list );
-		$this->assertEmpty( $list->get_choices() );
+		static::assertInstanceOf( LabelAwareInterface::class, $testee );
+		static::assertInstanceOf( ElementInterface::class, $testee );
+		static::assertInstanceOf( DescriptionAwareInterface::class, $testee );
+		static::assertInstanceOf( ErrorAwareInterface::class, $testee );
+
+		$list = $testee->get_choices();
+		static::assertInstanceOf( ArrayChoiceList::class, $list );
+
+		static::assertEmpty( $list->get_choices() );
 	}
 
 	/**
@@ -29,7 +38,7 @@ class ChoiceElementTest extends AbstractTestCase {
 		$testee   = new ChoiceElement( 'name' );
 		$testee->set_choices( $expected );
 
-		$this->assertSame( $expected, $testee->get_choices() );
+		static::assertSame( $expected, $testee->get_choices() );
 	}
 
 }

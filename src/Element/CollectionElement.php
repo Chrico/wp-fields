@@ -1,4 +1,4 @@
-<?php declare( strict_types=1 );
+<?php declare( strict_types=1 ); # -*- coding: utf-8 -*-
 
 namespace ChriCo\Fields\Element;
 
@@ -7,11 +7,14 @@ use ChriCo\Fields\DescriptionAwareTrait;
 use ChriCo\Fields\ErrorAwareInterface;
 use ChriCo\Fields\ErrorAwareTrait;
 use ChriCo\Fields\Exception\ElementNotFoundException;
+use ChriCo\Fields\LabelAwareInterface;
+use ChriCo\Fields\LabelAwareTrait;
 
-class CollectionElement extends BaseElement implements CollectionElementInterface, DescriptionAwareInterface, ErrorAwareInterface {
+class CollectionElement extends BaseElement implements CollectionElementInterface, DescriptionAwareInterface, LabelAwareInterface, ErrorAwareInterface {
 
 	use DescriptionAwareTrait;
 	use ErrorAwareTrait;
+	use LabelAwareTrait;
 
 	/**
 	 * Contains all errors including the element itself and all children.
