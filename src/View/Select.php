@@ -24,6 +24,10 @@ class Select implements RenderableElementInterface {
 		}
 
 		$attributes = $element->get_attributes();
+		if ( ! isset ( $attributes[ 'id' ] ) ) {
+			$attributes[ 'id' ] = $element->get_id();
+		}
+
 		unset( $attributes[ 'type' ], $attributes[ 'value' ] );
 
 		return sprintf(

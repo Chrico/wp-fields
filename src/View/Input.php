@@ -11,6 +11,9 @@ class Input implements RenderableElementInterface {
 	public function render( ElementInterface $element ): string {
 
 		$attributes = $element->get_attributes();
+		if ( ! isset ( $attributes[ 'id' ] ) ) {
+			$attributes[ 'id' ] = $element->get_id();
+		}
 
 		return sprintf(
 			'<input %s />',
