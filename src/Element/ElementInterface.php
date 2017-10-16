@@ -52,15 +52,15 @@ interface ElementInterface {
 	public function set_attributes( array $attributes = [] );
 
 	/**
-	 * @param string     $key
-	 * @param int|string $value
+	 * @param string          $key
+	 * @param int|string|bool $value
 	 */
 	public function set_attribute( string $key, $value );
 
 	/**
 	 * @param string $key
 	 *
-	 * @return int|string $value
+	 * @return int|string|bool $value
 	 */
 	public function get_attribute( string $key );
 
