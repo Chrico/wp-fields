@@ -27,6 +27,7 @@ class InputTest extends AbstractViewTestCase {
 
 		$output = ( new Input() )->render( $element );
 		static::assertContains( '<input', $output );
+		static::assertContains( 'id="foo"', $output );
 		static::assertContains( 'name="foo"', $output );
 		static::assertContains( 'type="text"', $output );
 		static::assertContains( '/>', $output );
