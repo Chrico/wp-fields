@@ -1,4 +1,4 @@
-# ChriCo WP-Fields 
+# ChriCo WP-Fields [![Latest Stable Version](https://poser.pugx.org/chrico/chrico-wp-fields/v/stable)](https://packagist.org/packages/chrico/chrico-wp-fields) [![Project Status](http://opensource.box.com/badges/active.svg)](http://opensource.box.com/badges) [![Build Status](https://travis-ci.org/Chrico/chrico-wp-fields.svg?branch=master)](http://travis-ci.org/chrico/chrico-wp-fields) [![License](https://poser.pugx.org/chrico/chrico-wp-fields/license)](https://packagist.org/packages/chrico/chrico-wp-fields)
 
 ChriCo WP-Fields is a Composer package (not a plugin) that allows to generate form fields in WordPress.
 
@@ -128,8 +128,8 @@ $collection->add_elements( [ $text, $select ] );
 ### Adding choices
 The `ChoiceElement` allows us to add different choices. This package ships 2 implementations of choices:
 
-- `ArrayChoiceList` - gets choices assigned via constructor.
-- `CallbackChoiceList` - loads the choices based on a given `callable` first time it is accessed in view.
+- `ArrayChoiceList` - choices assigned via constructor.
+- `CallbackChoiceList` - loading choices based on a given `callable` first time it is accessed in view.
 
 To show the differences for both, here's a short example:
 
@@ -166,10 +166,10 @@ $post_select->set_attributes( [ 'type' => 'select' ] );
 $post_select->set_choices( new CallbackChoiceList( $post_choices ) );
 ```
 
-The main difference here is: The `CallbackChoichList` only loads the choices, when they are first accessed in view. The `ArrayChoiceList` already has assigned the complete choices in it's constructor.
+The main difference here is: The `CallbackChoiceList` only loads the choices, when they are first time accessed in view. The `ArrayChoiceList` has already assigned the complete choice-values in it's constructor.
 
 ### Adding a description
- All elements are implementing the `DescriptionAwareInterface` which allows us to add a description to each field:
+All elements are implementing the `DescriptionAwareInterface` which allows us to add a description to each field:
  
 ```php
 <?php
@@ -260,7 +260,7 @@ $collection = $factory->create( $collection_spec );
 --- 
 
 ## Creating elements - like a pro
-And now the complete example with 1 specification which could be placed into a own config file:
+And now the complete example with 1 specification which could be placed into an own config file:
 
 ```php
 <?php
@@ -293,7 +293,7 @@ To render just specific elements, there are a lot of classes available. Just hav
 ---
 
 ## Working with data, validation and filters.
-After knowing how to create an element and render them, we now want to work with some real data which was send via our form.
+After knowing how to create an element and render them, we now want to work with some real data which was send via our website.
 
 ```php
 <?php
@@ -328,11 +328,11 @@ That's a good question! As already mentioned above, WordPress has different page
 
 *But:* They need a ton of dependencies. 
 
-As example, if you're going to use Symfony Forms, you've to use other Symfony Packages like Event Dispatcher, Intl, Options Resolver, Property Access. And thats not all, if you're serious, you'll probably end up using as well [Symfony Validation](https://symfony.com/doc/current/validation.html), [Symfony CSRF](http://symfony.com/doc/current/form/csrf_protection.html), [Twig](http://twig.sensiolabs.org/). And that's the whole point..when we load half of Symfony and we're not far away from including Doctrine as well...why do we still use WordPress?
+As example, if you're going to use Symfony Forms, you've to use other Symfony Packages like Event Dispatcher, Intl, Options Resolver, Property Access. And that's not all, if you're serious, you'll probably end up using as well [Symfony Validation](https://symfony.com/doc/current/validation.html), [Symfony CSRF](http://symfony.com/doc/current/form/csrf_protection.html), [Twig](http://twig.sensiolabs.org/). And that's the whole point..when we load half of Symfony and we're not far away from including Doctrine as well...why do we still use WordPress?
 
 > What about WordPress Field-Plugins like [Advanced Custom Fields](https://www.advancedcustomfields.com/)?
 
-Really? I guess you're wrong here.
+I guess you're wrong here. ;-)
 
 > What about the upcoming [WordPress Fields API](https://github.com/sc0ttkclark/wordpress-fields-api)?
 
