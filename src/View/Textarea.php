@@ -4,19 +4,25 @@ namespace ChriCo\Fields\View;
 
 use ChriCo\Fields\Element\ElementInterface;
 
-class Textarea implements RenderableElementInterface {
-
-	use AttributeFormatterTrait;
+class Textarea extends BaseInput {
 
 	public function render( ElementInterface $element ): string {
 
 		$attributes = $element->get_attributes();
-		unset( $attributes[ 'value' ] );
+		$attributes = $this->prepare_attributes( $attributes, $element );
 
 		return sprintf(
 			'<textarea %s>%s</textarea>',
 			$this->get_attributes_as_string( $attributes ),
 			$this->esc_html( $element->get_value() )
 		);
+	}
+
+	public function prepare_attributes( array $attributes, ElementInterface $element, string $context = 'default' ) {
+		$attributes = parent::prepare_attributes( $attributes, $element, $context );
+
+		unset( $attributes[ 'type' ], $attributes[ 'value' ] );
+
+		return $attributes;
 	}
 }

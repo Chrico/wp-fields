@@ -4,13 +4,12 @@ namespace ChriCo\Fields\View;
 
 use ChriCo\Fields\Element\ElementInterface;
 
-class Progress implements RenderableElementInterface {
-
-	use AttributeFormatterTrait;
+class Progress extends BaseInput {
 
 	public function render( ElementInterface $element ): string {
 
 		$attributes = $element->get_attributes();
+		$attributes = $this->prepare_attributes( $attributes, $element );
 
 		return sprintf(
 			'<progress %s>%s</progress>',

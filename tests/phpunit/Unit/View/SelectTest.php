@@ -54,7 +54,7 @@ class SelectTest extends AbstractViewTestCase {
 	public function test_render__no_choices() {
 
 		$element = $this->get_element( 'element', new ArrayChoiceList( [] ) );
-		static::assertSame( '<select name="element"></select>', ( new Select() )->render( $element ) );
+		static::assertSame( '<select name="element" id="element"></select>', ( new Select() )->render( $element ) );
 	}
 
 	/**
@@ -67,6 +67,7 @@ class SelectTest extends AbstractViewTestCase {
 		$rendered = ( new Select() )->render( $element );
 
 		static::assertContains( '<select', $rendered );
+		static::assertContains( 'id="element"', $rendered );
 		static::assertContains( 'name="element"', $rendered );
 
 		static::assertContains( '<option', $rendered );
@@ -97,6 +98,7 @@ class SelectTest extends AbstractViewTestCase {
 
 		$rendered = ( new Select() )->render( $element );
 		static::assertContains( '<select', $rendered );
+		static::assertContains( 'id="element"', $rendered );
 		static::assertContains( 'name="element"', $rendered );
 
 		// First element
