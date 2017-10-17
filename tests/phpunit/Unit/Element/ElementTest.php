@@ -32,6 +32,7 @@ class ElementTest extends AbstractTestCase {
 		static::assertCount( 0, $testee->get_errors() );
 		static::assertFalse( $testee->has_errors() );
 		static::assertCount( 0, $testee->get_label_attributes() );
+		static::assertFalse( $testee->is_disabled() );
 	}
 
 	/**
@@ -135,13 +136,21 @@ class ElementTest extends AbstractTestCase {
 	/**
 	 * Basic test to check, if we can set and get a single option.
 	 */
-	public function set_get_option() {
+	public function test_set_get_option() {
 
 		$testee = new Element( 'id' );
 		$testee->set_option( 'foo', 'bar' );
 
 		static::assertSame( 'bar', $testee->get_option( 'foo' ) );
 		static::assertSame( [ 'foo' => 'bar' ], $testee->get_options() );
+		static::assertSame( '', $testee->get_option( 'undefined key' ) );
 	}
 
+	public function test_is_disabled() {
+
+		$testee = new Element( '' );
+		$testee->set_attribute( 'disabled', TRUE );
+
+		static::assertTrue( $testee->is_disabled() );
+	}
 }

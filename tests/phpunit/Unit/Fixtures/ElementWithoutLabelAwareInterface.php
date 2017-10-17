@@ -123,6 +123,12 @@ class ElementWithoutLabelAwareInterface implements ElementInterface {
 	 * @return int|string $value
 	 */
 	public function get_option( string $key ) {
-		// TODO: Implement get_option() method.
+
+		return $key;
+	}
+
+	public function is_disabled(): bool {
+
+		return FALSE;
 	}
 }

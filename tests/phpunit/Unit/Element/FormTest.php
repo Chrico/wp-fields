@@ -40,6 +40,7 @@ class FormTest extends AbstractTestCase {
 		$expected_error = [ 'bam' ];
 
 		$expected_key2 = 'bam';
+		$expected_key3 = 'baz';
 
 		// element which has additionally a validator which fails.
 		$element = Mockery::mock( ElementInterface::class . ',' . ErrorAwareInterface::class );
@@ -49,18 +50,17 @@ class FormTest extends AbstractTestCase {
 		$element->shouldReceive( 'get_name' )
 			->once()
 			->andReturn( $expected_key );
+		$element->shouldReceive( 'is_disabled' )
+			->andReturn( FALSE );
 		$element->shouldReceive( 'set_errors' )
 			->once()
 			->with( $expected_error );
 
 		// element which has no validator assigned.
-		$element2 = Mockery::mock( ElementInterface::class );
-		$element2->shouldReceive( 'set_value' )
-			->once()
-			->with( Mockery::type( 'string' ) );
-		$element2->shouldReceive( 'get_name' )
-			->once()
-			->andReturn( $expected_key2 );
+		$not_validated_element2 = $this->get_element_stub( $expected_key2 );
+
+		// element which is disabled shouldn be validated
+		$disabled_element = $this->get_element_stub( $expected_key3, TRUE );
 
 		$validator = Mockery::mock( ValidatorInterface::class );
 		$validator->shouldReceive( 'is_valid' )
@@ -72,9 +72,16 @@ class FormTest extends AbstractTestCase {
 			->andReturn( $expected_error );
 
 		$testee = new Form( '' );
-		$testee->add_elements( [ $element, $element2 ] );
+		$testee->add_elements( [ $element, $not_validated_element2, $disabled_element ] );
 		$testee->add_validator( $expected_key, $validator );
-		$testee->bind_data( [ $expected_key => $expected_value, $expected_key2 => '' ] );
+		$testee->bind_data(
+			[
+				$expected_key              => $expected_value,
+				$expected_key2             => 'foo',
+				$expected_key3             => 'foo',
+				'non existing element key' => 'foo'
+			]
+		);
 
 		static::assertFalse( $testee->is_valid() );
 
@@ -86,19 +93,41 @@ class FormTest extends AbstractTestCase {
 
 		$expected_key   = 'foo';
 		$expected_value = 'bar';
+		$expected_key2  = 'baz';
 
 		$element = Mockery::mock( ElementInterface::class );
 		$element->shouldReceive( 'set_value' )
-			->once()
 			->with( Mockery::type( 'string' ) );
 		$element->shouldReceive( 'get_name' )
 			->once()
 			->andReturn( $expected_key );
+		$element->shouldReceive( 'get_value' )
+			->once()
+			->andReturn( $expected_value );
+		$element->shouldReceive( 'is_disabled' )
+			->andReturn( FALSE );
+
+		$element2 = $this->get_element_stub( $expected_key2, TRUE );
 
 		$testee = new Form( '' );
 		$testee->add_element( $element );
+		$testee->add_element( $element2 );
 
-		static::assertNull( $testee->set_data( [ $expected_key => $expected_value ] ) );
+		static::assertNull(
+			$testee->set_data(
+				[
+					$expected_key   => $expected_value,
+					$expected_key2  => 'foo',
+					'undefined key' => 'foo'
+				]
+			)
+		);
+
+		static::assertSame(
+			$expected_value,
+			$testee->get_element( $expected_key )
+				->get_value()
+		);
 	}
 
 	public function test_bind_data() {
@@ -106,13 +135,7 @@ class FormTest extends AbstractTestCase {
 		$expected_key   = 'foo';
 		$expected_value = 'bar';
 
-		$element = Mockery::mock( ElementInterface::class );
-		$element->shouldReceive( 'set_value' )
-			->once()
-			->with( Mockery::type( 'string' ) );
-		$element->shouldReceive( 'get_name' )
-			->once()
-			->andReturn( $expected_key );
+		$element = $this->get_element_stub( $expected_key );
 
 		$filter = Mockery::mock( FilterInterface::class );
 		$filter->shouldReceive( 'filter' )
@@ -127,14 +150,26 @@ class FormTest extends AbstractTestCase {
 		static::assertNull( $testee->bind_data( [ $expected_key => $expected_value ] ) );
 	}
 
+	public function test_set_attribute() {
+
+		$expected_key   = 'foo';
+		$expected_value = 'bar';
+		$testee         = new Form( '' );
+
+		// this writes directly to the form-element attributes.
+		static::assertNull( $testee->set_attribute( $expected_key, $expected_value ) );
+		static::assertSame( $expected_value, $testee->get_attribute( $expected_key ) );
+
+		// this triggers a Form::bind_data
+		static::assertNull( $testee->set_attribute( 'value', [ 'baz' => 'bam' ] ) );
+
+	}
+
 	public function test_add_filter_validator() {
 
 		$expected_key = 'foo';
 
-		$element = Mockery::mock( ElementInterface::class );
-		$element->shouldReceive( 'get_name' )
-			->once()
-			->andReturn( $expected_key );
+		$element = $this->get_element_stub( $expected_key );
 
 		$testee = new Form( '' );
 		$testee->add_element( $element );
@@ -143,4 +178,17 @@ class FormTest extends AbstractTestCase {
 		static::assertNull( $testee->add_validator( $expected_key, Mockery::mock( ValidatorInterface::class ) ) );
 	}
 
+	private function get_element_stub( string $name, $disabled = FALSE ) {
+
+		$element = Mockery::mock( ElementInterface::class );
+		$element->shouldReceive( 'set_value' )
+			->with( Mockery::type( 'string' ) );
+		$element->shouldReceive( 'get_name' )
+			->once()
+			->andReturn( $name );
+		$element->shouldReceive( 'is_disabled' )
+			->andReturn( $disabled );
+
+		return $element;
+	}
 }
