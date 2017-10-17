@@ -49,7 +49,7 @@ class Select implements RenderableElementInterface {
 		$html     = [];
 
 		foreach ( $list->get_choices() as $key => $name ) {
-			$html[] = sprintF(
+			$html[] = sprintf(
 				'<option value="%s" %s>%s</option>',
 				$this->esc_attr( $key ),
 				isset( $selected[ $key ] ) ? 'selected="selected"' : '',

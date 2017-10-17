@@ -90,4 +90,9 @@ interface ElementInterface {
 	 * @return int|string $value
 	 */
 	public function get_option( string $key );
+
+	/**
+	 * @return bool
+	 */
+	public function is_disabled(): bool;
 }

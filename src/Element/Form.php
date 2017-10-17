@@ -66,10 +66,14 @@ class Form extends CollectionElement implements FormInterface {
 	public function set_data( array $input_data = [] ) {
 
 		foreach ( $input_data as $name => $value ) {
-			if ( $this->has_element( $name ) ) {
-				$this->get_element( $name )
-					->set_value( $value );
+			if ( ! $this->has_element( $name ) ) {
+				continue;
 			}
+			$element = $this->get_element( $name );
+			if ( $element->is_disabled() ) {
+				continue;
+			}
+			$element->set_value( $value );
 		}
 	}
 
@@ -83,7 +87,12 @@ class Form extends CollectionElement implements FormInterface {
 				continue;
 			}
 
-			$element                 = $this->get_element( $name );
+			$element = $this->get_element( $name );
+
+			if ( $element->is_disabled() ) {
+				continue;
+			}
+
 			$this->raw_data[ $name ] = $value;
 			$value                   = $this->filter( $name, $value );
 			$this->data[ $name ]     = $value;
@@ -124,6 +133,16 @@ class Form extends CollectionElement implements FormInterface {
 		$this->is_valid = TRUE;
 
 		foreach ( $this->data as $name => $data ) {
+
+			// only validate data where an element exists
+			// ... or ...
+			// the element is not disabled.
+			if ( ! $this->has_element( $name )
+				|| $this->get_element( $name )
+					->is_disabled() ) {
+				continue;
+			}
+
 			if ( ! $this->validate( $name, $data ) ) {
 				$this->is_valid = FALSE;
 				break;
@@ -154,7 +173,7 @@ class Form extends CollectionElement implements FormInterface {
 		$is_valid = TRUE;
 		foreach ( $this->validators[ $name ] as $validator ) {
 			if ( ! $validator->is_valid( $value ) ) {
-				$errors = array_merge( $errors, $validator->get_error_messages() );
+				$errors   = array_merge( $errors, $validator->get_error_messages() );
 				$is_valid = FALSE;
 			}
 		}

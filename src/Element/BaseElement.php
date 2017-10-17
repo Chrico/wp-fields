@@ -108,4 +108,10 @@ abstract class BaseElement implements ElementInterface {
 		return $this->options[ $key ];
 	}
 
+	public function is_disabled(): bool {
+
+		$disabled = $this->get_attribute( 'disabled' );
+
+		return is_bool( $disabled ) && $disabled;
+	}
 }
