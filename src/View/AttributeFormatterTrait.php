@@ -15,6 +15,13 @@ trait AttributeFormatterTrait {
 
 		$html = [];
 		foreach ( $attributes as $key => $value ) {
+			if ( is_bool( $value ) ) {
+				if ( $value ) {
+					$html[] = $this->esc_attr( $key );
+				}
+				continue;
+			}
+
 			if ( is_array( $value ) ) {
 				$value = json_encode( $value );
 			}
