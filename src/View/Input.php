@@ -4,16 +4,12 @@ namespace ChriCo\Fields\View;
 
 use ChriCo\Fields\Element\ElementInterface;
 
-class Input implements RenderableElementInterface {
-
-	use AttributeFormatterTrait;
+class Input extends BaseInput {
 
 	public function render( ElementInterface $element ): string {
 
 		$attributes = $element->get_attributes();
-		if ( ! isset ( $attributes[ 'id' ] ) ) {
-			$attributes[ 'id' ] = $element->get_id();
-		}
+		$attributes = $this->prepare_attributes( $attributes, $element );
 
 		return sprintf(
 			'<input %s />',

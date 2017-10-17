@@ -7,9 +7,7 @@ use ChriCo\Fields\Element\ChoiceElementInterface;
 use ChriCo\Fields\Element\ElementInterface;
 use ChriCo\Fields\Exception\InvalidClassException;
 
-class Select implements RenderableElementInterface {
-
-	use AttributeFormatterTrait;
+class Select extends BaseInput {
 
 	public function render( ElementInterface $element ): string {
 
@@ -24,17 +22,21 @@ class Select implements RenderableElementInterface {
 		}
 
 		$attributes = $element->get_attributes();
-		if ( ! isset ( $attributes[ 'id' ] ) ) {
-			$attributes[ 'id' ] = $element->get_id();
-		}
-
-		unset( $attributes[ 'type' ], $attributes[ 'value' ] );
+		$attributes = $this->prepare_attributes( $attributes, $element );
 
 		return sprintf(
 			'<select %s>%s</select>',
 			$this->get_attributes_as_string( $attributes ),
 			$this->render_choices( $element->get_choices(), $element->get_value() )
 		);
+	}
+
+	public function prepare_attributes( array $attributes, ElementInterface $element, string $context = 'default' ) {
+		$attributes = parent::prepare_attributes( $attributes, $element, $context );
+
+		unset( $attributes[ 'type' ], $attributes[ 'value' ] );
+
+		return $attributes;
 	}
 
 	/**

@@ -6,9 +6,7 @@ use ChriCo\Fields\Element\ChoiceElementInterface;
 use ChriCo\Fields\Element\ElementInterface;
 use ChriCo\Fields\Exception\InvalidClassException;
 
-class Radio implements RenderableElementInterface {
-
-	use AttributeFormatterTrait;
+class Radio extends BaseInput {
 
 	public function render( ElementInterface $element ): string {
 
@@ -29,23 +27,34 @@ class Radio implements RenderableElementInterface {
 		$html = [];
 
 		foreach ( $choices as $key => $name ) {
-			$attributes[ 'id' ]    = $element->get_id() . '_' . $key;
-			$attributes[ 'value' ] = $key;
+			$element_attr = $this->prepare_attributes( $attributes, $element, $key );
+
+			$element_attr[ 'value' ] = $key;
 
 			$label = sprintf(
 				'<label for="%s">%s</label>',
-				$this->esc_attr( $attributes[ 'id' ] ),
+				$this->esc_attr( $element_attr[ 'id' ] ),
 				$this->esc_html( $name )
 			);
 
 			$html[] = sprintf(
 				'<p><input %s %s /> %s</p>',
-				$this->get_attributes_as_string( $attributes ),
+				$this->get_attributes_as_string( $element_attr ),
 				isset( $selected[ $key ] ) ? 'checked="checked"' : '',
 				$label
 			);
 		}
 
 		return implode( ' ', $html );
+	}
+
+	public function prepare_attributes( array $attributes, ElementInterface $element, string $context = 'default' ) {
+		$attributes = parent::prepare_attributes( $attributes, $element, $context );
+
+		if ( 'default' !== $context ) {
+			$attributes[ 'id' ]   .= '_' . $context;
+		}
+
+		return $attributes;
 	}
 }

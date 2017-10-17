@@ -6,9 +6,7 @@ use ChriCo\Fields\Element\ChoiceElementInterface;
 use ChriCo\Fields\Element\ElementInterface;
 use ChriCo\Fields\Exception\InvalidClassException;
 
-class Checkbox implements RenderableElementInterface {
-
-	use AttributeFormatterTrait;
+class Checkbox extends BaseInput {
 
 	public function render( ElementInterface $element ): string {
 
@@ -34,16 +32,13 @@ class Checkbox implements RenderableElementInterface {
 
 		$is_multi_choice = FALSE;
 		if ( count( $choices ) > 1 ) {
-			$attributes[ 'name' ] = $element->get_name() . '[]';
-			$is_multi_choice      = TRUE;
+			$is_multi_choice = TRUE;
 		}
 
 		foreach ( $choices as $key => $name ) {
-			$element_attr = $attributes;
+			$context = $is_multi_choice ? $key : 'default';
 
-			$element_attr[ 'id' ] = $is_multi_choice
-				? $element->get_id() . '_' . $key
-				: $element->get_id();
+			$element_attr = $this->prepare_attributes( $attributes, $element, $context );
 
 			$element_attr[ 'value' ] = $key;
 
@@ -65,5 +60,16 @@ class Checkbox implements RenderableElementInterface {
 		}
 
 		return implode( '', $html );
+	}
+
+	public function prepare_attributes( array $attributes, ElementInterface $element, string $context = 'default' ) {
+		$attributes = parent::prepare_attributes( $attributes, $element, $context );
+
+		if ( 'default' !== $context ) {
+			$attributes[ 'id' ]   .= '_' . $context;
+			$attributes[ 'name' ] .= '[]';
+		}
+
+		return $attributes;
 	}
 }
