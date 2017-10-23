@@ -147,6 +147,48 @@ class ElementFactoryTest extends AbstractTestCase {
 	}
 
 	/**
+	 * Test if we can create a Text-Element which implements the DescriptionAwareInterface and set description
+	 */
+	public function test_create__with_description() {
+
+		$testee   = new ElementFactory();
+		$expected = 'lorum ipsum';
+
+		$spec = [
+			'attributes'  => [
+				'type' => 'text',
+				'name' => 'test',
+			],
+			'description' => $expected
+		];
+
+		$element = $testee->create( $spec );
+
+		static::assertSame( $expected, $element->get_description() );
+	}
+
+	/**
+	 * Test if we can create a Text-Element which implements the ErrorAwareInterface and set errors
+	 */
+	public function test_create__with_errors() {
+
+		$testee   = new ElementFactory();
+		$expected = [ 'foo' => 'bar' ];
+
+		$spec = [
+			'attributes' => [
+				'type' => 'text',
+				'name' => 'test',
+			],
+			'errors'     => $expected
+		];
+
+		$element = $testee->create( $spec );
+
+		static::assertSame( $expected, $element->get_errors() );
+	}
+
+	/**
 	 * Test creation of a ChoiceElement.
 	 *
 	 * @dataProvider provide_create__with_choices
@@ -242,7 +284,8 @@ class ElementFactoryTest extends AbstractTestCase {
 			'name'     => 'test',
 			'class'    => 'class-1 class-2',
 			'data-foo' => 'foo',
-			'data-bar' => 'bar'
+			'data-bar' => 'bar',
+			'id'       => 'test'
 		];
 
 		$element = $testee->create( [ 'attributes' => $expected ] );
@@ -259,7 +302,8 @@ class ElementFactoryTest extends AbstractTestCase {
 		$element = [
 			'attributes' => [
 				'type' => 'text',
-				'name' => 'my-text'
+				'name' => 'my-text',
+				'id'   => 'my-id'
 			],
 			'label'      => 'My label'
 		];
@@ -267,14 +311,16 @@ class ElementFactoryTest extends AbstractTestCase {
 		$choice = [
 			'attributes' => [
 				'type' => 'select',
-				'name' => 'my-select'
+				'name' => 'my-select',
+				'id'   => 'my-id'
 			]
 		];
 		// Collection - with additional elements
 		$collection = [
 			'attributes' => [
 				'type' => 'collection',
-				'name' => 'my-collection'
+				'name' => 'my-collection',
+				'id'   => 'my-collection'
 			],
 			'elements'   => [ $element, $choice ]
 		];

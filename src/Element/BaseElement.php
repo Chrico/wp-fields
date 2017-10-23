@@ -22,26 +22,22 @@ abstract class BaseElement implements ElementInterface {
 	public function __construct( string $name ) {
 
 		$this->set_attribute( 'name', $name );
+		$this->set_attribute( 'id', $name );
 	}
 
 	public function get_id(): string {
 
-		$id = (string) $this->get_attribute( 'id' );
-		if ( $id === '' ) {
-			$id = (string) $this->get_name();
-		}
-
-		return $id;
-	}
-
-	public function get_type(): string {
-
-		return (string) $this->get_attribute( 'type' );
+		return (string) $this->get_attribute( 'id' );
 	}
 
 	public function get_name(): string {
 
 		return (string) $this->get_attribute( 'name' );
+	}
+
+	public function get_type(): string {
+
+		return (string) $this->get_attribute( 'type' );
 	}
 
 	public function get_value() {

@@ -39,23 +39,18 @@ class Checkbox implements RenderableElementInterface {
 		}
 
 		foreach ( $choices as $key => $name ) {
-			$element_attr = $attributes;
-
-			$element_attr[ 'id' ] = $is_multi_choice
+			$element_attr              = $attributes;
+			$element_attr[ 'value' ]   = $key;
+			$element_attr[ 'checked' ] = isset( $selected[ $key ] );
+			$element_attr[ 'id' ]      = $is_multi_choice
 				? $element->get_id() . '_' . $key
 				: $element->get_id();
-
-			$element_attr[ 'value' ] = $key;
 
 			$label = sprintf(
 				'<label for="%s">%s</label>',
 				$this->esc_attr( $element_attr[ 'id' ] ),
 				$this->esc_html( $name )
 			);
-
-			if ( isset( $selected[ $key ] ) ) {
-				$element_attr[ 'checked' ] = 'checked';
-			}
 
 			$html[] = sprintf(
 				'<p><input %s /> %s</p>',

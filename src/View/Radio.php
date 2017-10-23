@@ -29,19 +29,21 @@ class Radio implements RenderableElementInterface {
 		$html = [];
 
 		foreach ( $choices as $key => $name ) {
-			$attributes[ 'id' ]    = $element->get_id() . '_' . $key;
-			$attributes[ 'value' ] = $key;
+
+			$element_attr              = $attributes;
+			$element_attr[ 'id' ]      .= '_' . $key;
+			$element_attr[ 'value' ]   = $key;
+			$element_attr[ 'checked' ] = isset( $selected[ $key ] );
 
 			$label = sprintf(
 				'<label for="%s">%s</label>',
-				$this->esc_attr( $attributes[ 'id' ] ),
+				$this->esc_attr( $element_attr[ 'id' ] ),
 				$this->esc_html( $name )
 			);
 
 			$html[] = sprintf(
-				'<p><input %s %s /> %s</p>',
-				$this->get_attributes_as_string( $attributes ),
-				isset( $selected[ $key ] ) ? 'checked="checked"' : '',
+				'<p><input %s /> %s</p>',
+				$this->get_attributes_as_string( $element_attr ),
 				$label
 			);
 		}

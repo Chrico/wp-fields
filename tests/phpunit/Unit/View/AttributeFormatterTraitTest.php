@@ -22,11 +22,12 @@ class AttributeFormatterTraitTest extends AbstractViewTestCase {
 	public function provide_get_attributes_as_string() {
 
 		return [
-			'empty attributes'   => [ [], '' ],
-			'string attributes'  => [ [ 'foo' => 'bar' ], 'foo="bar"' ],
-			'int attributes'     => [ [ 1 => 2 ], '1="2"' ],
-			'boolean attributes' => [ [ 'disabled' => TRUE, 'required' => FALSE ], 'disabled' ],
-			'array attributes'   => [ [ 'foo' => [ 'bar' => 'baz' ] ], 'foo="{"bar":"baz"}"' ]
+			'empty attributes'    => [ [], '' ],
+			'string attributes'   => [ [ 'foo' => 'bar' ], 'foo="bar"' ],
+			'int attributes'      => [ [ 1 => 2 ], '1="2"' ],
+			'boolean attributes'  => [ [ 'disabled' => TRUE, 'required' => FALSE ], 'disabled="disabled"' ],
+			'array attributes'    => [ [ 'foo' => [ 'bar' => 'baz' ] ], 'foo="{"bar":"baz"}"' ],
+			'multiple attributes' => [ [ 'foo' => 'bar', 'baz' => 'bam' ], 'foo="bar" baz="bam"' ]
 		];
 	}
 

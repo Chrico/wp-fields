@@ -20,18 +20,22 @@ class ElementTest extends AbstractTestCase {
 		static::assertInstanceOf( ElementInterface::class, $testee );
 		static::assertInstanceOf( LabelAwareInterface::class, $testee );
 
+		static::assertSame( $expected_name, $testee->get_id() );
 		static::assertSame( $expected_name, $testee->get_name() );
-
-		static::assertEmpty( $testee->get_value() );
-		static::assertEmpty( $testee->get_label() );
 		static::assertEmpty( $testee->get_type() );
+		static::assertEmpty( $testee->get_value() );
 
-		static::assertCount( 1, $testee->get_attributes() );
-		static::assertsame( [ 'name' => $expected_name ], $testee->get_attributes() );
+		static::assertEmpty( $testee->get_label() );
+		static::assertCount( 0, $testee->get_label_attributes() );
+
+		static::assertCount( 2, $testee->get_attributes() );
+		static::assertSame( [ 'name' => $expected_name, 'id' => $expected_name ], $testee->get_attributes() );
+
+		static::assertCount( 0, $testee->get_options() );
 
 		static::assertCount( 0, $testee->get_errors() );
 		static::assertFalse( $testee->has_errors() );
-		static::assertCount( 0, $testee->get_label_attributes() );
+
 		static::assertFalse( $testee->is_disabled() );
 	}
 
@@ -103,24 +107,17 @@ class ElementTest extends AbstractTestCase {
 
 	public function test_set_get_attributes() {
 
-		$expected = [ 'name' => 'text', 'type' => 'bam' ];
+		$expected_id = 'id';
+		$expected    = [ 'name' => 'text', 'type' => 'bam' ];
 
-		$testee = new Element( 'id' );
+		$testee = new Element( $expected_id );
 		$testee->set_attributes( $expected );
 
-		static::assertSame( $expected, $testee->get_attributes() );
-	}
+		$attributes = $testee->get_attributes();
 
-	/**
-	 * Basic test to check, if we can set and get a single attribute.
-	 */
-	public function set_get_attribute() {
-
-		$testee = new Element( 'id' );
-		$testee->set_attribute( 'foo', 'bar' );
-
-		static::assertSame( 'bar', $testee->get_attribute( 'foo' ) );
-		static::assertSame( [ 'foo' => 'bar' ], $testee->get_attributes() );
+		static::assertArrayHasKey( 'name', $attributes );
+		static::assertArrayHasKey( 'type', $attributes );
+		static::assertArrayHasKey( 'id', $attributes );
 	}
 
 	public function test_set_get_options() {

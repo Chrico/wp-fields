@@ -5,6 +5,19 @@ namespace ChriCo\Fields\View;
 trait AttributeFormatterTrait {
 
 	/**
+	 * @var array
+	 */
+	protected $boolean_attributes = [
+		'autofocus',
+		'checked',
+		'disabled',
+		'multiple',
+		'readonly',
+		'required',
+		'selected',
+	];
+
+	/**
 	 * Formatting a given array into a key="value"-string for each entry.
 	 *
 	 * @param array $attributes
@@ -16,24 +29,36 @@ trait AttributeFormatterTrait {
 		$html = [];
 		foreach ( $attributes as $key => $value ) {
 
-			if ( is_bool( $value ) ) {
-				if ( $value ) {
-					$html[] = $this->esc_attr( $key );
-				}
-			} else {
-
-				if ( is_array( $value ) ) {
-					$value = json_encode( $value );
-				}
-				$html[] = sprintf(
-					'%s="%s"',
-					$this->esc_attr( $key ),
-					$this->esc_attr( $value )
-				);
+			if ( is_array( $value ) ) {
+				$value = json_encode( $value );
 			}
+
+			if ( in_array( $key, $this->boolean_attributes, TRUE ) ) {
+				$value = $this->prepare_boolean_attribute( $key, $value );
+				if ( $value === '' ) {
+
+					continue;
+				}
+			}
+
+			$html[] = sprintf(
+				'%s="%s"',
+				$this->esc_attr( $key ),
+				$this->esc_attr( $value )
+			);
 		}
 
 		return implode( ' ', $html );
+	}
+
+	protected function prepare_boolean_attribute( string $key, $value ): string {
+
+		if ( $value === $key || ( is_bool( $value ) && $value ) ) {
+
+			return $key;
+		}
+
+		return '';
 	}
 
 	/**

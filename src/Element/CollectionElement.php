@@ -77,10 +77,8 @@ class CollectionElement extends BaseElement implements CollectionElementInterfac
 	public function set_attribute( string $key, $value ) {
 
 		if ( $key === 'value' && is_array( $value ) ) {
-			foreach ( $value as $k => $v ) {
-				if ( isset( $this->elements[ $k ] ) ) {
-					$this->elements[ $k ]->set_value( $v );
-				}
+			foreach ( $this->elements as $name => $element ) {
+				$this->elements[ $name ]->set_value( $value[ $name ] ?? '' );
 			}
 		} else {
 			parent::set_attribute( $key, $value );
