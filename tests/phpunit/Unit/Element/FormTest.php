@@ -40,6 +40,8 @@ class FormTest extends AbstractTestCase {
 		$expected_error = [ 'bam' ];
 
 		$expected_key2 = 'bam';
+		$expected_value2 = 'baz';
+
 		$expected_key3 = 'baz';
 
 		// element which has additionally a validator which fails.
@@ -47,6 +49,9 @@ class FormTest extends AbstractTestCase {
 		$element->shouldReceive( 'set_value' )
 			->once()
 			->with( $expected_value );
+		$element->shouldReceive( 'get_value' )
+			->once()
+			->andReturn( $expected_value );
 		$element->shouldReceive( 'get_name' )
 			->once()
 			->andReturn( $expected_key );
@@ -77,7 +82,7 @@ class FormTest extends AbstractTestCase {
 		$testee->bind_data(
 			[
 				$expected_key              => $expected_value,
-				$expected_key2             => 'foo',
+				$expected_key2             => $expected_value2,
 				$expected_key3             => 'foo',
 				'non existing element key' => 'foo'
 			]

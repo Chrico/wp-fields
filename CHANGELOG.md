@@ -1,7 +1,8 @@
 # Changelog
 
-## 0.2.0 (NOT RELEASED)
-- Improved binding of data to collection elements for non-existing request vars.
+## 0.2.0
+- Improved binding and setting data in `Element\Form` by iterating over elements instead of the whole input.
+- `Element\Form::set_data` now allows to set data to disabled fields.
 - Ensure, that always the element ID is available (defaults to `name`).
 - Added new tests for `AttributeFormatterTrait`.
 - Implemented boolean-attributes like `disabled` or `required`.

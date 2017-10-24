@@ -65,14 +65,12 @@ class Form extends CollectionElement implements FormInterface {
 
 	public function set_data( array $input_data = [] ) {
 
-		foreach ( $input_data as $name => $value ) {
-			if ( ! $this->has_element( $name ) ) {
-				continue;
-			}
-			$element = $this->get_element( $name );
-			if ( $element->is_disabled() ) {
-				continue;
-			}
+		/** @var ElementInterface $element */
+		foreach ( $this->get_elements() as $name => $element ) {
+
+			$value = $input_data[ $name ] ?? '';
+			$value = $this->filter( $name, $value );
+
 			$element->set_value( $value );
 		}
 	}
@@ -81,22 +79,19 @@ class Form extends CollectionElement implements FormInterface {
 
 		$this->has_validated = FALSE;
 
-		foreach ( $input_data as $name => $value ) {
+		/** @var ElementInterface $element */
+		foreach ( $this->get_elements() as $name => $element ) {
 
-			if ( ! $this->has_element( $name ) ) {
-				continue;
+			if ( ! $element->is_disabled() ) {
+
+				$value = $input_data[ $name ] ?? '';
+
+				$this->raw_data[ $name ] = $value;
+				$value                   = $this->filter( $name, $value );
+				$this->data[ $name ]     = $value;
+				$element->set_value( $value );
+
 			}
-
-			$element = $this->get_element( $name );
-
-			if ( $element->is_disabled() ) {
-				continue;
-			}
-
-			$this->raw_data[ $name ] = $value;
-			$value                   = $this->filter( $name, $value );
-			$this->data[ $name ]     = $value;
-			$element->set_value( $value );
 		}
 	}
 
@@ -132,20 +127,17 @@ class Form extends CollectionElement implements FormInterface {
 
 		$this->is_valid = TRUE;
 
-		foreach ( $this->data as $name => $data ) {
+		/** @var ElementInterface $element */
+		foreach ( $this->elements as $name => $element ) {
 
-			// only validate data where an element exists
-			// ... or ...
-			// the element is not disabled.
-			if ( ! $this->has_element( $name )
-				|| $this->get_element( $name )
-					->is_disabled() ) {
-				continue;
-			}
+			// only validate elements which are not disabled.
+			if ( ! $element->is_disabled() ) {
 
-			if ( ! $this->validate( $name, $data ) ) {
-				$this->is_valid = FALSE;
-				break;
+				if ( ! $this->validate( $name, $element->get_value() ) ) {
+					$this->is_valid = FALSE;
+					break;
+				}
+
 			}
 		}
 
