@@ -2,8 +2,9 @@
 
 namespace ChriCo\Fields\View;
 
-use ChriCo\Fields\Element;
 use ChriCo\Fields\Element\ElementInterface;
+use ChriCo\Fields\Element\FormInterface;
+use ChriCo\Fields\ErrorAwareInterface;
 use ChriCo\Fields\Exception\InvalidClassException;
 use ChriCo\Fields\ViewFactory;
 
@@ -26,12 +27,12 @@ class Form implements RenderableElementInterface {
 	 */
 	public function render( ElementInterface $element ): string {
 
-		if ( ! $element instanceof Element\Form ) {
+		if ( ! $element instanceof FormInterface ) {
 			throw new InvalidClassException(
 				sprintf(
 					'The given element "%s" has to implement "%s"',
 					$element->get_name(),
-					Element\Form::class
+					FormInterface::class
 				)
 			);
 		}
@@ -49,9 +50,12 @@ class Form implements RenderableElementInterface {
 			''
 		);
 
-		$errors = $this->factory->create( Errors::class )
-			->render( $element );
-		$class  = $errors !== '' ? 'form-table--has-errors' : '';
+		$errors = $element instanceof ErrorAwareInterface
+			? $this->factory->create( Errors::class )
+				->render( $element )
+			: '';
+
+		$class = $errors !== '' ? 'form-table--has-errors' : '';
 
 		$html = sprintf( '%1$s <table class="form-table %2$s">%3$s</table>', $errors, $class, $html );
 

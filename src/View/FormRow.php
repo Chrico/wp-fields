@@ -5,8 +5,8 @@ namespace ChriCo\Fields\View;
 use ChriCo\Fields\DescriptionAwareInterface;
 use ChriCo\Fields\Element\ElementInterface;
 use ChriCo\Fields\ErrorAwareInterface;
-use ChriCo\Fields\ViewFactory;
 use ChriCo\Fields\LabelAwareInterface;
+use ChriCo\Fields\ViewFactory;
 
 class FormRow implements RenderableElementInterface {
 
@@ -34,27 +34,38 @@ class FormRow implements RenderableElementInterface {
 		$field = $this->factory->create( $element->get_type() )
 			->render( $element );
 
-		$errors      = $element instanceof ErrorAwareInterface
+		$errors = $element instanceof ErrorAwareInterface
 			? $this->factory->create( Errors::class )
 				->render( $element )
 			: '';
-		$error_class = $errors === '' ? '' : ' form-row--has-errors';
 
-		$description = $element instanceof DescriptionAwareInterface && $element->get_description() !== ''
-			? sprintf( '<p class="description">%s</p>', $element->get_description() )
+		$description = $element instanceof DescriptionAwareInterface
+			? $this->factory->create( Description::class )
+				->render( $element )
 			: '';
 
-		$html = '<tr class="form-row' . $this->esc_attr( $error_class ) . '">';
-		if ( $element instanceof LabelAwareInterface && $element->get_label() !== '' ) {
-			$label = $this->factory->create( Label::class );
-			$html  .= '<th>' . $label->render( $element ) . '</th>';
-			$html  .= '<td>' . $field . $description . $errors . '</td>';
+		$label = $element instanceof LabelAwareInterface
+			? $this->factory->create( Label::class )
+				->render( $element )
+			: '';
 
-		} else {
-			$html .= '<td colspan="2">' . $field . $description . $errors . '</td>';
-		}
-		$html .= '</tr>';
+		$html = ( $label !== '' )
+			? sprintf(
+				'<th>%1$s</th><td>%2$s %3$s %4$s</td>',
+				$label,
+				$field,
+				$description,
+				$errors
+			)
+			: sprintf(
+				'<td colspan="2">%1$s %2$s %3$s</td>',
+				$field,
+				$description,
+				$errors
+			);
 
-		return $html;
+		$row_attributes = [ 'class' => 'form-row' . ( $errors === '' ? '' : ' form-row--has-errors' ) ];
+
+		return '<tr ' . $this->get_attributes_as_string( $row_attributes ) . '>' . $html . '</tr>';
 	}
 }

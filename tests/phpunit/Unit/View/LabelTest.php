@@ -3,7 +3,7 @@
 namespace ChriCo\Fields\Tests\Unit\View;
 
 use ChriCo\Fields\Element\Element;
-use ChriCo\Fields\Tests\Unit\Fixtures;
+use ChriCo\Fields\Element\ElementInterface;
 use ChriCo\Fields\View\Label;
 use ChriCo\Fields\View\RenderableElementInterface;
 
@@ -43,7 +43,12 @@ class LabelTest extends AbstractViewTestCase {
 	 */
 	public function test_render__invalid_element() {
 
-		( new Label() )->render( new Fixtures\ElementWithoutLabelAwareInterface() );
+		/** @var \Mockery\MockInterface|ElementInterface $stub */
+		$stub = \Mockery::mock( ElementInterface::class );
+		$stub->shouldReceive( 'get_name' )
+			->andReturn( '' );
+
+		( new Label() )->render( $stub );
 	}
 
 	/**

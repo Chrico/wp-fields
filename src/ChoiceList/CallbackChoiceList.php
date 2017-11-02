@@ -28,12 +28,11 @@ class CallbackChoiceList extends ArrayChoiceList {
 		parent::__construct( [] );
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function is_loaded(): bool {
+	public function get_choices(): array {
 
-		return $this->is_loaded;
+		$this->maybe_load_choices();
+
+		return parent::get_choices();
 	}
 
 	/**
@@ -53,10 +52,11 @@ class CallbackChoiceList extends ArrayChoiceList {
 		return FALSE;
 	}
 
-	public function get_choices(): array {
+	/**
+	 * @return bool
+	 */
+	public function is_loaded(): bool {
 
-		$this->maybe_load_choices();
-
-		return parent::get_choices();
+		return $this->is_loaded;
 	}
 }

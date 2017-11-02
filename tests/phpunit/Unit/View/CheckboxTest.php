@@ -11,23 +11,6 @@ use ChriCo\Fields\View\RenderableElementInterface;
 class CheckboxTest extends AbstractViewTestCase {
 
 	/**
-	 * Internal function to create a new ChoiceElement with type="checkbox".
-	 *
-	 * @param string              $name
-	 * @param ChoiceListInterface $list
-	 *
-	 * @return ChoiceElement
-	 */
-	private function get_element( string $name, ChoiceListInterface $list ) {
-
-		$element = new ChoiceElement( $name );
-		$element->set_attribute( 'type', 'checkbox' );
-		$element->set_choices( $list );
-
-		return $element;
-	}
-
-	/**
 	 * Basic test to check the default behavior of the class.
 	 */
 	public function test_basic() {
@@ -43,6 +26,23 @@ class CheckboxTest extends AbstractViewTestCase {
 
 		$element = $this->get_element( 'element', new ArrayChoiceList( [] ) );
 		static::assertSame( '', ( new Checkbox() )->render( $element ) );
+	}
+
+	/**
+	 * Internal function to create a new ChoiceElement with type="checkbox".
+	 *
+	 * @param string              $name
+	 * @param ChoiceListInterface $list
+	 *
+	 * @return ChoiceElement
+	 */
+	private function get_element( string $name, ChoiceListInterface $list ) {
+
+		$element = new ChoiceElement( $name );
+		$element->set_attribute( 'type', 'checkbox' );
+		$element->set_choices( $list );
+
+		return $element;
 	}
 
 	/**
