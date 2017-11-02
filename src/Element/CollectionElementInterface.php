@@ -22,7 +22,7 @@ interface CollectionElementInterface {
 	public function get_elements(): array;
 
 	/**
-	 * @param string $name                The name of the element.
+	 * @param string $name The name of the element.
 	 *
 	 * @throws ElementNotFoundException If element is not found in Collection.
 	 *
@@ -35,5 +35,5 @@ interface CollectionElementInterface {
 	 *
 	 * @return bool
 	 */
-	public function has_element( string $name ) : bool;
+	public function has_element( string $name ): bool;
 }

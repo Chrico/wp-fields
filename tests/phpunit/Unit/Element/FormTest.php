@@ -39,7 +39,7 @@ class FormTest extends AbstractTestCase {
 		$expected_value = 'bar';
 		$expected_error = [ 'bam' ];
 
-		$expected_key2 = 'bam';
+		$expected_key2   = 'bam';
 		$expected_value2 = 'baz';
 
 		$expected_key3 = 'baz';
@@ -92,6 +92,20 @@ class FormTest extends AbstractTestCase {
 
 		// call it twice will not re-validate everything.
 		static::assertFalse( $testee->is_valid() );
+	}
+
+	private function get_element_stub( string $name, $disabled = FALSE ) {
+
+		$element = Mockery::mock( ElementInterface::class );
+		$element->shouldReceive( 'set_value' )
+			->with( Mockery::type( 'string' ) );
+		$element->shouldReceive( 'get_name' )
+			->once()
+			->andReturn( $name );
+		$element->shouldReceive( 'is_disabled' )
+			->andReturn( $disabled );
+
+		return $element;
 	}
 
 	public function test_set_data() {
@@ -181,19 +195,5 @@ class FormTest extends AbstractTestCase {
 
 		static::assertNull( $testee->add_filter( $expected_key, Mockery::mock( FilterInterface::class ) ) );
 		static::assertNull( $testee->add_validator( $expected_key, Mockery::mock( ValidatorInterface::class ) ) );
-	}
-
-	private function get_element_stub( string $name, $disabled = FALSE ) {
-
-		$element = Mockery::mock( ElementInterface::class );
-		$element->shouldReceive( 'set_value' )
-			->with( Mockery::type( 'string' ) );
-		$element->shouldReceive( 'get_name' )
-			->once()
-			->andReturn( $name );
-		$element->shouldReceive( 'is_disabled' )
-			->andReturn( $disabled );
-
-		return $element;
 	}
 }

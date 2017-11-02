@@ -3,6 +3,7 @@
 namespace ChriCo\Fields\Tests\Unit\View;
 
 use ChriCo\Fields\Element\Element;
+use ChriCo\Fields\Element\ElementInterface;
 use ChriCo\Fields\View\Errors;
 use ChriCo\Fields\View\RenderableElementInterface;
 
@@ -70,5 +71,18 @@ class ErrorsTest extends AbstractViewTestCase {
 			'<ul><li>bar</li></ul>',
 			( new Errors( $markup ) )->render( $element )
 		);
+	}
+
+	/**
+	 * @expectedException \ChriCo\Fields\Exception\InvalidClassException
+	 */
+	public function test_render__invalid_element() {
+
+		/** @var \Mockery\MockInterface|ElementInterface $stub */
+		$stub = \Mockery::mock( ElementInterface::class );
+		$stub->shouldReceive( 'get_name' )
+			->andReturn( '' );
+
+		( new Errors() )->render( $stub );
 	}
 }

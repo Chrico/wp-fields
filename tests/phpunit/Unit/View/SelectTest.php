@@ -12,23 +12,6 @@ use ChriCo\Fields\View\Select;
 class SelectTest extends AbstractViewTestCase {
 
 	/**
-	 * Internal function to create a new ChoiceElement with type="select".
-	 *
-	 * @param string              $name
-	 * @param ChoiceListInterface $list
-	 *
-	 * @return ChoiceElement
-	 */
-	private function get_element( string $name, ChoiceListInterface $list ) {
-
-		$element = new ChoiceElement( $name );
-		$element->set_attribute( 'type', 'select' );
-		$element->set_choices( $list );
-
-		return $element;
-	}
-
-	/**
 	 * Basic test to check the default behavior of the class.
 	 */
 	public function test_basic() {
@@ -60,6 +43,23 @@ class SelectTest extends AbstractViewTestCase {
 		static::assertContains( 'name="element"', $rendered );
 		static::assertContains( 'id="element"', $rendered );
 		static::assertContains( '</select>', $rendered );
+	}
+
+	/**
+	 * Internal function to create a new ChoiceElement with type="select".
+	 *
+	 * @param string              $name
+	 * @param ChoiceListInterface $list
+	 *
+	 * @return ChoiceElement
+	 */
+	private function get_element( string $name, ChoiceListInterface $list ) {
+
+		$element = new ChoiceElement( $name );
+		$element->set_attribute( 'type', 'select' );
+		$element->set_choices( $list );
+
+		return $element;
 	}
 
 	/**

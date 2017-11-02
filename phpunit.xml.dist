@@ -26,6 +26,6 @@
 		</whitelist>
 	</filter>
 	<logging>
-		<log type="coverage-html" target="tmp" />
+		<log type="coverage-html" target="tmp"/>
 	</logging>
 </phpunit>

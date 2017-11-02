@@ -19,14 +19,14 @@ class ArrayChoiceList implements ChoiceListInterface {
 		$this->choices = $choices;
 	}
 
-	public function get_choices(): array {
-
-		return $this->choices;
-	}
-
 	public function get_values(): array {
 
 		return array_map( 'strval', array_keys( $this->get_choices() ) );
+	}
+
+	public function get_choices(): array {
+
+		return $this->choices;
 	}
 
 	public function get_choices_for_value( array $values = [] ): array {

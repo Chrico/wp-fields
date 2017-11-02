@@ -17,13 +17,6 @@ class CollectionElement extends BaseElement implements CollectionElementInterfac
 	use LabelAwareTrait;
 
 	/**
-	 * Contains all errors including the element itself and all children.
-	 *
-	 * @var array
-	 */
-	private $all_errors = [];
-
-	/**
 	 * Default attribute type "collection" to assign it to the right view.
 	 *
 	 * @var array
@@ -37,6 +30,13 @@ class CollectionElement extends BaseElement implements CollectionElementInterfac
 	 */
 	protected $elements = [];
 
+	/**
+	 * Contains all errors including the element itself and all children.
+	 *
+	 * @var array
+	 */
+	private $all_errors = [];
+
 	public function add_element( ElementInterface $element ) {
 
 		$this->elements[ $element->get_name() ] = $element;
@@ -45,11 +45,6 @@ class CollectionElement extends BaseElement implements CollectionElementInterfac
 	public function add_elements( array $elements = [] ) {
 
 		array_walk( $elements, [ $this, 'add_element' ] );
-	}
-
-	public function get_elements(): array {
-
-		return $this->elements;
 	}
 
 	public function get_element( string $name ): ElementInterface {
@@ -105,6 +100,11 @@ class CollectionElement extends BaseElement implements CollectionElementInterfac
 			},
 			$this->get_elements()
 		);
+	}
+
+	public function get_elements(): array {
+
+		return $this->elements;
 	}
 
 	/**

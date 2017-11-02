@@ -13,16 +13,6 @@ use ChriCo\Fields\Exception\UnknownTypeException;
 class ElementFactory extends AbstractFactory {
 
 	/**
-	 * @param array $specs
-	 *
-	 * @return ElementInterface[] $elements
-	 */
-	public function create_multiple( array $specs = [] ): array {
-
-		return array_map( [ $this, 'create' ], $specs );
-	}
-
-	/**
 	 * @param array $spec
 	 *
 	 * @return ElementInterface|LabelAwareInterface|DescriptionAwareInterface|ChoiceElementInterface|CollectionElementInterface $element
@@ -150,15 +140,15 @@ class ElementFactory extends AbstractFactory {
 	}
 
 	/**
-	 * @param DescriptionAwareInterface $element
-	 * @param array                 $spec
+	 * @param ErrorAwareInterface $element
+	 * @param array               $spec
 	 *
-	 * @return DescriptionAwareInterface $element
+	 * @return ErrorAwareInterface $element
 	 */
-	protected function configure_description( DescriptionAwareInterface $element, array $spec = [] ): DescriptionAwareInterface {
+	protected function configure_errors( ErrorAwareInterface $element, array $spec = [] ) {
 
-		if ( isset( $spec[ 'description' ] ) ) {
-			$element->set_description( $spec[ 'description' ] );
+		if ( isset( $spec[ 'errors' ] ) && is_array( $spec[ 'errors' ] ) ) {
+			$element->set_errors( $spec[ 'errors' ] );
 		}
 
 		return $element;
@@ -180,15 +170,25 @@ class ElementFactory extends AbstractFactory {
 	}
 
 	/**
-	 * @param ErrorAwareInterface $element
-	 * @param array               $spec
+	 * @param array $specs
 	 *
-	 * @return ErrorAwareInterface $element
+	 * @return ElementInterface[] $elements
 	 */
-	protected function configure_errors( ErrorAwareInterface $element, array $spec = [] ) {
+	public function create_multiple( array $specs = [] ): array {
 
-		if ( isset( $spec[ 'errors' ] ) && is_array( $spec[ 'errors' ] ) ) {
-			$element->set_errors( $spec[ 'errors' ] );
+		return array_map( [ $this, 'create' ], $specs );
+	}
+
+	/**
+	 * @param DescriptionAwareInterface $element
+	 * @param array                     $spec
+	 *
+	 * @return DescriptionAwareInterface $element
+	 */
+	protected function configure_description( DescriptionAwareInterface $element, array $spec = [] ): DescriptionAwareInterface {
+
+		if ( isset( $spec[ 'description' ] ) ) {
+			$element->set_description( $spec[ 'description' ] );
 		}
 
 		return $element;

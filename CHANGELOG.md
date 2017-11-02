@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.0 (NOT RELEASED)
+- Introduced new view-class `View\Description` to render the description output.
+- Several smaller improvments in `View\FormRow`.
+- `View\Form` now checks for `Element\FormInterface` instead of `Element\Form`.
+
 ## 0.2.0
 - Improved binding and setting data in `Element\Form` by iterating over elements instead of the whole input.
 - `Element\Form::set_data` now allows to set data to disabled fields.

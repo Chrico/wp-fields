@@ -22,6 +22,10 @@ class Label implements RenderableElementInterface {
 			);
 		}
 
+		if ( $element->get_label() === '' ) {
+			return '';
+		}
+
 		$attributes = $element->get_label_attributes();
 		if ( ! isset ( $attributes[ 'for' ] ) ) {
 			$attributes[ 'for' ] = $element->get_id();

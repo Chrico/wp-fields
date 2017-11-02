@@ -25,9 +25,23 @@ abstract class BaseElement implements ElementInterface {
 		$this->set_attribute( 'id', $name );
 	}
 
+	public function set_attribute( string $key, $value ) {
+
+		$this->attributes[ $key ] = $value;
+	}
+
 	public function get_id(): string {
 
 		return (string) $this->get_attribute( 'id' );
+	}
+
+	public function get_attribute( string $key ) {
+
+		if ( ! isset( $this->attributes[ $key ] ) ) {
+			return '';
+		}
+
+		return $this->attributes[ $key ];
 	}
 
 	public function get_name(): string {
@@ -61,20 +75,6 @@ abstract class BaseElement implements ElementInterface {
 			$this->attributes,
 			$attributes
 		);
-	}
-
-	public function set_attribute( string $key, $value ) {
-
-		$this->attributes[ $key ] = $value;
-	}
-
-	public function get_attribute( string $key ) {
-
-		if ( ! isset( $this->attributes[ $key ] ) ) {
-			return '';
-		}
-
-		return $this->attributes[ $key ];
 	}
 
 	public function get_options(): array {
