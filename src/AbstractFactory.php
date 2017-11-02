@@ -17,9 +17,10 @@ abstract class AbstractFactory {
 	protected $type_to_view = [
 		'form' => View\Form::class,
 
-		'row'    => View\FormRow::class,
-		'label'  => View\Label::class,
-		'errors' => View\Errors::class,
+		'row'         => View\FormRow::class,
+		'label'       => View\Label::class,
+		'description' => View\Description::class,
+		'errors'      => View\Errors::class,
 
 		'radio'    => View\Radio::class,
 		'select'   => View\Select::class,

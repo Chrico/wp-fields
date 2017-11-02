@@ -5,6 +5,7 @@ namespace ChriCo\Fields\Tests\Unit\View;
 use ChriCo\Fields\ChoiceList\ArrayChoiceList;
 use ChriCo\Fields\ChoiceList\ChoiceListInterface;
 use ChriCo\Fields\Element\ChoiceElement;
+use ChriCo\Fields\Element\ElementInterface;
 use ChriCo\Fields\View\Checkbox;
 use ChriCo\Fields\View\RenderableElementInterface;
 
@@ -17,6 +18,19 @@ class CheckboxTest extends AbstractViewTestCase {
 
 		$testee = new Checkbox();
 		static::assertInstanceOf( RenderableElementInterface::class, $testee );
+	}
+
+	/**
+	 * @expectedException \ChriCo\Fields\Exception\InvalidClassException
+	 */
+	public function test_render__invalid_element() {
+
+		/** @var \Mockery\MockInterface|ElementInterface $stub */
+		$stub = \Mockery::mock( ElementInterface::class );
+		$stub->shouldReceive( 'get_name' )
+			->andReturn( '' );
+
+		( new Checkbox() )->render( $stub );
 	}
 
 	/**
