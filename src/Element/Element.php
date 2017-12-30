@@ -9,6 +9,11 @@ use ChriCo\Fields\ErrorAwareTrait;
 use ChriCo\Fields\LabelAwareInterface;
 use ChriCo\Fields\LabelAwareTrait;
 
+/**
+ * Class Element
+ *
+ * @package ChriCo\Fields\Element
+ */
 class Element extends BaseElement implements LabelAwareInterface, ErrorAwareInterface, DescriptionAwareInterface {
 
 	use LabelAwareTrait;

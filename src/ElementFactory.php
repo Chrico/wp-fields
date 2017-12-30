@@ -10,13 +10,20 @@ use ChriCo\Fields\Exception\InvalidClassException;
 use ChriCo\Fields\Exception\MissingAttributeException;
 use ChriCo\Fields\Exception\UnknownTypeException;
 
+/**
+ * Class ElementFactory
+ *
+ * @package ChriCo\Fields
+ */
 class ElementFactory extends AbstractFactory {
 
 	/**
 	 * @param array $spec
 	 *
-	 * @return ElementInterface|LabelAwareInterface|DescriptionAwareInterface|ChoiceElementInterface|CollectionElementInterface $element
+	 * @throws InvalidClassException
+	 * @throws UnknownTypeException
 	 *
+	 * @return ElementInterface|LabelAwareInterface|DescriptionAwareInterface|ChoiceElementInterface|CollectionElementInterface $element
 	 */
 	public function create( array $spec = [] ) {
 
@@ -37,7 +44,7 @@ class ElementFactory extends AbstractFactory {
 					)
 				);
 			}
-		} else if ( isset( $this->type_to_element[ $type ] ) ) {
+		} elseif ( isset( $this->type_to_element[ $type ] ) ) {
 			$element = new $this->type_to_element[ $type ]( $name );
 		} else {
 			throw new UnknownTypeException(
@@ -114,7 +121,7 @@ class ElementFactory extends AbstractFactory {
 
 		if ( is_array( $spec[ 'choices' ] ) ) {
 			$element->set_choices( new ArrayChoiceList( $spec[ 'choices' ] ) );
-		} else if ( is_callable( $spec[ 'choices' ] ) ) {
+		} elseif ( is_callable( $spec[ 'choices' ] ) ) {
 			$element->set_choices( new ChoiceList\CallbackChoiceList( $spec[ 'choices' ] ) );
 		}
 
@@ -207,3 +214,4 @@ class ElementFactory extends AbstractFactory {
 		return $element;
 	}
 }
+

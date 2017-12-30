@@ -7,6 +7,11 @@ use ChriCo\Fields\Element\ElementInterface;
 use ChriCo\Fields\Exception\InvalidClassException;
 use ChriCo\Fields\ViewFactory;
 
+/**
+ * Class Collection
+ *
+ * @package ChriCo\Fields\View
+ */
 class Collection implements RenderableElementInterface {
 
 	use AttributeFormatterTrait;
@@ -16,13 +21,22 @@ class Collection implements RenderableElementInterface {
 	 */
 	protected $factory;
 
+	/**
+	 * Collection constructor.
+	 *
+	 * @param ViewFactory|NULL $factory
+	 */
 	public function __construct( ViewFactory $factory = NULL ) {
 
 		$this->factory = $factory === NULL ? new ViewFactory() : $factory;
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * @param ElementInterface|Element\CollectionElement $element
+	 *
+	 * @throws InvalidClassException
+	 *
+	 * @return string
 	 */
 	public function render( ElementInterface $element ): string {
 

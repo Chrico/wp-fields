@@ -6,10 +6,20 @@ use ChriCo\Fields\Element\ChoiceElementInterface;
 use ChriCo\Fields\Element\ElementInterface;
 use ChriCo\Fields\Exception\InvalidClassException;
 
+/**
+ * @package ChriCo\Fields\View
+ */
 class Radio implements RenderableElementInterface {
 
 	use AttributeFormatterTrait;
 
+	/**
+	 * @param ElementInterface|ChoiceElementInterface $element
+	 *
+	 * @throws InvalidClassException
+	 *
+	 * @return string
+	 */
 	public function render( ElementInterface $element ): string {
 
 		if ( ! $element instanceof ChoiceElementInterface ) {

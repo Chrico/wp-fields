@@ -8,6 +8,11 @@ use ChriCo\Fields\ErrorAwareInterface;
 use ChriCo\Fields\LabelAwareInterface;
 use ChriCo\Fields\ViewFactory;
 
+/**
+ * Class FormRow
+ *
+ * @package ChriCo\Fields\View
+ */
 class FormRow implements RenderableElementInterface {
 
 	use AttributeFormatterTrait;
@@ -17,6 +22,11 @@ class FormRow implements RenderableElementInterface {
 	 */
 	protected $factory;
 
+	/**
+	 * FormRow constructor.
+	 *
+	 * @param ViewFactory|NULL $factory
+	 */
 	public function __construct( ViewFactory $factory = NULL ) {
 
 		$this->factory = $factory === NULL ? new ViewFactory() : $factory;
@@ -64,7 +74,9 @@ class FormRow implements RenderableElementInterface {
 				$errors
 			);
 
-		$row_attributes = [ 'class' => 'form-row' . ( $errors === '' ? '' : ' form-row--has-errors' ) ];
+		$row_attributes = [
+			'class' => 'form-row' . ( $errors === '' ? '' : ' form-row--has-errors' ),
+		];
 
 		return '<tr ' . $this->get_attributes_as_string( $row_attributes ) . '>' . $html . '</tr>';
 	}

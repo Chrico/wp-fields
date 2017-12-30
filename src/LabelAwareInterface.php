@@ -10,9 +10,9 @@ interface LabelAwareInterface {
 	public function get_label(): string;
 
 	/**
-	 * @param string $title
+	 * @param string $label
 	 */
-	public function set_label( $title );
+	public function set_label( string $label );
 
 	/**
 	 * @return  array $label_attributes

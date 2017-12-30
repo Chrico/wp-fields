@@ -2,6 +2,11 @@
 
 namespace ChriCo\Fields\Exception;
 
+/**
+ * Interface ExceptionInterface
+ *
+ * @package ChriCo\Fields\Exception
+ */
 interface ExceptionInterface {
 
 }

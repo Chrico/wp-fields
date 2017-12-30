@@ -1,8 +1,13 @@
 # Changelog
 
 ## 0.3.0 (NOT RELEASED)
+
+### Added
 - Introduced new view-class `View\Description` to render the description output.
-- Several smaller improvments in `View\FormRow`.
+- Added `wp-coding-standards/wpcs` and automatic code style test via travis-ci.
+ 
+### Improvements
+- Several smaller improvements in `View\FormRow`.
 - `View\Form` now checks for `Element\FormInterface` instead of `Element\Form`.
 
 ## 0.2.0

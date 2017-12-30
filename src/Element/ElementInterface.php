@@ -2,6 +2,11 @@
 
 namespace ChriCo\Fields\Element;
 
+/**
+ * Interface ElementInterface
+ *
+ * @package ChriCo\Fields\Element
+ */
 interface ElementInterface {
 
 	/**

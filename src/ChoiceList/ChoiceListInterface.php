@@ -2,6 +2,11 @@
 
 namespace ChriCo\Fields\ChoiceList;
 
+/**
+ * Interface ChoiceListInterface
+ *
+ * @package ChriCo\Fields\ChoiceList
+ */
 interface ChoiceListInterface {
 
 	/**

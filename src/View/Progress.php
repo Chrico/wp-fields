@@ -4,10 +4,18 @@ namespace ChriCo\Fields\View;
 
 use ChriCo\Fields\Element\ElementInterface;
 
+/**
+ * @package ChriCo\Fields\View
+ */
 class Progress implements RenderableElementInterface {
 
 	use AttributeFormatterTrait;
 
+	/**
+	 * @param ElementInterface $element
+	 *
+	 * @return string
+	 */
 	public function render( ElementInterface $element ): string {
 
 		$attributes = $element->get_attributes();

@@ -8,6 +8,11 @@ use ChriCo\Fields\ErrorAwareInterface;
 use ChriCo\Fields\Exception\InvalidClassException;
 use ChriCo\Fields\ViewFactory;
 
+/**
+ * Class Form
+ *
+ * @package ChriCo\Fields\View
+ */
 class Form implements RenderableElementInterface {
 
 	use AttributeFormatterTrait;
@@ -17,13 +22,22 @@ class Form implements RenderableElementInterface {
 	 */
 	protected $factory;
 
+	/**
+	 * Form constructor.
+	 *
+	 * @param ViewFactory|NULL $factory
+	 */
 	public function __construct( ViewFactory $factory = NULL ) {
 
 		$this->factory = $factory === NULL ? new ViewFactory() : $factory;
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * @param ElementInterface|FormInterface $element
+	 *
+	 * @throws InvalidClassException
+	 *
+	 * @return string
 	 */
 	public function render( ElementInterface $element ): string {
 

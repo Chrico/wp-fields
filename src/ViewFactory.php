@@ -4,12 +4,15 @@ namespace ChriCo\Fields;
 
 use ChriCo\Fields\View\RenderableElementInterface;
 
+/**
+ * @package ChriCo\Fields
+ */
 class ViewFactory extends AbstractFactory {
 
 	/**
 	 * Find the correct Field-Class by type.
 	 *
-	 * @param       $type
+	 * @param mixed $type
 	 *
 	 * @throws Exception\UnknownTypeException
 	 *
@@ -24,7 +27,7 @@ class ViewFactory extends AbstractFactory {
 			$class = $this->type_to_view[ $search ];
 
 			return new $class();
-		} else if ( class_exists( $type ) ) {
+		} elseif ( class_exists( $type ) ) {
 			$class = new $type();
 			if ( $class instanceof RenderableElementInterface ) {
 

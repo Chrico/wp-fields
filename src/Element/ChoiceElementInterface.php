@@ -4,6 +4,11 @@ namespace ChriCo\Fields\Element;
 
 use ChriCo\Fields\ChoiceList\ChoiceListInterface;
 
+/**
+ * Interface ChoiceElementInterface
+ *
+ * @package ChriCo\Fields\Element
+ */
 interface ChoiceElementInterface {
 
 	/**

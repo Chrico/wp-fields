@@ -14,7 +14,7 @@ interface ErrorAwareInterface {
 	/**
 	 * Set a list of error messages when validation fails.
 	 *
-	 * @param array
+	 * @param array $errors
 	 */
 	public function set_errors( array $errors = [] );
 

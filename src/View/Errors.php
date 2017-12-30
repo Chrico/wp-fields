@@ -6,6 +6,11 @@ use ChriCo\Fields\Element\ElementInterface;
 use ChriCo\Fields\ErrorAwareInterface;
 use ChriCo\Fields\Exception\InvalidClassException;
 
+/**
+ * Class Errors
+ *
+ * @package ChriCo\Fields\View
+ */
 class Errors implements RenderableElementInterface {
 
 	use AttributeFormatterTrait;
@@ -34,6 +39,13 @@ class Errors implements RenderableElementInterface {
 		);
 	}
 
+	/**
+	 * @param ElementInterface|ErrorAwareInterface $element
+	 *
+	 * @throws InvalidClassException
+	 *
+	 * @return string
+	 */
 	public function render( ElementInterface $element ): string {
 
 		if ( ! $element instanceof ErrorAwareInterface ) {

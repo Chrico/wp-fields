@@ -2,6 +2,11 @@
 
 namespace ChriCo\Fields\View;
 
+/**
+ * Trait AttributeFormatterTrait
+ *
+ * @package ChriCo\Fields\View
+ */
 trait AttributeFormatterTrait {
 
 	/**
@@ -33,7 +38,7 @@ trait AttributeFormatterTrait {
 				$value = json_encode( $value );
 			}
 
-			if ( in_array( $key, $this->boolean_attributes, TRUE ) ) {
+			if ( in_array( $key, $this->boolean_attributes, true ) ) {
 				$value = $this->prepare_boolean_attribute( $key, $value );
 				if ( $value === '' ) {
 
@@ -51,6 +56,12 @@ trait AttributeFormatterTrait {
 		return implode( ' ', $html );
 	}
 
+	/**
+	 * @param string      $key
+	 * @param string|bool $value
+	 *
+	 * @return string
+	 */
 	protected function prepare_boolean_attribute( string $key, $value ): string {
 
 		if ( $value === $key || ( is_bool( $value ) && $value ) ) {

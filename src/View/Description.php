@@ -6,10 +6,22 @@ use ChriCo\Fields\DescriptionAwareInterface;
 use ChriCo\Fields\Element\ElementInterface;
 use ChriCo\Fields\Exception\InvalidClassException;
 
+/**
+ * Class Description
+ *
+ * @package ChriCo\Fields\View
+ */
 class Description implements RenderableElementInterface {
 
 	use AttributeFormatterTrait;
 
+	/**
+	 * @param ElementInterface|DescriptionAwareInterface $element
+	 *
+	 * @throws InvalidClassException
+	 *
+	 * @return string
+	 */
 	public function render( ElementInterface $element ): string {
 
 		if ( ! $element instanceof DescriptionAwareInterface ) {
@@ -30,7 +42,11 @@ class Description implements RenderableElementInterface {
 
 		return sprintf(
 			'<p %s>%s</p>',
-			$this->get_attributes_as_string( [ 'class' => 'form-row__description' ] ),
+			$this->get_attributes_as_string(
+				[
+					'class' => 'form-row__description',
+				]
+			),
 			$description
 		);
 	}

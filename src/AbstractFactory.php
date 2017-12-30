@@ -7,6 +7,11 @@ use ChriCo\Fields\Element\CollectionElement;
 use ChriCo\Fields\Element\Element;
 use ChriCo\Fields\Element\Form;
 
+/**
+ * Class AbstractFactory
+ *
+ * @package ChriCo\Fields
+ */
 abstract class AbstractFactory {
 
 	/**
@@ -50,7 +55,7 @@ abstract class AbstractFactory {
 		'week'           => View\Input::class,
 
 		'textarea' => View\Textarea::class,
-		'progress' => View\Progress::class
+		'progress' => View\Progress::class,
 	];
 
 	/**

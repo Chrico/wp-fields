@@ -7,10 +7,18 @@ use Inpsyde\Filter\FilterInterface;
 use Inpsyde\Validator\ErrorLoggerAwareValidatorInterface;
 use Inpsyde\Validator\ValidatorInterface;
 
+/**
+ * Class Form
+ *
+ * @package ChriCo\Fields\Element
+ */
 class Form extends CollectionElement implements FormInterface {
 
+	/**
+	 * @var array
+	 */
 	protected $attributes = [
-		'action' => 'POST'
+		'action' => 'POST',
 	];
 
 	/**
@@ -47,6 +55,10 @@ class Form extends CollectionElement implements FormInterface {
 	 */
 	private $data = [];
 
+	/**
+	 * @param string       $key
+	 * @param string|array $value
+	 */
 	public function set_attribute( string $key, $value ) {
 
 		if ( $key !== 'value' || ! is_array( $value ) ) {
@@ -58,6 +70,9 @@ class Form extends CollectionElement implements FormInterface {
 		$this->bind_data( $value );
 	}
 
+	/**
+	 * @param array $input_data
+	 */
 	public function bind_data( array $input_data = [] ) {
 
 		$this->has_validated = FALSE;
@@ -82,7 +97,7 @@ class Form extends CollectionElement implements FormInterface {
 	 * Filter a value to a given name.
 	 *
 	 * @param string $name
-	 * @param        $value
+	 * @param mixed  $value
 	 *
 	 * @return mixed $value
 	 */
@@ -102,11 +117,17 @@ class Form extends CollectionElement implements FormInterface {
 		);
 	}
 
+	/**
+	 * @return array
+	 */
 	public function get_data(): array {
 
 		return $this->data;
 	}
 
+	/**
+	 * @param array $input_data
+	 */
 	public function set_data( array $input_data = [] ) {
 
 		/** @var ElementInterface $element */
@@ -119,6 +140,9 @@ class Form extends CollectionElement implements FormInterface {
 		}
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function is_valid(): bool {
 
 		if ( $this->has_validated ) {
@@ -132,12 +156,10 @@ class Form extends CollectionElement implements FormInterface {
 
 			// only validate elements which are not disabled.
 			if ( ! $element->is_disabled() ) {
-
 				if ( ! $this->validate( $name, $element->get_value() ) ) {
 					$this->is_valid = FALSE;
 					break;
 				}
-
 			}
 		}
 
@@ -150,7 +172,7 @@ class Form extends CollectionElement implements FormInterface {
 	 * Internal function to validate data based on the $name.
 	 *
 	 * @param string $name
-	 * @param        $value
+	 * @param mixed  $value
 	 *
 	 * @return bool $is_valid
 	 */
@@ -178,6 +200,10 @@ class Form extends CollectionElement implements FormInterface {
 		return $is_valid;
 	}
 
+	/**
+	 * @param string          $name
+	 * @param FilterInterface $filter
+	 */
 	public function add_filter( string $name, FilterInterface $filter ) {
 
 		if ( ! isset( $this->filters[ $name ] ) ) {
@@ -187,6 +213,10 @@ class Form extends CollectionElement implements FormInterface {
 		$this->filters[ $name ][] = $filter;
 	}
 
+	/**
+	 * @param string             $name
+	 * @param ValidatorInterface $validator
+	 */
 	public function add_validator( string $name, ValidatorInterface $validator ) {
 
 		if ( ! isset( $this->validators[ $name ] ) ) {

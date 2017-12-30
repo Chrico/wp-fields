@@ -2,6 +2,11 @@
 
 namespace ChriCo\Fields\Exception;
 
+/**
+ * Class ElementNotFoundException
+ *
+ * @package ChriCo\Fields\Exception
+ */
 class ElementNotFoundException extends \InvalidArgumentException implements ExceptionInterface {
 
 }

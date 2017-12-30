@@ -4,6 +4,11 @@ namespace ChriCo\Fields\Element;
 
 use ChriCo\Fields\Exception\ElementNotFoundException;
 
+/**
+ * Interface CollectionElementInterface
+ *
+ * @package ChriCo\Fields\Element
+ */
 interface CollectionElementInterface {
 
 	/**

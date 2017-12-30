@@ -2,6 +2,11 @@
 
 namespace ChriCo\Fields\ChoiceList;
 
+/**
+ * Class CallbackChoiceList
+ *
+ * @package ChriCo\Fields\ChoiceList
+ */
 class CallbackChoiceList extends ArrayChoiceList {
 
 	/**
@@ -28,6 +33,9 @@ class CallbackChoiceList extends ArrayChoiceList {
 		parent::__construct( [] );
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function get_choices(): array {
 
 		$this->maybe_load_choices();

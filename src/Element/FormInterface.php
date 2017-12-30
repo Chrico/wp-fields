@@ -5,6 +5,11 @@ namespace ChriCo\Fields\Element;
 use Inpsyde\Filter\FilterInterface;
 use Inpsyde\Validator\ValidatorInterface;
 
+/**
+ * Interface FormInterface
+ *
+ * @package ChriCo\Fields\Element
+ */
 interface FormInterface {
 
 	/**

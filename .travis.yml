@@ -19,6 +19,7 @@ install:
   - composer install --no-interaction
 
 script:
+  - vendor/bin/phpcs
   - vendor/bin/phpunit
 
 notifications:

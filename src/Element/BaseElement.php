@@ -2,6 +2,11 @@
 
 namespace ChriCo\Fields\Element;
 
+/**
+ * Class BaseElement
+ *
+ * @package ChriCo\Fields\Element
+ */
 abstract class BaseElement implements ElementInterface {
 
 	/**
@@ -25,16 +30,28 @@ abstract class BaseElement implements ElementInterface {
 		$this->set_attribute( 'id', $name );
 	}
 
+	/**
+	 * @param string          $key
+	 * @param bool|int|string $value
+	 */
 	public function set_attribute( string $key, $value ) {
 
 		$this->attributes[ $key ] = $value;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function get_id(): string {
 
 		return (string) $this->get_attribute( 'id' );
 	}
 
+	/**
+	 * @param string $key
+	 *
+	 * @return bool|int|mixed|string
+	 */
 	public function get_attribute( string $key ) {
 
 		if ( ! isset( $this->attributes[ $key ] ) ) {
@@ -44,31 +61,49 @@ abstract class BaseElement implements ElementInterface {
 		return $this->attributes[ $key ];
 	}
 
+	/**
+	 * @return string
+	 */
 	public function get_name(): string {
 
 		return (string) $this->get_attribute( 'name' );
 	}
 
+	/**
+	 * @return string
+	 */
 	public function get_type(): string {
 
 		return (string) $this->get_attribute( 'type' );
 	}
 
+	/**
+	 * @return bool|int|mixed|string
+	 */
 	public function get_value() {
 
 		return $this->get_attribute( 'value' );
 	}
 
+	/**
+	 * @param string $value
+	 */
 	public function set_value( $value ) {
 
 		$this->set_attribute( 'value', $value );
 	}
 
+	/**
+	 * @return array
+	 */
 	public function get_attributes(): array {
 
 		return $this->attributes;
 	}
 
+	/**
+	 * @param array $attributes
+	 */
 	public function set_attributes( array $attributes = [] ) {
 
 		$this->attributes = array_merge(
@@ -77,11 +112,17 @@ abstract class BaseElement implements ElementInterface {
 		);
 	}
 
+	/**
+	 * @return array
+	 */
 	public function get_options(): array {
 
 		return $this->options;
 	}
 
+	/**
+	 * @param array $options
+	 */
 	public function set_options( array $options = [] ) {
 
 		$this->options = array_merge(
@@ -90,11 +131,20 @@ abstract class BaseElement implements ElementInterface {
 		);
 	}
 
+	/**
+	 * @param string     $key
+	 * @param int|string $value
+	 */
 	public function set_option( string $key, $value ) {
 
 		$this->options[ $key ] = $value;
 	}
 
+	/**
+	 * @param string $key
+	 *
+	 * @return int|mixed|string
+	 */
 	public function get_option( string $key ) {
 
 		if ( ! isset( $this->options[ $key ] ) ) {
@@ -104,6 +154,9 @@ abstract class BaseElement implements ElementInterface {
 		return $this->options[ $key ];
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function is_disabled(): bool {
 
 		$disabled = $this->get_attribute( 'disabled' );

@@ -10,6 +10,11 @@ use ChriCo\Fields\Exception\ElementNotFoundException;
 use ChriCo\Fields\LabelAwareInterface;
 use ChriCo\Fields\LabelAwareTrait;
 
+/**
+ * Class CollectionElement
+ *
+ * @package ChriCo\Fields\Element
+ */
 class CollectionElement extends BaseElement implements CollectionElementInterface, DescriptionAwareInterface, LabelAwareInterface, ErrorAwareInterface {
 
 	use DescriptionAwareTrait;
@@ -22,7 +27,7 @@ class CollectionElement extends BaseElement implements CollectionElementInterfac
 	 * @var array
 	 */
 	protected $attributes = [
-		'type' => 'collection'
+		'type' => 'collection',
 	];
 
 	/**
@@ -37,16 +42,29 @@ class CollectionElement extends BaseElement implements CollectionElementInterfac
 	 */
 	private $all_errors = [];
 
+	/**
+	 * @param ElementInterface $element
+	 */
 	public function add_element( ElementInterface $element ) {
 
 		$this->elements[ $element->get_name() ] = $element;
 	}
 
+	/**
+	 * @param array $elements
+	 */
 	public function add_elements( array $elements = [] ) {
 
 		array_walk( $elements, [ $this, 'add_element' ] );
 	}
 
+	/**
+	 * @param string $name
+	 *
+	 * @throws ElementNotFoundException
+	 *
+	 * @return ElementInterface
+	 */
 	public function get_element( string $name ): ElementInterface {
 
 		if ( ! isset( $this->elements[ $name ] ) ) {
@@ -59,6 +77,11 @@ class CollectionElement extends BaseElement implements CollectionElementInterfac
 		return $this->elements[ $name ];
 	}
 
+	/**
+	 * @param string $name
+	 *
+	 * @return bool
+	 */
 	public function has_element( string $name ): bool {
 
 		return isset( $this->elements[ $name ] );
@@ -67,7 +90,8 @@ class CollectionElement extends BaseElement implements CollectionElementInterfac
 	/**
 	 * If the key is "value" and the $value an array, we assign all values to the children.
 	 *
-	 * {@inheritdoc}
+	 * @param string          $key
+	 * @param bool|int|string $value
 	 */
 	public function set_attribute( string $key, $value ) {
 
@@ -102,6 +126,9 @@ class CollectionElement extends BaseElement implements CollectionElementInterfac
 		);
 	}
 
+	/**
+	 * @return array
+	 */
 	public function get_elements(): array {
 
 		return $this->elements;
@@ -110,7 +137,7 @@ class CollectionElement extends BaseElement implements CollectionElementInterfac
 	/**
 	 * Delegate errors down to the children.
 	 *
-	 * {@inheritdoc}
+	 * @param array $errors
 	 */
 	public function set_errors( array $errors = [] ) {
 
@@ -133,7 +160,7 @@ class CollectionElement extends BaseElement implements CollectionElementInterfac
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * @return bool
 	 */
 	public function has_errors(): bool {
 

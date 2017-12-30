@@ -7,10 +7,20 @@ use ChriCo\Fields\Element\ChoiceElementInterface;
 use ChriCo\Fields\Element\ElementInterface;
 use ChriCo\Fields\Exception\InvalidClassException;
 
+/**
+ * @package ChriCo\Fields\View
+ */
 class Select implements RenderableElementInterface {
 
 	use AttributeFormatterTrait;
 
+	/**
+	 * @param ElementInterface|ChoiceElementInterface $element
+	 *
+	 * @throws InvalidClassException
+	 *
+	 * @return string
+	 */
 	public function render( ElementInterface $element ): string {
 
 		if ( ! $element instanceof ChoiceElementInterface ) {
@@ -35,7 +45,7 @@ class Select implements RenderableElementInterface {
 
 	/**
 	 * @param ChoiceListInterface $list
-	 * @param                     $current_value
+	 * @param mixed               $current_value
 	 *
 	 * @return string $html
 	 */
@@ -55,7 +65,7 @@ class Select implements RenderableElementInterface {
 				$this->get_attributes_as_string(
 					[
 						'value'    => $key,
-						'selected' => isset( $selected[ $key ] )
+						'selected' => isset( $selected[ $key ] ),
 					]
 				),
 				$this->esc_html( $name )

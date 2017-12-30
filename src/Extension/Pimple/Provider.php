@@ -13,16 +13,16 @@ use Pimple\ServiceProviderInterface;
 class Provider implements ServiceProviderInterface {
 
 	/**
-	 * {@inheritdoc}
+	 * @param Container $container
 	 */
-	public function register( Container $plugin ) {
+	public function register( Container $container ) {
 
-		$plugin[ 'ChriCo.Fields.ViewFactory' ] = function (): ViewFactory {
+		$container[ 'ChriCo.Fields.ViewFactory' ] = function (): ViewFactory {
 
 			return new ViewFactory();
 		};
 
-		$plugin[ 'ChriCo.Fields.ElementFactory' ] = function (): ElementFactory {
+		$container[ 'ChriCo.Fields.ElementFactory' ] = function (): ElementFactory {
 
 			return new ElementFactory();
 		};

@@ -2,6 +2,11 @@
 
 namespace ChriCo\Fields\Exception;
 
+/**
+ * Class MissingAttributeException
+ *
+ * @package ChriCo\Fields\Exception
+ */
 class MissingAttributeException extends \InvalidArgumentException implements ExceptionInterface {
 
 }

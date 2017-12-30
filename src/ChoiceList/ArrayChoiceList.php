@@ -2,6 +2,11 @@
 
 namespace ChriCo\Fields\ChoiceList;
 
+/**
+ * Class ArrayChoiceList
+ *
+ * @package ChriCo\Fields\ChoiceList
+ */
 class ArrayChoiceList implements ChoiceListInterface {
 
 	/**
@@ -19,16 +24,27 @@ class ArrayChoiceList implements ChoiceListInterface {
 		$this->choices = $choices;
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function get_values(): array {
 
 		return array_map( 'strval', array_keys( $this->get_choices() ) );
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function get_choices(): array {
 
 		return $this->choices;
 	}
 
+	/**
+	 * @param array $values
+	 *
+	 * @return array
+	 */
 	public function get_choices_for_value( array $values = [] ): array {
 
 		$choices  = $this->get_choices();

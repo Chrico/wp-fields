@@ -6,10 +6,22 @@ use ChriCo\Fields\Element\ChoiceElementInterface;
 use ChriCo\Fields\Element\ElementInterface;
 use ChriCo\Fields\Exception\InvalidClassException;
 
+/**
+ * Class Checkbox
+ *
+ * @package ChriCo\Fields\View
+ */
 class Checkbox implements RenderableElementInterface {
 
 	use AttributeFormatterTrait;
 
+	/**
+	 * @param ElementInterface|ChoiceElementInterface $element
+	 *
+	 * @throws InvalidClassException
+	 *
+	 * @return string
+	 */
 	public function render( ElementInterface $element ): string {
 
 		if ( ! $element instanceof ChoiceElementInterface ) {

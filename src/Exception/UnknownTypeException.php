@@ -2,6 +2,11 @@
 
 namespace ChriCo\Fields\Exception;
 
+/**
+ * Class UnknownTypeException
+ *
+ * @package ChriCo\Fields\Exception
+ */
 class UnknownTypeException extends \InvalidArgumentException implements ExceptionInterface {
 
 }

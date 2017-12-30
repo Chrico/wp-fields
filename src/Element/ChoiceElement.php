@@ -11,6 +11,11 @@ use ChriCo\Fields\ErrorAwareTrait;
 use ChriCo\Fields\LabelAwareInterface;
 use ChriCo\Fields\LabelAwareTrait;
 
+/**
+ * Class ChoiceElement
+ *
+ * @package ChriCo\Fields\Element
+ */
 class ChoiceElement extends BaseElement implements ChoiceElementInterface, ErrorAwareInterface, DescriptionAwareInterface, LabelAwareInterface {
 
 	use DescriptionAwareTrait;
@@ -22,11 +27,17 @@ class ChoiceElement extends BaseElement implements ChoiceElementInterface, Error
 	 */
 	protected $list;
 
+	/**
+	 * @param ChoiceListInterface $list
+	 */
 	public function set_choices( ChoiceListInterface $list ) {
 
 		$this->list = $list;
 	}
 
+	/**
+	 * @return ChoiceListInterface
+	 */
 	public function get_choices(): ChoiceListInterface {
 
 		if ( $this->list === NULL ) {
