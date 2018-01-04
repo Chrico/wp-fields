@@ -37,22 +37,22 @@ use ChriCo\Fields\ElementFactory;
 
 $form = ( new ElementFactory() )->create( 
 	[
-        'attributes' => [
-            'name' => 'my-form',
-            'type' => 'form'
-        ],
-        'elements' => [
-            [
-                'attributes' => [
-                    'name' => 'my-text',
-                    'type' => 'text'
-                ],
-                'label'             => 'My label',
-                'label_attributes'  => [ 'for' => 'my-id' ],
-                'errors'            => [ 'error-id' => 'Error message' ]
-            ],
-        ],
-    ]
+		'attributes' => [
+			'name' => 'my-form',
+			'type' => 'form'
+		],
+		'elements' => [
+			[
+				'attributes' => [
+					'name' => 'my-text',
+					'type' => 'text'
+				],
+				'label'             => 'My label',
+				'label_attributes'  => [ 'for' => 'my-id' ],
+				'errors'            => [ 'error-id' => 'Error message' ]
+			],
+		],
+	]
 );
 
 echo ( new ViewFactory() )->create( 'form' )->render( $form );
