@@ -13,9 +13,16 @@ use Inpsyde\Validator\ValidatorInterface;
 interface FormInterface {
 
 	/**
+	 * Submits data to the form, filter and validates it.
+	 *
 	 * @param array $input_data
 	 */
-	public function bind_data( array $input_data = [] );
+	public function submit( array $input_data = [] );
+
+	/**
+	 * @return bool
+	 */
+	public function is_submitted(): bool;
 
 	/**
 	 * Set data without re-validating and filtering it.

@@ -3,6 +3,7 @@
 namespace ChriCo\Fields\Element;
 
 use ChriCo\Fields\ErrorAwareInterface;
+use ChriCo\Fields\Exception\LogicException;
 use Inpsyde\Filter\FilterInterface;
 use Inpsyde\Validator\ErrorLoggerAwareValidatorInterface;
 use Inpsyde\Validator\ValidatorInterface;
@@ -34,26 +35,31 @@ class Form extends CollectionElement implements FormInterface {
 	/**
 	 * @var @bool
 	 */
-	private $is_valid = TRUE;
+	protected $is_valid = TRUE;
 
 	/**
 	 * @var bool
 	 */
-	private $has_validated = FALSE;
+	protected $validated = FALSE;
+
+	/**
+	 * @var bool
+	 */
+	protected $is_submitted = FALSE;
 
 	/**
 	 * Contains the raw data assigned by Form::bind_data
 	 *
 	 * @var array
 	 */
-	private $raw_data = [];
+	protected $raw_data = [];
 
 	/**
 	 * Contains the filtered data.
 	 *
 	 * @var array
 	 */
-	private $data = [];
+	protected $data = [];
 
 	/**
 	 * @param string       $key
@@ -61,36 +67,52 @@ class Form extends CollectionElement implements FormInterface {
 	 */
 	public function set_attribute( string $key, $value ) {
 
-		if ( $key !== 'value' || ! is_array( $value ) ) {
-			parent::set_attribute( $key, $value );
+		if ( $key === 'value' && is_array( $value ) ) {
 
-			return;
+			$this->set_data( $value );
 		}
 
-		$this->bind_data( $value );
+		parent::set_attribute( $key, $value );
 	}
 
 	/**
 	 * @param array $input_data
 	 */
-	public function bind_data( array $input_data = [] ) {
+	public function submit( array $input_data = [] ) {
 
-		$this->has_validated = FALSE;
+		$this->validated    = FALSE;
+		$this->is_submitted = TRUE;
+		$this->is_valid     = TRUE;
 
 		/** @var ElementInterface $element */
 		foreach ( $this->get_elements() as $name => $element ) {
 
 			if ( ! $element->is_disabled() ) {
 
-				$value = $input_data[ $name ] ?? '';
-
+				$value                   = $input_data[ $name ] ?? '';
 				$this->raw_data[ $name ] = $value;
 				$value                   = $this->filter( $name, $value );
 				$this->data[ $name ]     = $value;
 				$element->set_value( $value );
 
+				// only validate elements which are not disabled.
+				if ( ! $element->is_disabled() ) {
+					if ( ! $this->validate( $name, $element->get_value() ) ) {
+						$this->is_valid = FALSE;
+					}
+				}
 			}
 		}
+	}
+
+	/**
+	 * @param array $input_data
+	 *
+	 * @deprecated see Form::submit( $input_data ). This method will be removed in future
+	 */
+	public function bind_data( array $input_data = [] ) {
+
+		$this->submit( $input_data );
 	}
 
 	/**
@@ -126,46 +148,49 @@ class Form extends CollectionElement implements FormInterface {
 	}
 
 	/**
+	 * @throws LogicException
+	 *
 	 * @param array $input_data
 	 */
 	public function set_data( array $input_data = [] ) {
 
+		if ( $this->is_submitted ) {
+			throw new LogicException( 'You cannot change data of a submitted form.' );
+		}
+
 		/** @var ElementInterface $element */
 		foreach ( $this->get_elements() as $name => $element ) {
 
-			$value = $input_data[ $name ] ?? '';
-			$value = $this->filter( $name, $value );
-
+			$value                   = $input_data[ $name ] ?? '';
+			$this->raw_data[ $name ] = $value;
+			$value                   = $this->filter( $name, $value );
+			$this->data[ $name ]     = $value;
 			$element->set_value( $value );
 		}
 	}
 
 	/**
+	 * @throws LogicException
+	 *
 	 * @return bool
 	 */
 	public function is_valid(): bool {
 
-		if ( $this->has_validated ) {
-			return $this->is_valid;
+		if ( ! $this->is_submitted ) {
+			throw new LogicException(
+				'Cannot check if a not submitted form is valid. Call Form::is_submitted() before Form::is_valid().'
+			);
 		}
-
-		$this->is_valid = TRUE;
-
-		/** @var ElementInterface $element */
-		foreach ( $this->elements as $name => $element ) {
-
-			// only validate elements which are not disabled.
-			if ( ! $element->is_disabled() ) {
-				if ( ! $this->validate( $name, $element->get_value() ) ) {
-					$this->is_valid = FALSE;
-					break;
-				}
-			}
-		}
-
-		$this->has_validated = TRUE;
 
 		return $this->is_valid;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function is_submitted(): bool {
+
+		return $this->is_submitted;
 	}
 
 	/**

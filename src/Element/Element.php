@@ -16,8 +16,7 @@ use ChriCo\Fields\LabelAwareTrait;
  */
 class Element extends BaseElement implements LabelAwareInterface, ErrorAwareInterface, DescriptionAwareInterface {
 
-	use LabelAwareTrait;
 	use ErrorAwareTrait;
 	use DescriptionAwareTrait;
-
+	use LabelAwareTrait;
 }

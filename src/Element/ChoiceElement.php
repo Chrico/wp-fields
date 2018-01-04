@@ -18,8 +18,8 @@ use ChriCo\Fields\LabelAwareTrait;
  */
 class ChoiceElement extends BaseElement implements ChoiceElementInterface, ErrorAwareInterface, DescriptionAwareInterface, LabelAwareInterface {
 
-	use DescriptionAwareTrait;
 	use ErrorAwareTrait;
+	use DescriptionAwareTrait;
 	use LabelAwareTrait;
 
 	/**

@@ -20,8 +20,6 @@ abstract class BaseElement implements ElementInterface {
 	protected $options = [];
 
 	/**
-	 * Element constructor.
-	 *
 	 * @param string $name
 	 */
 	public function __construct( string $name ) {
@@ -59,6 +57,16 @@ abstract class BaseElement implements ElementInterface {
 		}
 
 		return $this->attributes[ $key ];
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function is_disabled(): bool {
+
+		$disabled = $this->get_attribute( 'disabled' );
+
+		return is_bool( $disabled ) && $disabled;
 	}
 
 	/**
@@ -154,13 +162,4 @@ abstract class BaseElement implements ElementInterface {
 		return $this->options[ $key ];
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function is_disabled(): bool {
-
-		$disabled = $this->get_attribute( 'disabled' );
-
-		return is_bool( $disabled ) && $disabled;
-	}
 }
