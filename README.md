@@ -21,7 +21,7 @@ When installed for development, via Composer, ChriCo Fields also requires:
 
 ## Docs
 
-Documentation can be found in [docs/](`docs/`).
+Documentation can be found in [`docs/`](docs/).
 
 ---
 
