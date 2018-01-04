@@ -1,7 +1,7 @@
-# Create elements - advanced
+# Create elements advanced
 To save some writing and creating objects by hand, you can use the `ChriCo\Fields\ElementFactory` to generate elements.
 
-Here's the same example for our 3 elements:
+Here's the same example for an `<input type="text" />` and `<select>` which are assigned to a form:
 
 ```php
 <?php

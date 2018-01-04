@@ -31,7 +31,7 @@ This will output the `<input type="text" />` with `<label>`. To render just spec
 To render complete forms with elements, you can use again the `ViewFactory` in combination with `Element\Form`:
 
 ```php
-use ChriCo\Fields\Element\Form;
+<?php
 use ChriCo\Fields\ViewFactory;
 use ChriCo\Fields\ElementFactory;
 
