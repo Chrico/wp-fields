@@ -67,3 +67,25 @@ $text->set_errors( [ 'error-id' => 'Error message' ] );
 
 print_r( $text->get_errors() ); // [ 'error-id' => 'Error message' ]
 ```
+
+## Using the `ElementFactory`
+To save some writing and creating objects by hand, you can use the `ChriCo\Fields\ElementFactory` to generate elements.
+
+```php
+<?php
+use ChriCo\Fields\ElementFactory;
+
+$factory = new ElementFactory(); 
+
+// The text element
+$text_spec = [
+	'attributes' => [
+		'name' => 'my-text',
+		'type' => 'text'
+	],
+	'label'             => 'My label',
+	'label_attributes'  => [ 'for' => 'my-id' ],
+	'errors'            => [ 'error-id' => 'Error message' ]
+];
+$text = $factory->create( $text_spec );
+```
