@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.3.0 (NOT RELEASED)
+## 0.3.0
 
 ### Added
 - Introduced new view-class `View\Description` to render the description output.
