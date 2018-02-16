@@ -6,28 +6,31 @@ use ChriCo\Fields\Element\Element;
 use ChriCo\Fields\View\RenderableElementInterface;
 use ChriCo\Fields\View\Textarea;
 
-class TextareaTest extends AbstractViewTestCase {
+class TextareaTest extends AbstractViewTestCase
+{
 
-	/**
-	 * Basic test to check the default behavior of the class.
-	 */
-	public function test_basic() {
+    /**
+     * Basic test to check the default behavior of the class.
+     */
+    public function test_basic()
+    {
 
-		$testee = new Textarea();
-		static::assertInstanceOf( RenderableElementInterface::class, $testee );
-	}
+        $testee = new Textarea();
+        static::assertInstanceOf(RenderableElementInterface::class, $testee);
+    }
 
-	/**
-	 * Test rendering of an Element.
-	 */
-	public function test_render() {
+    /**
+     * Test rendering of an Element.
+     */
+    public function test_render()
+    {
 
-		$element = new Element( 'foo' );
-		$element->set_value( '100' );
+        $element = new Element('foo');
+        $element->set_value('100');
 
-		$output = ( new Textarea() )->render( $element );
-		static::assertContains( '<textarea', $output );
-		static::assertContains( 'name="foo"', $output );
-		static::assertContains( '>100</textarea>', $output );
-	}
+        $output = (new Textarea())->render($element);
+        static::assertContains('<textarea', $output);
+        static::assertContains('name="foo"', $output);
+        static::assertContains('>100</textarea>', $output);
+    }
 }

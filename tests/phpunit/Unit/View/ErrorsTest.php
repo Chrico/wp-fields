@@ -7,82 +7,87 @@ use ChriCo\Fields\Element\ElementInterface;
 use ChriCo\Fields\View\Errors;
 use ChriCo\Fields\View\RenderableElementInterface;
 
-class ErrorsTest extends AbstractViewTestCase {
+class ErrorsTest extends AbstractViewTestCase
+{
 
-	/**
-	 * Basic test to check the default behavior of the class.
-	 */
-	public function test_basic() {
+    /**
+     * Basic test to check the default behavior of the class.
+     */
+    public function test_basic()
+    {
 
-		$testee = new Errors();
-		static::assertInstanceOf( RenderableElementInterface::class, $testee );
-	}
+        $testee = new Errors();
+        static::assertInstanceOf(RenderableElementInterface::class, $testee);
+    }
 
-	/**
-	 * Test rendering of an Element.
-	 *
-	 * @param array  $input
-	 * @param string $expected
-	 *
-	 * @dataProvider provide_render
-	 */
-	public function test_render( $input, $expected ) {
+    /**
+     * Test rendering of an Element.
+     *
+     * @param array  $input
+     * @param string $expected
+     *
+     * @dataProvider provide_render
+     */
+    public function test_render($input, $expected)
+    {
 
-		$element = new Element( 'name' );
-		$element->set_errors( $input );
+        $element = new Element('name');
+        $element->set_errors($input);
 
-		static::assertSame(
-			$expected,
-			( new Errors() )->render( $element )
-		);
-	}
+        static::assertSame(
+            $expected,
+            (new Errors())->render($element)
+        );
+    }
 
-	public function provide_render() {
+    public function provide_render()
+    {
 
-		return [
-			'no errors' => [
-				[],
-				''
-			],
-			'1 error'   => [
-				[ 'foo' => 'bar' ],
-				sprintf(
-					Errors::WRAPPER_MARKUP,
-					sprintf( Errors::ERROR_MARKUP, 'bar' )
-				)
-			]
-		];
-	}
+        yield 'no errors' => [
+            [],
+            ''
+        ];
 
-	/**
-	 * Test if we can change the markup around the error output.
-	 */
-	public function test_render__changed_markup() {
+        yield '1 error' => [
+            ['foo' => 'bar'],
+            sprintf(
+                Errors::WRAPPER_MARKUP,
+                sprintf(Errors::ERROR_MARKUP, 'bar')
+            )
+        ];
+    }
 
-		$element = new Element( 'name' );
-		$element->set_errors( [ 'foo' => 'bar' ] );
+    /**
+     * Test if we can change the markup around the error output.
+     */
+    public function test_render__changed_markup()
+    {
 
-		$markup = [
-			'wrapper' => '<ul>%s</ul>',
-			'error'   => '<li>%s</li>'
-		];
+        $element = new Element('name');
+        $element->set_errors(['foo' => 'bar']);
 
-		static::assertSame(
-			'<ul><li>bar</li></ul>',
-			( new Errors( $markup ) )->render( $element )
-		);
-	}
+        $markup = [
+            'wrapper' => '<ul>%s</ul>',
+            'error'   => '<li>%s</li>'
+        ];
 
-	/**
-	 * @expectedException \ChriCo\Fields\Exception\InvalidClassException
-	 */
-	public function test_render__invalid_element() {
+        static::assertSame(
+            '<ul><li>bar</li></ul>',
+            (new Errors($markup))->render($element)
+        );
+    }
 
-		/** @var \Mockery\MockInterface|ElementInterface $stub */
-		$stub = \Mockery::mock( ElementInterface::class );
-		$stub->shouldReceive( 'get_name' )
-			->andReturn( '' );
+    /**
+     * @expectedException \ChriCo\Fields\Exception\InvalidClassException
+     */
+    public function test_render__invalid_element()
+    {
 
-		( new Errors() )->render( $stub );
-	}
+        /** @var \Mockery\MockInterface|ElementInterface $stub */
+        $stub = \Mockery::mock(ElementInterface::class);
+        $stub->shouldReceive('get_name')
+            ->andReturn('');
+
+        (new Errors())->render($stub);
+    }
 }

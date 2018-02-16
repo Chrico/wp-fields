@@ -4,31 +4,33 @@ namespace ChriCo\Fields\Tests\Unit\View;
 
 use ChriCo\Fields\View\AttributeFormatterTrait;
 
-class AttributeFormatterTraitTest extends AbstractViewTestCase {
+class AttributeFormatterTraitTest extends AbstractViewTestCase
+{
 
-	/**
-	 * @dataProvider provide_get_attributes_as_string
-	 */
-	public function test_get_attributes_as_string( array $input, string $expected ) {
+    /**
+     * @dataProvider provide_get_attributes_as_string
+     */
+    public function test_get_attributes_as_string(array $input, string $expected)
+    {
 
-		static::assertSame(
-			$expected,
-			/** @var AttributeFormatterTrait $testee */
-			$this->getMockForTrait( AttributeFormatterTrait::class )
-				->get_attributes_as_string( $input )
-		);
-	}
+        static::assertSame(
+            $expected,
+            /** @var AttributeFormatterTrait $testee */
+            $this->getMockForTrait(AttributeFormatterTrait::class)
+                ->get_attributes_as_string($input)
+        );
+    }
 
-	public function provide_get_attributes_as_string() {
+    public function provide_get_attributes_as_string()
+    {
 
-		return [
-			'empty attributes'    => [ [], '' ],
-			'string attributes'   => [ [ 'foo' => 'bar' ], 'foo="bar"' ],
-			'int attributes'      => [ [ 1 => 2 ], '1="2"' ],
-			'boolean attributes'  => [ [ 'disabled' => TRUE, 'required' => FALSE ], 'disabled="disabled"' ],
-			'array attributes'    => [ [ 'foo' => [ 'bar' => 'baz' ] ], 'foo="{"bar":"baz"}"' ],
-			'multiple attributes' => [ [ 'foo' => 'bar', 'baz' => 'bam' ], 'foo="bar" baz="bam"' ]
-		];
-	}
+        yield 'empty attributes' => [[], ''];
+        yield 'string attributes' => [['foo' => 'bar'], 'foo="bar"'];
+        yield 'int attributes' => [[1 => 2], '1="2"'];
+        yield 'boolean attributes' => [['disabled' => true, 'required' => false], 'disabled="disabled"'];
+        yield 'array attributes' => [['foo' => ['bar' => 'baz']], 'foo="{"bar":"baz"}"'];
+        yield 'multiple attributes' => [['foo' => 'bar', 'baz' => 'bam'], 'foo="bar" baz="bam"'];
+
+    }
 
 }
