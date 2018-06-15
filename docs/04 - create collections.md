@@ -13,7 +13,7 @@ $text = (new Element( 'my-text' ))
 $number = (new Element( 'my-number' ))
 	->withAttribute( 'type', 'number' );
 
-$collection = new CollectionElement( 'my-collection' )
+$collection = (new CollectionElement( 'my-collection' ))
 	->withElement($text, $number);
 ```
 
@@ -34,7 +34,7 @@ To create multiple elements for a collection, we can easily use the `ElementFact
 <?php
 use ChriCo\Fields\ElementFactory;
 
-$collection = ( new ElementFactory() )->create( 
+$collection = (new ElementFactory())->create( 
 	[
 		'attributes' => [
 			'type' => 'collection',
