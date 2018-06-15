@@ -3,7 +3,7 @@ To work later in view with Elements, you have first to create the Element itself
 
 
 | name | extends | description |
-| ------------- | ------------- | ------------- | ------------- |
+| ------------- | ------------- | ------------- |
 | `Element` | | default element for inputs, textareas, buttons |
 | `ChoiceElement` | `Element` | allows us to set and get choices for checkboxes or radios |
 | `CollectionElement` | `Element` | allows us to group multiple elements into one namespace together |
