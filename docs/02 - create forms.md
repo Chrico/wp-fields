@@ -42,8 +42,7 @@ $form = $factory->create(
     	]
     ]
 );
-$form->add_element( $text );
-$form->add_element( $select );
+$form->withElement( $text, $select )
 ```
 
 ----
@@ -95,9 +94,9 @@ To set data without validation which is e.G. loaded from database, you can use t
 
 // snip - see instance creation above
 
-$form->set_data( [ 'my-text' => '<p>value of my-text</p>' ] );
+$form->withData( [ 'my-text' => '<p>value of my-text</p>' ] );
 
-echo $form->get_element( 'my-text' )->get_value(); // '<p>value of my-text</p>'
+echo $form->element( 'my-text' )->value(); // '<p>value of my-text</p>'
 ```
 
 ----
@@ -111,13 +110,14 @@ The second way to bind data to elements is the usage of `Form::submit` which als
 
 // snip - see instance creation above
 
-$form->is_submitted(); // FALSE
+$form->isSubmitted(); // FALSE
 
 $form->submit( [ 'my-text' => '<p>value of my-text</p>' ] );
-$form->is_submitted(); // TRUE
-$form->is_valid(); // TRUE - no validators are set.
 
-echo $form->get_element( 'my-text' )->get_value(); // '<p>value of my-text</p>'
+$form->isSubmitted(); // TRUE
+$form->isValid(); // TRUE - no validators are set.
+
+echo $form->element( 'my-text' )->value(); // '<p>value of my-text</p>'
 ```
 
 ----
@@ -132,11 +132,10 @@ use Inpsyde\Filter\WordPress\StripTags;
 // snip - see instance creation above
 
 // add a filter to remove all HTML-tags
-$form->add_filter( 'my-text', new StripTags() );
+$form->withFilter( 'my-text', new StripTags() )
+	->submit( [ 'my-text' => '<p>value of my-text</p>' ]  );
 
-$form->submit( [ 'my-text' => '<p>value of my-text</p>' ]  );
-
-echo $form->get_element( 'my-text' )->get_value(); // 'value of my-text'
+echo $form->element( 'my-text' )->value(); // 'value of my-text'
 ```
 
 ----
@@ -150,11 +149,10 @@ use Inpsyde\Validator\NotEmpty;
 
 // snip - see instance creation above
 
-$form->add_validator( 'my-text', new NotEmpty() );
+$form->withValidator( 'my-text', new NotEmpty() )
+	->submit();
 
-$form->submit();
+$form->isValid(); // FALSE - because "my-text" is empty
 
-$form->is_valid(); // FALSE - because "my-text" is empty
-
-print_r( $form->get_element( 'my-text' )->get_errors() ); // [ 0 => "This value should not be empty." ]
+print_r( $form->element( 'my-text' )->errors() ); // [ 0 => "This value should not be empty." ]
 ```

@@ -26,7 +26,7 @@ class TextareaTest extends AbstractViewTestCase
     {
 
         $element = new Element('foo');
-        $element->set_value('100');
+        $element->withValue('100');
 
         $output = (new Textarea())->render($element);
         static::assertContains('<textarea', $output);

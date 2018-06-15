@@ -26,7 +26,7 @@ class FormRowTest extends AbstractViewTestCase
     {
 
         $element = new Element('foo');
-        $element->set_attribute('type', 'text');
+        $element->withAttribute('type', 'text');
 
         $output = (new FormRow())->render($element);
         static::assertContains('<tr', $output);
@@ -44,8 +44,8 @@ class FormRowTest extends AbstractViewTestCase
         $expected_label = 'bar';
 
         $element = new Element('foo');
-        $element->set_attribute('type', 'text');
-        $element->set_label($expected_label);
+        $element->withAttribute('type', 'text');
+        $element->withLabel($expected_label);
 
         $output = (new FormRow())->render($element);
         static::assertContains('<tr', $output);

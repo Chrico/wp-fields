@@ -26,7 +26,7 @@ class ProgressTest extends AbstractViewTestCase
     {
 
         $element = new Element('foo');
-        $element->set_value('100');
+        $element->withValue('100');
 
         $output = (new Progress())->render($element);
         static::assertContains('</progress>', $output);

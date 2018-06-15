@@ -27,7 +27,7 @@ class CollectionTest extends AbstractViewTestCase
 
         /** @var \Mockery\MockInterface|ElementInterface $stub */
         $stub = \Mockery::mock(ElementInterface::class);
-        $stub->shouldReceive('get_name')
+        $stub->shouldReceive('name')
             ->andReturn('');
 
         (new Collection())->render($stub);

@@ -1,28 +1,32 @@
-<?php declare( strict_types=1 ); # -*- coding: utf-8 -*-
+<?php declare(strict_types=1); # -*- coding: utf-8 -*-
 
 namespace ChriCo\Fields;
 
-trait DescriptionAwareTrait {
+trait DescriptionAwareTrait
+{
 
-	/**
-	 * @var string
-	 */
-	protected $description = '';
+    /**
+     * @var string
+     */
+    protected $description = '';
 
-	/**
-	 * @return string
-	 */
-	public function get_description(): string {
+    /**
+     * @return string
+     */
+    public function description(): string
+    {
+        return $this->description;
+    }
 
-		return $this->description;
-	}
+    /**
+     * @param string $description
+     *
+     * @return self
+     */
+    public function withDescription(string $description)
+    {
+        $this->description = $description;
 
-	/**
-	 * @param string $description
-	 */
-	public function set_description( string $description ) {
-
-		$this->description = $description;
-	}
-
+        return $this;
+    }
 }

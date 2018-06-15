@@ -30,7 +30,7 @@ class DescriptionTest extends AbstractViewTestCase
         $expected = 'lorum ipsum';
 
         $element = new Element('name');
-        $element->set_description($expected);
+        $element->withDescription($expected);
 
         $output = (new Description())->render($element);
         static::assertContains('<p', $output);
@@ -46,7 +46,7 @@ class DescriptionTest extends AbstractViewTestCase
 
         /** @var \Mockery\MockInterface|ElementInterface $stub */
         $stub = \Mockery::mock(ElementInterface::class);
-        $stub->shouldReceive('get_name')
+        $stub->shouldReceive('name')
             ->andReturn('');
 
         (new Description())->render($stub);

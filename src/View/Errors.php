@@ -1,4 +1,4 @@
-<?php declare( strict_types=1 ); # -*- coding: utf-8 -*-
+<?php declare(strict_types=1); # -*- coding: utf-8 -*-
 
 namespace ChriCo\Fields\View;
 
@@ -11,75 +11,74 @@ use ChriCo\Fields\Exception\InvalidClassException;
  *
  * @package ChriCo\Fields\View
  */
-class Errors implements RenderableElementInterface {
+class Errors implements RenderableElementInterface
+{
 
-	use AttributeFormatterTrait;
+    use AttributeFormatterTrait;
+    const WRAPPER_MARKUP = '<div class="form-errors">%s</div>';
+    const ERROR_MARKUP = '<p class="form-errors__entry">%s</p>';
 
-	const WRAPPER_MARKUP = '<div class="form-errors">%s</div>';
-	const ERROR_MARKUP = '<p class="form-errors__entry">%s</p>';
+    /**
+     * @var array
+     */
+    private $options = [
+        'wrapper' => self::WRAPPER_MARKUP,
+        'error' => self::ERROR_MARKUP,
+    ];
 
-	/**
-	 * @var array
-	 */
-	private $options = [
-		'wrapper' => self::WRAPPER_MARKUP,
-		'error'   => self::ERROR_MARKUP,
-	];
+    /**
+     * Errors constructor.
+     *
+     * @param array $options
+     */
+    public function __construct(array $options = [])
+    {
+        $this->options = array_merge(
+            $this->options,
+            $options
+        );
+    }
 
-	/**
-	 * Errors constructor.
-	 *
-	 * @param array $options
-	 */
-	public function __construct( array $options = [] ) {
+    /**
+     * @param ElementInterface|ErrorAwareInterface $element
+     *
+     * @throws InvalidClassException
+     *
+     * @return string
+     */
+    public function render(ElementInterface $element): string
+    {
+        if (! $element instanceof ErrorAwareInterface) {
+            throw new InvalidClassException(
+                sprintf(
+                    'The given element "%s" does not implement "%s"',
+                    $element->name(),
+                    ErrorAwareInterface::class
+                )
+            );
+        }
 
-		$this->options = array_merge(
-			$this->options,
-			$options
-		);
-	}
+        $errors = $element->errors();
+        if (count($errors) < 1) {
+            return '';
+        }
 
-	/**
-	 * @param ElementInterface|ErrorAwareInterface $element
-	 *
-	 * @throws InvalidClassException
-	 *
-	 * @return string
-	 */
-	public function render( ElementInterface $element ): string {
+        $html = array_reduce(
+            $errors,
+            function ($html, $error): string {
+                $html .= sprintf(
+                    $this->options['error'],
+                    $error
+                );
 
-		if ( ! $element instanceof ErrorAwareInterface ) {
-			throw new InvalidClassException(
-				sprintf(
-					'The given element "%s" does not implement "%s"',
-					$element->get_name(),
-					ErrorAwareInterface::class
-				)
-			);
-		}
+                return $html;
+            },
+            ''
+        );
 
-		$errors = $element->get_errors();
-		if ( count( $errors ) < 1 ) {
-			return '';
-		}
-
-		$html = array_reduce(
-			$errors,
-			function ( $html, $error ): string {
-
-				$html .= sprintf(
-					$this->options[ 'error' ],
-					$error
-				);
-
-				return $html;
-			},
-			''
-		);
-
-		return sprintf(
-			$this->options[ 'wrapper' ],
-			$html
-		);
-	}
+        return sprintf(
+            $this->options['wrapper'],
+            $html
+        );
+    }
 }

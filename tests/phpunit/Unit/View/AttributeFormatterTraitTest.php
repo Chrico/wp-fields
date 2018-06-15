@@ -17,7 +17,7 @@ class AttributeFormatterTraitTest extends AbstractViewTestCase
             $expected,
             /** @var AttributeFormatterTrait $testee */
             $this->getMockForTrait(AttributeFormatterTrait::class)
-                ->get_attributes_as_string($input)
+                ->attributesToString($input)
         );
     }
 

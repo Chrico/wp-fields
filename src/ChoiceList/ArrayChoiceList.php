@@ -1,4 +1,4 @@
-<?php declare( strict_types=1 ); # -*- coding: utf-8 -*-
+<?php declare(strict_types=1); # -*- coding: utf-8 -*-
 
 namespace ChriCo\Fields\ChoiceList;
 
@@ -7,55 +7,55 @@ namespace ChriCo\Fields\ChoiceList;
  *
  * @package ChriCo\Fields\ChoiceList
  */
-class ArrayChoiceList implements ChoiceListInterface {
+class ArrayChoiceList implements ChoiceListInterface
+{
 
-	/**
-	 * @var array
-	 */
-	protected $choices;
+    /**
+     * @var array
+     */
+    protected $choices;
 
-	/**
-	 * ArrayChoiceList constructor.
-	 *
-	 * @param array $choices
-	 */
-	public function __construct( array $choices = [] ) {
+    /**
+     * ArrayChoiceList constructor.
+     *
+     * @param array $choices
+     */
+    public function __construct(array $choices = [])
+    {
+        $this->choices = $choices;
+    }
 
-		$this->choices = $choices;
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function values(): array
+    {
+        return array_map('strval', array_keys($this->choices()));
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function get_values(): array {
+    /**
+     * {@inheritdoc}
+     */
+    public function choices(): array
+    {
+        return $this->choices;
+    }
 
-		return array_map( 'strval', array_keys( $this->get_choices() ) );
-	}
+    /**
+     * @param array $values
+     *
+     * @return array
+     */
+    public function choicesForValue(array $values = []): array
+    {
+        $choices = $this->choices();
+        $selected = [];
+        foreach ($values as $value) {
+            if (array_key_exists($value, $this->choices)) {
+                $selected[$value] = $choices[$value];
+            }
+        }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function get_choices(): array {
-
-		return $this->choices;
-	}
-
-	/**
-	 * @param array $values
-	 *
-	 * @return array
-	 */
-	public function get_choices_for_value( array $values = [] ): array {
-
-		$choices  = $this->get_choices();
-		$selected = [];
-		foreach ( $values as $value ) {
-			if ( array_key_exists( $value, $this->choices ) ) {
-				$selected[ $value ] = $choices[ $value ];
-			}
-		}
-
-		return $selected;
-	}
-
+        return $selected;
+    }
 }

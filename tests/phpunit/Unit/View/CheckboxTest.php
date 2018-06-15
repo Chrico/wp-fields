@@ -30,7 +30,7 @@ class CheckboxTest extends AbstractViewTestCase
 
         /** @var \Mockery\MockInterface|ElementInterface $stub */
         $stub = \Mockery::mock(ElementInterface::class);
-        $stub->shouldReceive('get_name')
+        $stub->shouldReceive('name')
             ->andReturn('');
 
         (new Checkbox())->render($stub);
@@ -58,8 +58,8 @@ class CheckboxTest extends AbstractViewTestCase
     {
 
         $element = new ChoiceElement($name);
-        $element->set_attribute('type', 'checkbox');
-        $element->set_choices($list);
+        $element->withAttribute('type', 'checkbox');
+        $element->withChoices($list);
 
         return $element;
     }
@@ -87,7 +87,7 @@ class CheckboxTest extends AbstractViewTestCase
 
         $expected_value = 'foo';
         $element        = $this->get_element('element', new ArrayChoiceList([$expected_value => 'bar']));
-        $element->set_value($expected_value);
+        $element->withValue($expected_value);
 
         static::assertContains('checked="checked"', (new Checkbox())->render($element));
     }

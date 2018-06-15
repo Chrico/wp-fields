@@ -1,41 +1,41 @@
 {
-  "name": "chrico/wp-fields",
-  "description": "Package which provides some re-usable fields for WordPress.",
-  "type": "library",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Christian Brückner",
-      "email": "chris@chrico.info",
-      "homepage": "https://www.chrico.info",
-      "role": "Developer"
+    "name": "chrico/wp-fields",
+    "description": "Package which provides some re-usable fields for WordPress.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Christian Brückner",
+            "email": "chris@chrico.info",
+            "homepage": "https://www.chrico.info",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "inpsyde/filter": "~1.0",
+        "inpsyde/validator": "~1.2"
+    },
+    "require-dev": {
+        "php": ">=7.0",
+        "pimple/pimple": "~3.0",
+        "phpunit/phpunit": "6.3.*",
+        "brain/monkey": "^2",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.4.2",
+        "squizlabs/php_codesniffer": "~3.2.3",
+        "inpsyde/php-coding-standards": "~0.13.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "ChriCo\\Fields\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ChriCo\\Fields\\Tests\\": "tests/phpunit/"
+        }
+    },
+    "suggest": {
+        "pimple/pimple": "Allows using Pimple, a small Dependency Injection Container for PHP"
     }
-  ],
-  "require": {
-    "php": ">=7.0",
-    "inpsyde/filter": "~1.0",
-    "inpsyde/validator": "~1.2"
-  },
-  "require-dev": {
-    "php": ">=7.0",
-    "pimple/pimple": "~3.0",
-    "phpunit/phpunit": "6.3.*",
-    "brain/monkey": "^2",
-    "dealerdirect/phpcodesniffer-composer-installer": "^0.4.2",
-    "squizlabs/php_codesniffer": "^3.0",
-    "wp-coding-standards/wpcs": "^0.13.1"
-  },
-  "autoload": {
-    "psr-4": {
-      "ChriCo\\Fields\\": "src/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "ChriCo\\Fields\\Tests\\": "tests/phpunit/"
-    }
-  },
-  "suggest": {
-    "pimple/pimple": "Allows using Pimple, a small Dependency Injection Container for PHP"
-  }
 }

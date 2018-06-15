@@ -40,7 +40,7 @@ class SelectTest extends AbstractViewTestCase
     public function test_render__no_choices()
     {
 
-        $element  = $this->get_element('element', new ArrayChoiceList([]));
+        $element  = $this->element('element', new ArrayChoiceList([]));
         $rendered = (new Select())->render($element);
 
         static::assertContains('<select', $rendered);
@@ -57,12 +57,12 @@ class SelectTest extends AbstractViewTestCase
      *
      * @return ChoiceElement
      */
-    private function get_element(string $name, ChoiceListInterface $list)
+    private function element(string $name, ChoiceListInterface $list)
     {
 
         $element = new ChoiceElement($name);
-        $element->set_attribute('type', 'select');
-        $element->set_choices($list);
+        $element->withAttribute('type', 'select');
+        $element->withChoices($list);
 
         return $element;
     }
@@ -73,7 +73,7 @@ class SelectTest extends AbstractViewTestCase
     public function test_render__one_choice()
     {
 
-        $element = $this->get_element('element', new ArrayChoiceList(['foo' => 'bar']));
+        $element = $this->element('element', new ArrayChoiceList(['foo' => 'bar']));
 
         $rendered = (new Select())->render($element);
 
@@ -94,8 +94,8 @@ class SelectTest extends AbstractViewTestCase
     {
 
         $expected_value = 'foo';
-        $element        = $this->get_element('element', new ArrayChoiceList([$expected_value => 'bar']));
-        $element->set_value($expected_value);
+        $element        = $this->element('element', new ArrayChoiceList([$expected_value => 'bar']));
+        $element->withValue($expected_value);
 
         static::assertContains('selected="selected"', (new Select())->render($element));
     }
@@ -106,7 +106,7 @@ class SelectTest extends AbstractViewTestCase
     public function test_render__multiple_choices()
     {
 
-        $element = $this->get_element('element', new ArrayChoiceList(['foo' => 'bar', 'baz' => 'bam']));
+        $element = $this->element('element', new ArrayChoiceList(['foo' => 'bar', 'baz' => 'bam']));
 
         $rendered = (new Select())->render($element);
         static::assertContains('<select', $rendered);

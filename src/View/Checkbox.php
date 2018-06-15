@@ -1,4 +1,4 @@
-<?php declare( strict_types=1 ); # -*- coding: utf-8 -*-
+<?php declare(strict_types=1); # -*- coding: utf-8 -*-
 
 namespace ChriCo\Fields\View;
 
@@ -11,66 +11,67 @@ use ChriCo\Fields\Exception\InvalidClassException;
  *
  * @package ChriCo\Fields\View
  */
-class Checkbox implements RenderableElementInterface {
+class Checkbox implements RenderableElementInterface
+{
 
-	use AttributeFormatterTrait;
+    use AttributeFormatterTrait;
 
-	/**
-	 * @param ElementInterface|ChoiceElementInterface $element
-	 *
-	 * @throws InvalidClassException
-	 *
-	 * @return string
-	 */
-	public function render( ElementInterface $element ): string {
+    /**
+     * @param ElementInterface|ChoiceElementInterface $element
+     *
+     * @throws InvalidClassException
+     *
+     * @return string
+     */
+    public function render(ElementInterface $element): string
+    {
+        if (! $element instanceof ChoiceElementInterface) {
+            throw new InvalidClassException(
+                sprintf(
+                    'The given element "%s" has to implement "%s"',
+                    $element->name(),
+                    ChoiceElementInterface::class
+                )
+            );
+        }
+        $list = $element->choices();
+        $attributes = $element->attributes();
+        $choices = $list->choices();
+        $selected = $list->choicesForValue((array) $element->value());
 
-		if ( ! $element instanceof ChoiceElementInterface ) {
-			throw new InvalidClassException(
-				sprintf(
-					'The given element "%s" has to implement "%s"',
-					$element->get_name(),
-					ChoiceElementInterface::class
-				)
-			);
-		}
-		$list       = $element->get_choices();
-		$attributes = $element->get_attributes();
-		$choices    = $list->get_choices();
-		$selected   = $list->get_choices_for_value( (array) $element->get_value() );
+        $html = [];
 
-		$html = [];
+        if (count($choices) < 1) {
+            return '';
+        }
 
-		if ( count( $choices ) < 1 ) {
-			return '';
-		}
+        $isMultiChoice = false;
+        if (count($choices) > 1) {
+            $attributes['name'] = $element->name().'[]';
+            $isMultiChoice = true;
+        }
 
-		$is_multi_choice = FALSE;
-		if ( count( $choices ) > 1 ) {
-			$attributes[ 'name' ] = $element->get_name() . '[]';
-			$is_multi_choice      = TRUE;
-		}
+        foreach ($choices as $key => $name) {
+            $elementAttr = $attributes;
+            $elementAttr['value'] = $key;
+            $elementAttr['checked'] = isset($selected[$key]);
+            $elementAttr['id'] = $isMultiChoice
+                ? $element->id().'_'.$key
+                : $element->id();
 
-		foreach ( $choices as $key => $name ) {
-			$element_attr              = $attributes;
-			$element_attr[ 'value' ]   = $key;
-			$element_attr[ 'checked' ] = isset( $selected[ $key ] );
-			$element_attr[ 'id' ]      = $is_multi_choice
-				? $element->get_id() . '_' . $key
-				: $element->get_id();
+            $label = sprintf(
+                '<label for="%s">%s</label>',
+                $this->escapeAttribute($elementAttr['id']),
+                $this->escapeHtml($name)
+            );
 
-			$label = sprintf(
-				'<label for="%s">%s</label>',
-				$this->esc_attr( $element_attr[ 'id' ] ),
-				$this->esc_html( $name )
-			);
+            $html[] = sprintf(
+                '<p><input %s /> %s</p>',
+                $this->attributesToString($elementAttr),
+                $label
+            );
+        }
 
-			$html[] = sprintf(
-				'<p><input %s /> %s</p>',
-				$this->get_attributes_as_string( $element_attr ),
-				$label
-			);
-		}
-
-		return implode( '', $html );
-	}
+        return implode('', $html);
+    }
 }

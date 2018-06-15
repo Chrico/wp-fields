@@ -1,4 +1,4 @@
-<?php declare( strict_types=1 ); # -*- coding: utf-8 -*-
+<?php declare(strict_types=1); # -*- coding: utf-8 -*-
 
 namespace ChriCo\Fields;
 
@@ -15,203 +15,233 @@ use ChriCo\Fields\Exception\UnknownTypeException;
  *
  * @package ChriCo\Fields
  */
-class ElementFactory extends AbstractFactory {
+class ElementFactory extends AbstractFactory
+{
 
-	/**
-	 * @param array $spec
-	 *
-	 * @throws InvalidClassException
-	 * @throws UnknownTypeException
-	 *
-	 * @return ElementInterface|LabelAwareInterface|DescriptionAwareInterface|ChoiceElementInterface|CollectionElementInterface $element
-	 */
-	public function create( array $spec = [] ) {
+    /**
+     * @param array $spec
+     *
+     * @throws InvalidClassException
+     * @throws UnknownTypeException|MissingAttributeException
+     *
+     * @return ElementInterface|LabelAwareInterface|DescriptionAwareInterface|ChoiceElementInterface|CollectionElementInterface $element
+     */
+    public function create(array $spec = [])
+    {
+        $this->ensureRequiredAttributes($spec);
 
-		$this->ensure_required_attributes( $spec );
+        $type = $spec['attributes']['type'];
+        $name = $spec['attributes']['name'];
 
-		$type = $spec[ 'attributes' ][ 'type' ];
-		$name = $spec[ 'attributes' ][ 'name' ];
+        $element = $this->buildElement($type, $name);
 
-		if ( class_exists( $type ) ) {
-			$element = new $type( $name );
+        if ($element instanceof ChoiceElementInterface) {
+            $element = $this->configureChoiceElement($element, $spec);
+        }
 
-			if ( ! $element instanceof ElementInterface ) {
-				throw new InvalidClassException(
-					sprintf(
-						'The given type "%s" does not implement %s.',
-						$type,
-						ElementInterface::class
-					)
-				);
-			}
-		} elseif ( isset( $this->type_to_element[ $type ] ) ) {
-			$element = new $this->type_to_element[ $type ]( $name );
-		} else {
-			throw new UnknownTypeException(
-				sprintf(
-					'The given type "%s" will not create a valid class which implements "%s"',
-					$type,
-					ElementInterface::class
-				)
-			);
-		}
+        if ($element instanceof LabelAwareInterface) {
+            $element = $this->configureLabel($element, $spec);
+        }
 
-		if ( $element instanceof ChoiceElementInterface ) {
-			$element = $this->configure_choice_element( $element, $spec );
-		}
+        if ($element instanceof ErrorAwareInterface) {
+            $element = $this->configureErrors($element, $spec);
+        }
 
-		if ( $element instanceof LabelAwareInterface ) {
-			$element = $this->configure_label( $element, $spec );
-		}
+        if ($element instanceof CollectionElementInterface) {
+            $element = $this->configureEollection($element, $spec);
+        }
 
-		if ( $element instanceof ErrorAwareInterface ) {
-			$element = $this->configure_errors( $element, $spec );
-		}
+        if ($element instanceof DescriptionAwareInterface) {
+            $element = $this->configureDescription($element, $spec);
+        }
 
-		if ( $element instanceof CollectionElementInterface ) {
-			$element = $this->configure_collection( $element, $spec );
-		}
+        $element = $this->configureElement($element, $spec);
 
-		if ( $element instanceof DescriptionAwareInterface ) {
-			$element = $this->configure_description( $element, $spec );
-		}
+        return $element;
+    }
 
-		$element = $this->configure_element( $element, $spec );
+    /**
+     * @param string $type
+     * @param string $name
+     *
+     * @return ElementInterface
+     * @throws InvalidClassException
+     * @throws UnknownTypeException
+     */
+    private function buildElement(string $type, string $name): ElementInterface
+    {
+        if (class_exists($type)) {
+            $element = new $type($name);
 
-		return $element;
-	}
+            if (! $element instanceof ElementInterface) {
+                throw new InvalidClassException(
+                    sprintf(
+                        'The given type "%s" does not implement %s.',
+                        $type,
+                        ElementInterface::class
+                    )
+                );
+            }
 
-	/**
-	 * Internal function to ensure, that all required attributes are available.
-	 *
-	 * @param array $spec
-	 *
-	 * @throws MissingAttributeException
-	 */
-	protected function ensure_required_attributes( array $spec = [] ) {
+            return $element;
+        }
 
-		if ( ! isset( $spec[ 'attributes' ] ) ) {
-			throw new MissingAttributeException(
-				sprintf( 'The attribute "attributes" is not defined, but required.' )
-			);
-		}
+        if (isset($this->typeToElement[$type])) {
+            return new $this->typeToElement[$type]($name);
+        }
 
-		$required = [ 'type', 'name' ];
-		foreach ( $required as $key ) {
-			if ( ! isset( $spec[ 'attributes' ][ $key ] ) ) {
-				throw new MissingAttributeException(
-					sprintf( 'The attribute "%s" is not defined, but required.', $key )
-				);
-			}
-		}
-	}
+        throw new UnknownTypeException(
+            sprintf(
+                'The given type "%s" will not create a valid class which implements "%s"',
+                $type,
+                ElementInterface::class
+            )
+        );
+    }
 
-	/**
-	 * @param ChoiceElementInterface $element
-	 * @param array                  $spec
-	 *
-	 * @return ChoiceElementInterface $element
-	 */
-	protected function configure_choice_element( ChoiceElementInterface $element, array $spec = [] ): ChoiceElementInterface {
+    /**
+     * Internal function to ensure, that all required attributes are available.
+     *
+     * @param array $spec
+     *
+     * @throws MissingAttributeException
+     */
+    protected function ensureRequiredAttributes(array $spec = [])
+    {
+        if (! isset($spec['attributes'])) {
+            throw new MissingAttributeException(
+                sprintf('The attribute "attributes" is not defined, but required.')
+            );
+        }
 
-		if ( ! isset( $spec[ 'choices' ] ) ) {
+        $required = ['type', 'name'];
+        foreach ($required as $key) {
+            if (! isset($spec['attributes'][$key])) {
+                throw new MissingAttributeException(
+                    sprintf('The attribute "%s" is not defined, but required.', $key)
+                );
+            }
+        }
+    }
 
-			return $element;
-		}
+    /**
+     * @param ChoiceElementInterface $element
+     * @param array $spec
+     *
+     * @return ChoiceElementInterface $element
+     */
+    protected function configureChoiceElement(
+        ChoiceElementInterface $element,
+        array $spec = []
+    ): ChoiceElementInterface {
 
-		if ( is_array( $spec[ 'choices' ] ) ) {
-			$element->set_choices( new ArrayChoiceList( $spec[ 'choices' ] ) );
-		} elseif ( is_callable( $spec[ 'choices' ] ) ) {
-			$element->set_choices( new ChoiceList\CallbackChoiceList( $spec[ 'choices' ] ) );
-		}
+        if (! isset($spec['choices'])) {
+            return $element;
+        }
 
-		return $element;
-	}
+        if (is_array($spec['choices'])) {
+            return $element->withChoices(new ArrayChoiceList($spec['choices']));
+        }
 
-	/**
-	 * @param LabelAwareInterface $element
-	 * @param array               $spec
-	 *
-	 * @return LabelAwareInterface $element
-	 */
-	protected function configure_label( LabelAwareInterface $element, array $spec = [] ): LabelAwareInterface {
+        if (is_callable($spec['choices'])) {
+            return $element->withChoices(new ChoiceList\CallbackChoiceList($spec['choices']));
+        }
 
-		if ( isset( $spec[ 'label' ] ) ) {
-			$element->set_label( $spec[ 'label' ] );
-		}
-		if ( isset( $spec[ 'label_attributes' ] ) && is_array( $spec[ 'label_attributes' ] ) ) {
-			$element->set_label_attributes( $spec[ 'label_attributes' ] );
-		}
+        return $element;
+    }
 
-		return $element;
-	}
+    /**
+     * @param LabelAwareInterface $element
+     * @param array $spec
+     *
+     * @return LabelAwareInterface $element
+     */
+    protected function configureLabel(
+        LabelAwareInterface $element,
+        array $spec = []
+    ): LabelAwareInterface {
 
-	/**
-	 * @param ErrorAwareInterface $element
-	 * @param array               $spec
-	 *
-	 * @return ErrorAwareInterface $element
-	 */
-	protected function configure_errors( ErrorAwareInterface $element, array $spec = [] ) {
+        if (isset($spec['label'])) {
+            $element->withLabel($spec['label']);
+        }
+        if (isset($spec['label_attributes']) && is_array($spec['label_attributes'])) {
+            $element->withLabelAttributes($spec['label_attributes']);
+        }
 
-		if ( isset( $spec[ 'errors' ] ) && is_array( $spec[ 'errors' ] ) ) {
-			$element->set_errors( $spec[ 'errors' ] );
-		}
+        return $element;
+    }
 
-		return $element;
-	}
+    /**
+     * @param ErrorAwareInterface $element
+     * @param array $spec
+     *
+     * @return ErrorAwareInterface $element
+     */
+    protected function configureErrors(ErrorAwareInterface $element, array $spec = [])
+    {
+        if (isset($spec['errors']) && is_array($spec['errors'])) {
+            $element->withErrors($spec['errors']);
+        }
 
-	/**
-	 * @param CollectionElementInterface $element
-	 * @param array                      $spec
-	 *
-	 * @return CollectionElementInterface $element
-	 */
-	protected function configure_collection( CollectionElementInterface $element, array $spec = [] ): CollectionElementInterface {
+        return $element;
+    }
 
-		if ( isset( $spec[ 'elements' ] ) && is_array( $spec[ 'elements' ] ) ) {
-			$element->add_elements( $this->create_multiple( $spec[ 'elements' ] ) );
-		}
+    /**
+     * @param CollectionElementInterface $element
+     * @param array $spec
+     *
+     * @return CollectionElementInterface $element
+     */
+    protected function configureEollection(
+        CollectionElementInterface $element,
+        array $spec = []
+    ): CollectionElementInterface {
 
-		return $element;
-	}
+        if (isset($spec['elements']) && is_array($spec['elements'])) {
+            $element->withElement(...$this->createMultiple($spec['elements']));
+        }
 
-	/**
-	 * @param array $specs
-	 *
-	 * @return ElementInterface[] $elements
-	 */
-	public function create_multiple( array $specs = [] ): array {
+        return $element;
+    }
 
-		return array_map( [ $this, 'create' ], $specs );
-	}
+    /**
+     * @param array $specs
+     *
+     * @return ElementInterface[] $elements
+     */
+    public function createMultiple(array $specs = []): array
+    {
+        return array_map([$this, 'create'], $specs);
+    }
 
-	/**
-	 * @param DescriptionAwareInterface $element
-	 * @param array                     $spec
-	 *
-	 * @return DescriptionAwareInterface $element
-	 */
-	protected function configure_description( DescriptionAwareInterface $element, array $spec = [] ): DescriptionAwareInterface {
+    /**
+     * @param DescriptionAwareInterface $element
+     * @param array $spec
+     *
+     * @return DescriptionAwareInterface $element
+     */
+    protected function configureDescription(
+        DescriptionAwareInterface $element,
+        array $spec = []
+    ): DescriptionAwareInterface {
 
-		if ( isset( $spec[ 'description' ] ) ) {
-			$element->set_description( $spec[ 'description' ] );
-		}
+        if (isset($spec['description'])) {
+            $element->withDescription($spec['description']);
+        }
 
-		return $element;
-	}
+        return $element;
+    }
 
-	/**
-	 * @param ElementInterface $element
-	 * @param array            $specs
-	 *
-	 * @return ElementInterface $element
-	 */
-	protected function configure_element( ElementInterface $element, array $specs = [] ) {
+    /**
+     * @param ElementInterface $element
+     * @param array $specs
+     *
+     * @return ElementInterface $element
+     */
+    protected function configureElement(ElementInterface $element, array $specs = [])
+    {
+        $element->withAttributes($specs['attributes']);
 
-		$element->set_attributes( $specs[ 'attributes' ] );
-
-		return $element;
-	}
+        return $element;
+    }
 }
-

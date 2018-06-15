@@ -1,4 +1,4 @@
-<?php declare( strict_types=1 ); # -*- coding: utf-8 -*-
+<?php declare(strict_types=1); # -*- coding: utf-8 -*-
 
 namespace ChriCo\Fields\Element;
 
@@ -9,15 +9,16 @@ use ChriCo\Fields\ChoiceList\ChoiceListInterface;
  *
  * @package ChriCo\Fields\Element
  */
-interface ChoiceElementInterface {
+interface ChoiceElementInterface
+{
 
-	/**
-	 * @param ChoiceListInterface $list
-	 */
-	public function set_choices( ChoiceListInterface $list );
+    /**
+     * @param ChoiceListInterface $list
+     */
+    public function withChoices(ChoiceListInterface $list);
 
-	/**
-	 * @return ChoiceListInterface $list
-	 */
-	public function get_choices(): ChoiceListInterface;
+    /**
+     * @return ChoiceListInterface $list
+     */
+    public function choices(): ChoiceListInterface;
 }

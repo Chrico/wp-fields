@@ -1,4 +1,4 @@
-<?php declare( strict_types=1 ); # -*- coding: utf-8 -*-
+<?php declare(strict_types=1); # -*- coding: utf-8 -*-
 
 namespace ChriCo\Fields;
 
@@ -7,48 +7,56 @@ namespace ChriCo\Fields;
  *
  * @package ChriCo\Fields
  */
-trait LabelAwareTrait {
+trait LabelAwareTrait
+{
 
-	/**
-	 * @var string
-	 */
-	protected $label = '';
+    /**
+     * @var string
+     */
+    protected $label = '';
 
-	/**
-	 * @var array
-	 */
-	protected $label_attributes = [];
+    /**
+     * @var array
+     */
+    protected $labelAttributes = [];
 
-	/**
-	 * @return string
-	 */
-	public function get_label(): string {
+    /**
+     * @return string
+     */
+    public function label(): string
+    {
+        return (string) $this->label;
+    }
 
-		return (string) $this->label;
-	}
+    /**
+     * @param string $label
+     *
+     * @return self
+     */
+    public function withLabel(string $label)
+    {
+        $this->label = $label;
 
-	/**
-	 * @param string $label
-	 */
-	public function set_label( string $label ) {
+        return $this;
+    }
 
-		$this->label = $label;
-	}
+    /**
+     * @return array
+     */
+    public function labelAttributes(): array
+    {
+        return $this->labelAttributes;
+    }
 
-	/**
-	 * @return array
-	 */
-	public function get_label_attributes(): array {
+    /**
+     * @param array $labelAttributes
+     *
+     * @return self
+     */
+    public function withLabelAttributes(array $labelAttributes = [])
+    {
+        $this->labelAttributes = $labelAttributes;
 
-		return $this->label_attributes;
-	}
-
-	/**
-	 * @param array $label_attributes
-	 */
-	public function set_label_attributes( array $label_attributes = [] ) {
-
-		$this->label_attributes = $label_attributes;
-	}
-
+        return $this;
+    }
 }

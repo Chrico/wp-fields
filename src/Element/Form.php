@@ -1,9 +1,12 @@
-<?php declare( strict_types=1 ); # -*- coding: utf-8 -*-
+<?php declare(strict_types=1); # -*- coding: utf-8 -*-
 
 namespace ChriCo\Fields\Element;
 
+use ChriCo\Fields\DescriptionAwareInterface;
 use ChriCo\Fields\ErrorAwareInterface;
+use ChriCo\Fields\Exception\ElementNotFoundException;
 use ChriCo\Fields\Exception\LogicException;
+use ChriCo\Fields\LabelAwareInterface;
 use Inpsyde\Filter\FilterInterface;
 use Inpsyde\Validator\ErrorLoggerAwareValidatorInterface;
 use Inpsyde\Validator\ValidatorInterface;
@@ -13,242 +16,253 @@ use Inpsyde\Validator\ValidatorInterface;
  *
  * @package ChriCo\Fields\Element
  */
-class Form extends CollectionElement implements FormInterface {
+class Form extends CollectionElement implements
+    FormInterface,
+    CollectionElementInterface,
+    DescriptionAwareInterface,
+    LabelAwareInterface,
+    ErrorAwareInterface
+{
 
-	/**
-	 * @var array
-	 */
-	protected $attributes = [
-		'action' => 'POST',
-	];
+    /**
+     * @var array
+     */
+    protected $attributes = [
+        'action' => 'POST',
+    ];
 
-	/**
-	 * @var FilterInterface[][]
-	 */
-	protected $filters = [];
+    /**
+     * @var FilterInterface[][]
+     */
+    protected $filters = [];
 
-	/**
-	 * @var ValidatorInterface|ErrorLoggerAwareValidatorInterface[][]
-	 */
-	protected $validators = [];
+    /**
+     * @var ValidatorInterface|ErrorLoggerAwareValidatorInterface[][]
+     */
+    protected $validators = [];
 
-	/**
-	 * @var @bool
-	 */
-	protected $is_valid = TRUE;
+    /**
+     * @var @bool
+     */
+    protected $isValid = true;
 
-	/**
-	 * @var bool
-	 */
-	protected $validated = FALSE;
+    /**
+     * @var bool
+     */
+    protected $validated = false;
 
-	/**
-	 * @var bool
-	 */
-	protected $is_submitted = FALSE;
+    /**
+     * @var bool
+     */
+    protected $isSubmitted = false;
 
-	/**
-	 * Contains the raw data assigned by Form::bind_data
-	 *
-	 * @var array
-	 */
-	protected $raw_data = [];
+    /**
+     * Contains the raw data assigned by Form::bind_data
+     *
+     * @var array
+     */
+    protected $rawData = [];
 
-	/**
-	 * Contains the filtered data.
-	 *
-	 * @var array
-	 */
-	protected $data = [];
+    /**
+     * Contains the filtered data.
+     *
+     * @var array
+     */
+    protected $data = [];
 
-	/**
-	 * @param string       $key
-	 * @param string|array $value
-	 */
-	public function set_attribute( string $key, $value ) {
+    /**
+     * @param string $key
+     * @param string|array $value
+     *
+     * @throws LogicException
+     *
+     * @return Form
+     */
+    public function withAttribute(string $key, $value): ElementInterface
+    {
+        if ($key === 'value' && is_array($value)) {
+            $this->withData($value);
+        }
 
-		if ( $key === 'value' && is_array( $value ) ) {
+        parent::withAttribute($key, $value);
 
-			$this->set_data( $value );
-		}
+        return $this;
+    }
 
-		parent::set_attribute( $key, $value );
-	}
+    /**
+     * @throws LogicException
+     *
+     * @param array $data
+     *
+     * @return Form
+     */
+    public function withData(array $data = []): Form
+    {
+        if ($this->isSubmitted) {
+            throw new LogicException('You cannot change data of a submitted form.');
+        }
 
-	/**
-	 * @param array $input_data
-	 */
-	public function submit( array $input_data = [] ) {
+        /** @var ElementInterface $element */
+        foreach ($this->elements() as $name => $element) {
+            $value = $data[$name] ?? '';
+            $this->rawData[$name] = $value;
+            $value = $this->filter($name, $value);
+            $this->data[$name] = $value;
+            $element->withValue($value);
+        }
 
-		$this->validated    = FALSE;
-		$this->is_submitted = TRUE;
-		$this->is_valid     = TRUE;
+        return $this;
+    }
 
-		/** @var ElementInterface $element */
-		foreach ( $this->get_elements() as $name => $element ) {
+    /**
+     * Filter a value to a given name.
+     *
+     * @param string $name
+     * @param mixed $value
+     *
+     * @return mixed $value
+     */
+    private function filter(string $name, $value)
+    {
+        if (! isset($this->filters[$name])) {
+            return $value;
+        }
 
-			if ( ! $element->is_disabled() ) {
+        return array_reduce(
+            $this->filters[$name],
+            function ($value, FilterInterface $filter) {
+                return $filter->filter($value);
+            },
+            $value
+        );
+    }
 
-				$value                   = $input_data[ $name ] ?? '';
-				$this->raw_data[ $name ] = $value;
-				$value                   = $this->filter( $name, $value );
-				$this->data[ $name ]     = $value;
-				$element->set_value( $value );
+    /**
+     * @param array $inputData
+     *
+     * @throws ElementNotFoundException
+     */
+    public function submit(array $inputData = [])
+    {
+        $this->validated = false;
+        $this->isSubmitted = true;
+        $this->isValid = true;
 
-				// only validate elements which are not disabled.
-				if ( ! $element->is_disabled() ) {
-					if ( ! $this->validate( $name, $element->get_value() ) ) {
-						$this->is_valid = FALSE;
-					}
-				}
-			}
-		}
-	}
+        /** @var ElementInterface $element */
+        foreach ($this->elements() as $name => $element) {
+            if ($element->isDisabled()) {
+                continue;
+            }
+            $value = $inputData[$name] ?? '';
+            $this->rawData[$name] = $value;
+            $value = $this->filter($name, $value);
+            $this->data[$name] = $value;
+            $element->withValue($value);
 
-	/**
-	 * @param array $input_data
-	 *
-	 * @deprecated see Form::submit( $input_data ). This method will be removed in future
-	 */
-	public function bind_data( array $input_data = [] ) {
+            // only validate elements which are not disabled.
+            if (! $this->validate($name, $element->value())) {
+                $this->isValid = false;
+            }
+        }
+    }
 
-		$this->submit( $input_data );
-	}
+    /**
+     * Internal function to validate data based on the $name.
+     *
+     * @param string $name
+     * @param mixed $value
+     *
+     * @throws ElementNotFoundException
+     *
+     * @return bool $is_valid
+     */
+    private function validate(string $name, $value): bool
+    {
+        if (! isset($this->validators[$name])) {
+            return true;
+        }
 
-	/**
-	 * Filter a value to a given name.
-	 *
-	 * @param string $name
-	 * @param mixed  $value
-	 *
-	 * @return mixed $value
-	 */
-	private function filter( string $name, $value ) {
+        $errors = [];
 
-		if ( ! isset( $this->filters[ $name ] ) ) {
-			return $value;
-		}
+        $isValid = true;
+        foreach ($this->validators[$name] as $validator) {
+            if (! $validator->is_valid($value)) {
+                $errors = array_merge($errors, $validator->get_error_messages());
+                $isValid = false;
+            }
+        }
 
-		return array_reduce(
-			$this->filters[ $name ],
-			function ( $value, FilterInterface $filter ) {
+        $element = $this->element($name);
+        if ($element instanceof ErrorAwareInterface) {
+            $element->withErrors($errors);
+        }
 
-				return $filter->filter( $value );
-			},
-			$value
-		);
-	}
+        return $isValid;
+    }
 
-	/**
-	 * @return array
-	 */
-	public function get_data(): array {
+    /**
+     * @return array
+     */
+    public function data(): array
+    {
+        return $this->data;
+    }
 
-		return $this->data;
-	}
+    /**
+     * @throws LogicException
+     *
+     * @return bool
+     */
+    public function isValid(): bool
+    {
+        if (! $this->isSubmitted) {
+            throw new LogicException(
+                'Cannot check if a not submitted form is valid. Call Form::is_submitted() before Form::is_valid().'
+            );
+        }
 
-	/**
-	 * @throws LogicException
-	 *
-	 * @param array $input_data
-	 */
-	public function set_data( array $input_data = [] ) {
+        return $this->isValid;
+    }
 
-		if ( $this->is_submitted ) {
-			throw new LogicException( 'You cannot change data of a submitted form.' );
-		}
+    /**
+     * @return bool
+     */
+    public function isSubmitted(): bool
+    {
+        return $this->isSubmitted;
+    }
 
-		/** @var ElementInterface $element */
-		foreach ( $this->get_elements() as $name => $element ) {
+    /**
+     * @param string $name
+     * @param FilterInterface $filter
+     *
+     * @return Form
+     */
+    public function withFilter(string $name, FilterInterface $filter): Form
+    {
+        if (! isset($this->filters[$name])) {
+            $this->filters[$name] = [];
+        }
 
-			$value                   = $input_data[ $name ] ?? '';
-			$this->raw_data[ $name ] = $value;
-			$value                   = $this->filter( $name, $value );
-			$this->data[ $name ]     = $value;
-			$element->set_value( $value );
-		}
-	}
+        $this->filters[$name][] = $filter;
 
-	/**
-	 * @throws LogicException
-	 *
-	 * @return bool
-	 */
-	public function is_valid(): bool {
+        return $this;
+    }
 
-		if ( ! $this->is_submitted ) {
-			throw new LogicException(
-				'Cannot check if a not submitted form is valid. Call Form::is_submitted() before Form::is_valid().'
-			);
-		}
+    /**
+     * @param string $name
+     * @param ValidatorInterface $validator
+     *
+     * @return Form
+     */
+    public function withValidator(string $name, ValidatorInterface $validator): Form
+    {
+        if (! isset($this->validators[$name])) {
+            $this->validators[$name] = [];
+        }
 
-		return $this->is_valid;
-	}
+        $this->validators[$name][] = $validator;
 
-	/**
-	 * @return bool
-	 */
-	public function is_submitted(): bool {
-
-		return $this->is_submitted;
-	}
-
-	/**
-	 * Internal function to validate data based on the $name.
-	 *
-	 * @param string $name
-	 * @param mixed  $value
-	 *
-	 * @return bool $is_valid
-	 */
-	private function validate( string $name, $value ): bool {
-
-		if ( ! isset( $this->validators[ $name ] ) ) {
-			return TRUE;
-		}
-
-		$errors = [];
-
-		$is_valid = TRUE;
-		foreach ( $this->validators[ $name ] as $validator ) {
-			if ( ! $validator->is_valid( $value ) ) {
-				$errors   = array_merge( $errors, $validator->get_error_messages() );
-				$is_valid = FALSE;
-			}
-		}
-
-		$element = $this->get_element( $name );
-		if ( $element instanceof ErrorAwareInterface ) {
-			$element->set_errors( $errors );
-		}
-
-		return $is_valid;
-	}
-
-	/**
-	 * @param string          $name
-	 * @param FilterInterface $filter
-	 */
-	public function add_filter( string $name, FilterInterface $filter ) {
-
-		if ( ! isset( $this->filters[ $name ] ) ) {
-			$this->filters[ $name ] = [];
-		}
-
-		$this->filters[ $name ][] = $filter;
-	}
-
-	/**
-	 * @param string             $name
-	 * @param ValidatorInterface $validator
-	 */
-	public function add_validator( string $name, ValidatorInterface $validator ) {
-
-		if ( ! isset( $this->validators[ $name ] ) ) {
-			$this->validators[ $name ] = [];
-		}
-
-		$this->validators[ $name ][] = $validator;
-	}
-
+        return $this;
+    }
 }

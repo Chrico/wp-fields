@@ -7,23 +7,22 @@ The `CollectionElement` can be used to group multiple elements together.
 use ChriCo\Fields\Element\CollectionElement;
 use ChriCo\Fields\Element\Element;
 
-$collection = new CollectionElement( 'my-collection' );
+$text = (new Element( 'my-text' ))
+	->withAttribute( 'type', 'text' );
 
-$text_element = new Element( 'my-text' );
-$text_element->set_attribute( 'type', 'text' );
+$number = (new Element( 'my-number' ))
+	->withAttribute( 'type', 'number' );
 
-$number_element = new Element( 'my-number' );
-$number_element->set_attribute( 'type', 'number' );
-
-$collection->add_elements( [ $text_element, $number_element ] );
+$collection = new CollectionElement( 'my-collection' )
+	->withElement($text, $number);
 ```
 
 This way we have later on in our view for each element the prefix from our collection to the `id`- and `name`-attribute:
 
 | element | name | id |
 | ------------- | ------------- | ------------- |
-| `$text_element` | `my-collection[my-text]` | `my-collection_my-text` |
-| `$number_element` | `my-collection[my-number]` | `my-collection_my-number` |
+| `$text` | `my-collection[my-text]` | `my-collection_my-text` |
+| `$number` | `my-collection[my-number]` | `my-collection_my-number` |
 
 **Note:** The manipulation of `id`- and `name`-attribute will only happen when creating the view. 
 

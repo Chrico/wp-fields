@@ -1,27 +1,29 @@
-<?php declare( strict_types=1 ); # -*- coding: utf-8 -*-
+<?php declare(strict_types=1); # -*- coding: utf-8 -*-
 
 namespace ChriCo\Fields;
 
-interface LabelAwareInterface {
+interface LabelAwareInterface
+{
 
-	/**
-	 * @return string $label
-	 */
-	public function get_label(): string;
+    /**
+     * @return string $label
+     */
+    public function label(): string;
 
-	/**
-	 * @param string $label
-	 */
-	public function set_label( string $label );
+    /**
+     * @param string $label
+     */
+    public function withLabel(string $label);
 
-	/**
-	 * @return  array $label_attributes
-	 */
-	public function get_label_attributes(): array;
+    /**
+     * @return  array $labelAttributes
+     */
+    public function labelAttributes(): array;
 
-	/**
-	 * @param array $label_attributes
-	 */
-	public function set_label_attributes( array $label_attributes = [] );
-
+    /**
+     * @param array $labelAttributes
+     *
+     * @return self
+     */
+    public function withLabelAttributes(array $labelAttributes = []);
 }

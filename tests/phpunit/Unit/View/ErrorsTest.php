@@ -32,7 +32,7 @@ class ErrorsTest extends AbstractViewTestCase
     {
 
         $element = new Element('name');
-        $element->set_errors($input);
+        $element->withErrors($input);
 
         static::assertSame(
             $expected,
@@ -64,7 +64,7 @@ class ErrorsTest extends AbstractViewTestCase
     {
 
         $element = new Element('name');
-        $element->set_errors(['foo' => 'bar']);
+        $element->withErrors(['foo' => 'bar']);
 
         $markup = [
             'wrapper' => '<ul>%s</ul>',
@@ -85,7 +85,7 @@ class ErrorsTest extends AbstractViewTestCase
 
         /** @var \Mockery\MockInterface|ElementInterface $stub */
         $stub = \Mockery::mock(ElementInterface::class);
-        $stub->shouldReceive('get_name')
+        $stub->shouldReceive('name')
             ->andReturn('');
 
         (new Errors())->render($stub);

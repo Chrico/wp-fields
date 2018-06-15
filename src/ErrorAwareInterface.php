@@ -1,25 +1,26 @@
-<?php declare( strict_types=1 ); # -*- coding: utf-8 -*-
+<?php declare(strict_types=1); # -*- coding: utf-8 -*-
 
 namespace ChriCo\Fields;
 
-interface ErrorAwareInterface {
+interface ErrorAwareInterface
+{
 
-	/**
-	 * Returns a list of error messages.
-	 *
-	 * @return array
-	 */
-	public function get_errors(): array;
+    /**
+     * Returns a list of error messages.
+     *
+     * @return array
+     */
+    public function errors(): array;
 
-	/**
-	 * Set a list of error messages when validation fails.
-	 *
-	 * @param array $errors
-	 */
-	public function set_errors( array $errors = [] );
+    /**
+     * Set a list of error messages when validation fails.
+     *
+     * @param array $errors
+     */
+    public function withErrors(array $errors = []);
 
-	/**
-	 * @return bool
-	 */
-	public function has_errors(): bool;
+    /**
+     * @return bool
+     */
+    public function hasErrors(): bool;
 }

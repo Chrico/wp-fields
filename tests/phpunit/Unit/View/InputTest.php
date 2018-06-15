@@ -26,7 +26,7 @@ class InputTest extends AbstractViewTestCase
     {
 
         $element = new Element('foo');
-        $element->set_attribute('type', 'text');
+        $element->withAttribute('type', 'text');
 
         $output = (new Input())->render($element);
         static::assertContains('<input', $output);

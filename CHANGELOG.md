@@ -1,5 +1,36 @@
 # Changelog
 
+## 1.0
+### [1] Breaking changes
+There happened a complete rewrite of API, which means we're now going to PSR-2 code style instead of using the underscore methodes from WordPress.
+
+**Removing `set_`***
+
+All `set_ `-methods are now `with`-methods in `camelCase`. So e.G. `set_value` is now `withValue` and also are now returning the object to allow chaining.
+
+**Removing `get_`**
+
+All `get_`-methods are now without this prefix. So e.G. `get_value` is now just `value`, which is way more intuitive.
+
+**`BaseElement` removed**
+The `Element\BaseElement` was removed and completly migrated into `Element\Element`.
+
+**Collection add multiple `Element`**
+The method `add_elements` is removed. To add multiple `Element`-instances you can either use:
+
+```php
+// v1 - chaining
+$collection
+	->withElement($element1)
+	->withElement($element2);
+	
+// v2 - without chaining
+$collection->withElement($element1, $element2);
+
+// v3 - when having elements in an array
+$collection->withElement(...[$element1, $element2]);
+```
+
 ## 0.3.0
 
 ### Added

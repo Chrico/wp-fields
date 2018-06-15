@@ -28,7 +28,7 @@ class FormTest extends AbstractViewTestCase
 
         /** @var \Mockery\MockInterface|ElementInterface $stub */
         $stub = \Mockery::mock(ElementInterface::class);
-        $stub->shouldReceive('get_name')
+        $stub->shouldReceive('name')
             ->andReturn('');
 
         (new Form())->render($stub);
@@ -43,19 +43,19 @@ class FormTest extends AbstractViewTestCase
         $expected_name = 'foo';
 
         $element_stub = \Mockery::mock(ElementInterface::class);
-        $element_stub->shouldReceive('get_name')
+        $element_stub->shouldReceive('name')
             ->andReturn($expected_name);
-        $element_stub->shouldReceive('get_type')
+        $element_stub->shouldReceive('type')
             ->andReturn('text');
-        $element_stub->shouldReceive('get_attributes')
+        $element_stub->shouldReceive('attributes')
             ->andReturn([]);
 
         $form_stub = \Mockery::mock(FormInterface::class, ElementInterface::class);
-        $form_stub->shouldReceive('get_name')
+        $form_stub->shouldReceive('name')
             ->andReturn('form');
-        $form_stub->shouldReceive('get_attributes')
+        $form_stub->shouldReceive('attributes')
             ->andReturn([]);
-        $form_stub->shouldReceive('get_elements')
+        $form_stub->shouldReceive('elements')
             ->andReturn([$element_stub]);
 
         $output = (new Form())->render($form_stub);

@@ -20,7 +20,7 @@ class CallbackChoiceListTest extends AbstractTestCase
         $testee   = new CallbackChoiceList($callback);
 
         static::assertInstanceOf(ChoiceListInterface::class, $testee);
-        static::assertFalse($testee->is_loaded());
+        static::assertFalse($testee->isLoaded());
 
     }
 
@@ -38,8 +38,11 @@ class CallbackChoiceListTest extends AbstractTestCase
         };
 
         $testee = new CallbackChoiceList($callback);
-        static::assertSame($expected, $testee->get_choices());
-        static::assertTrue($testee->is_loaded());
+        static::assertSame($expected, $testee->choices());
+        static::assertTrue($testee->isLoaded());
+
+        // trigger again should not reload choices.
+        static::assertSame($expected, $testee->choices());
     }
 
 }

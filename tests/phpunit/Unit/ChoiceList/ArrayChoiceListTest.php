@@ -18,9 +18,9 @@ class ArrayChoiceListTest extends AbstractTestCase
         $testee = new ArrayChoiceList();
 
         static::assertInstanceOf(ChoiceListInterface::class, $testee);
-        static::assertEmpty($testee->get_choices());
-        static::assertEmpty($testee->get_values());
-        static::assertEmpty($testee->get_choices_for_value());
+        static::assertEmpty($testee->choices());
+        static::assertEmpty($testee->values());
+        static::assertEmpty($testee->choicesForValue());
 
     }
 
@@ -30,7 +30,7 @@ class ArrayChoiceListTest extends AbstractTestCase
         $expected = ['foo' => 'bar'];
         $testee   = new ArrayChoiceList($expected);
 
-        static::assertSame($expected, $testee->get_choices());
+        static::assertSame($expected, $testee->choices());
     }
 
     /**
@@ -42,7 +42,7 @@ class ArrayChoiceListTest extends AbstractTestCase
     public function test_get_values($input, $expected)
     {
 
-        static::assertSame($expected, (new ArrayChoiceList($input))->get_values());
+        static::assertSame($expected, (new ArrayChoiceList($input))->values());
     }
 
     public function provide_get_values()
@@ -62,7 +62,7 @@ class ArrayChoiceListTest extends AbstractTestCase
     public function test_get_choices_for_value($list, $selected, $expected)
     {
 
-        static::assertSame($expected, (new ArrayChoiceList($list))->get_choices_for_value($selected));
+        static::assertSame($expected, (new ArrayChoiceList($list))->choicesForValue($selected));
 
     }
 

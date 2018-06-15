@@ -1,4 +1,4 @@
-<?php declare( strict_types=1 ); # -*- coding: utf-8 -*-
+<?php declare(strict_types=1); # -*- coding: utf-8 -*-
 
 namespace ChriCo\Fields\Element;
 
@@ -16,34 +16,44 @@ use ChriCo\Fields\LabelAwareTrait;
  *
  * @package ChriCo\Fields\Element
  */
-class ChoiceElement extends BaseElement implements ChoiceElementInterface, ErrorAwareInterface, DescriptionAwareInterface, LabelAwareInterface {
+class ChoiceElement extends Element implements
+    ElementInterface,
+    ChoiceElementInterface,
+    ErrorAwareInterface,
+    DescriptionAwareInterface,
+    LabelAwareInterface
+{
 
-	use ErrorAwareTrait;
-	use DescriptionAwareTrait;
-	use LabelAwareTrait;
+    use ErrorAwareTrait;
+    use DescriptionAwareTrait;
+    use LabelAwareTrait;
 
-	/**
-	 * @var ChoiceListInterface
-	 */
-	protected $list;
+    /**
+     * @var ChoiceListInterface
+     */
+    protected $list;
 
-	/**
-	 * @param ChoiceListInterface $list
-	 */
-	public function set_choices( ChoiceListInterface $list ) {
+    /**
+     * @param ChoiceListInterface $list
+     *
+     * @return ChoiceElement
+     */
+    public function withChoices(ChoiceListInterface $list): ChoiceElement
+    {
+        $this->list = $list;
 
-		$this->list = $list;
-	}
+        return $this;
+    }
 
-	/**
-	 * @return ChoiceListInterface
-	 */
-	public function get_choices(): ChoiceListInterface {
+    /**
+     * @return ChoiceListInterface
+     */
+    public function choices(): ChoiceListInterface
+    {
+        if ($this->list === null) {
+            $this->list = new ArrayChoiceList();
+        }
 
-		if ( $this->list === NULL ) {
-			$this->list = new ArrayChoiceList();
-		}
-
-		return $this->list;
-	}
+        return $this->list;
+    }
 }

@@ -1,4 +1,4 @@
-<?php declare( strict_types=1 ); # -*- coding: utf-8 -*-
+<?php declare(strict_types=1); # -*- coding: utf-8 -*-
 
 namespace ChriCo\Fields\Exception;
 
@@ -7,6 +7,7 @@ namespace ChriCo\Fields\Exception;
  *
  * @package ChriCo\Fields\Exception
  */
-class ElementNotFoundException extends \InvalidArgumentException implements ExceptionInterface {
+class ElementNotFoundException extends \InvalidArgumentException implements ExceptionInterface
+{
 
 }

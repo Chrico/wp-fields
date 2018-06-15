@@ -23,9 +23,9 @@ $data = array_reduce(
 );
 
 // normal ArrayChoiceList
-$select = new ChoiceElement( 'post-select' );
-$select->set_attributes( [ 'type' => 'select' ] );
-$select->set_choices( new ArrayChoiceList( $data ) );
+$select = (new ChoiceElement( 'post-select' ))
+	->withAttributes( [ 'type' => 'select' ] )
+	->withChoices( new ArrayChoiceList( $data ) );
 
 ```
 
@@ -53,9 +53,9 @@ $data = function() {
 	);
 };
 
-$select = new ChoiceElement( 'post-select' );
-$select->set_attributes( [ 'type' => 'select' ] );
-$select->set_choices( new CallbackChoiceList( $data ) );
+$select = (new ChoiceElement( 'post-select' ))
+	->withAttributes( [ 'type' => 'select' ] )
+	->withChoices( new CallbackChoiceList( $data ) );
 
 ```
 

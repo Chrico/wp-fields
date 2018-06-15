@@ -25,10 +25,10 @@ class ChoiceElementTest extends AbstractTestCase
         static::assertInstanceOf(DescriptionAwareInterface::class, $testee);
         static::assertInstanceOf(ErrorAwareInterface::class, $testee);
 
-        $list = $testee->get_choices();
+        $list = $testee->choices();
         static::assertInstanceOf(ArrayChoiceList::class, $list);
 
-        static::assertEmpty($list->get_choices());
+        static::assertEmpty($list->choices());
     }
 
     /**
@@ -39,9 +39,9 @@ class ChoiceElementTest extends AbstractTestCase
 
         $expected = new ArrayChoiceList();
         $testee   = new ChoiceElement('name');
-        $testee->set_choices($expected);
+        $testee->withChoices($expected);
 
-        static::assertSame($expected, $testee->get_choices());
+        static::assertSame($expected, $testee->choices());
     }
 
 }

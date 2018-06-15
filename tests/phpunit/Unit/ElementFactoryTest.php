@@ -150,10 +150,10 @@ class ElementFactoryTest extends AbstractTestCase
 
         $element = $testee->create($spec);
 
-        static::assertSame($expected_label, $element->get_label());
+        static::assertSame($expected_label, $element->label());
 
         // order in array is not the same.
-        static::assertEquals($expected_label_attributes, $element->get_label_attributes());
+        static::assertEquals($expected_label_attributes, $element->labelAttributes());
     }
 
     /**
@@ -175,7 +175,7 @@ class ElementFactoryTest extends AbstractTestCase
 
         $element = $testee->create($spec);
 
-        static::assertSame($expected, $element->get_description());
+        static::assertSame($expected, $element->description());
     }
 
     /**
@@ -197,7 +197,7 @@ class ElementFactoryTest extends AbstractTestCase
 
         $element = $testee->create($spec);
 
-        static::assertSame($expected, $element->get_errors());
+        static::assertSame($expected, $element->errors());
     }
 
     /**
@@ -225,9 +225,9 @@ class ElementFactoryTest extends AbstractTestCase
 
         $element = $testee->create($spec);
 
-        $choices = $element->get_choices();
+        $choices = $element->choices();
         static::assertInstanceOf($instance_of, $choices);
-        static::assertSame($expected, $choices->get_choices());
+        static::assertSame($expected, $choices->choices());
     }
 
     public function provide_create__with_choices()
@@ -279,7 +279,7 @@ class ElementFactoryTest extends AbstractTestCase
         $element = $testee->create($spec);
         static::assertInstanceOf(CollectionElementInterface::class, $element);
 
-        $elements = $element->get_elements();
+        $elements = $element->elements();
         static::assertNotEmpty($elements);
         static::assertInstanceOf(ElementInterface::class, reset($elements));
     }
@@ -303,7 +303,7 @@ class ElementFactoryTest extends AbstractTestCase
 
         $element = $testee->create(['attributes' => $expected]);
         // cannot use assertSame() because the order of the elements in array can differ.
-        static::assertEquals($expected, $element->get_attributes());
+        static::assertEquals($expected, $element->attributes());
     }
 
     /**
@@ -339,7 +339,7 @@ class ElementFactoryTest extends AbstractTestCase
             'elements'   => [$element, $choice]
         ];
 
-        $elements = (new ElementFactory())->create_multiple([$element, $choice, $collection]);
+        $elements = (new ElementFactory())->createMultiple([$element, $choice, $collection]);
 
         static::assertCount(3, $elements);
         static::assertInstanceOf(ElementInterface::class, $elements[ 0 ]);

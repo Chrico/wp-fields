@@ -22,23 +22,23 @@ class ElementTest extends AbstractTestCase
         static::assertInstanceOf(ElementInterface::class, $testee);
         static::assertInstanceOf(LabelAwareInterface::class, $testee);
 
-        static::assertSame($expected_name, $testee->get_id());
-        static::assertSame($expected_name, $testee->get_name());
-        static::assertEmpty($testee->get_type());
-        static::assertEmpty($testee->get_value());
+        static::assertSame($expected_name, $testee->id());
+        static::assertSame($expected_name, $testee->name());
+        static::assertEmpty($testee->type());
+        static::assertEmpty($testee->value());
 
-        static::assertEmpty($testee->get_label());
-        static::assertCount(0, $testee->get_label_attributes());
+        static::assertEmpty($testee->label());
+        static::assertCount(0, $testee->labelAttributes());
 
-        static::assertCount(2, $testee->get_attributes());
-        static::assertSame(['name' => $expected_name, 'id' => $expected_name], $testee->get_attributes());
+        static::assertCount(2, $testee->attributes());
+        static::assertSame(['name' => $expected_name, 'id' => $expected_name], $testee->attributes());
 
-        static::assertCount(0, $testee->get_options());
+        static::assertCount(0, $testee->options());
 
-        static::assertCount(0, $testee->get_errors());
-        static::assertFalse($testee->has_errors());
+        static::assertCount(0, $testee->errors());
+        static::assertFalse($testee->hasErrors());
 
-        static::assertFalse($testee->is_disabled());
+        static::assertFalse($testee->isDisabled());
     }
 
     /**
@@ -50,9 +50,9 @@ class ElementTest extends AbstractTestCase
         $expected = 'test';
 
         $testee = new Element('id');
-        $testee->set_description($expected);
+        $testee->withDescription($expected);
 
-        static::assertSame($expected, $testee->get_description());
+        static::assertSame($expected, $testee->description());
     }
 
     /**
@@ -64,9 +64,9 @@ class ElementTest extends AbstractTestCase
         $expected = 'test';
 
         $testee = new Element('id');
-        $testee->set_label($expected);
+        $testee->withLabel($expected);
 
-        static::assertSame($expected, $testee->get_label());
+        static::assertSame($expected, $testee->label());
     }
 
     /**
@@ -78,9 +78,9 @@ class ElementTest extends AbstractTestCase
         $expected = ['foo' => 'bar'];
 
         $testee = new Element('id');
-        $testee->set_label_attributes($expected);
+        $testee->withLabelAttributes($expected);
 
-        static::assertSame($expected, $testee->get_label_attributes());
+        static::assertSame($expected, $testee->labelAttributes());
     }
 
     /**
@@ -92,9 +92,9 @@ class ElementTest extends AbstractTestCase
         $expected = 'test';
 
         $testee = new Element('id');
-        $testee->set_value($expected);
+        $testee->withValue($expected);
 
-        static::assertSame($expected, $testee->get_value());
+        static::assertSame($expected, $testee->value());
     }
 
     /**
@@ -106,10 +106,10 @@ class ElementTest extends AbstractTestCase
         $expected = ['foo' => 'bar', 'baz' => 'bam'];
 
         $testee = new Element('id');
-        $testee->set_errors($expected);
+        $testee->withErrors($expected);
 
-        static::assertSame($expected, $testee->get_errors());
-        static::assertTrue($testee->has_errors());
+        static::assertSame($expected, $testee->errors());
+        static::assertTrue($testee->hasErrors());
     }
 
     public function test_set_get_attributes()
@@ -119,9 +119,9 @@ class ElementTest extends AbstractTestCase
         $expected    = ['name' => 'text', 'type' => 'bam'];
 
         $testee = new Element($expected_id);
-        $testee->set_attributes($expected);
+        $testee->withAttributes($expected);
 
-        $attributes = $testee->get_attributes();
+        $attributes = $testee->attributes();
 
         static::assertArrayHasKey('name', $attributes);
         static::assertArrayHasKey('type', $attributes);
@@ -134,9 +134,9 @@ class ElementTest extends AbstractTestCase
         $expected = ['name' => 'text', 'type' => 'bam'];
 
         $testee = new Element('id');
-        $testee->set_options($expected);
+        $testee->withOptions($expected);
 
-        static::assertSame($expected, $testee->get_options());
+        static::assertSame($expected, $testee->options());
     }
 
     /**
@@ -146,19 +146,19 @@ class ElementTest extends AbstractTestCase
     {
 
         $testee = new Element('id');
-        $testee->set_option('foo', 'bar');
+        $testee->withOption('foo', 'bar');
 
-        static::assertSame('bar', $testee->get_option('foo'));
-        static::assertSame(['foo' => 'bar'], $testee->get_options());
-        static::assertSame('', $testee->get_option('undefined key'));
+        static::assertSame('bar', $testee->option('foo'));
+        static::assertSame(['foo' => 'bar'], $testee->options());
+        static::assertSame('', $testee->option('undefined key'));
     }
 
     public function test_is_disabled()
     {
 
         $testee = new Element('');
-        $testee->set_attribute('disabled', true);
+        $testee->withAttribute('disabled', true);
 
-        static::assertTrue($testee->is_disabled());
+        static::assertTrue($testee->isDisabled());
     }
 }

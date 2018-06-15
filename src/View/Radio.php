@@ -1,4 +1,4 @@
-<?php declare( strict_types=1 ); # -*- coding: utf-8 -*-
+<?php declare(strict_types=1); # -*- coding: utf-8 -*-
 
 namespace ChriCo\Fields\View;
 
@@ -9,55 +9,55 @@ use ChriCo\Fields\Exception\InvalidClassException;
 /**
  * @package ChriCo\Fields\View
  */
-class Radio implements RenderableElementInterface {
+class Radio implements RenderableElementInterface
+{
 
-	use AttributeFormatterTrait;
+    use AttributeFormatterTrait;
 
-	/**
-	 * @param ElementInterface|ChoiceElementInterface $element
-	 *
-	 * @throws InvalidClassException
-	 *
-	 * @return string
-	 */
-	public function render( ElementInterface $element ): string {
+    /**
+     * @param ElementInterface|ChoiceElementInterface $element
+     *
+     * @throws InvalidClassException
+     *
+     * @return string
+     */
+    public function render(ElementInterface $element): string
+    {
+        if (! $element instanceof ChoiceElementInterface) {
+            throw new InvalidClassException(
+                sprintf(
+                    'The given element "%s" has to implement "%s"',
+                    $element->name(),
+                    ChoiceElementInterface::class
+                )
+            );
+        }
+        $list = $element->choices();
+        $attributes = $element->attributes();
+        $choices = $list->choices();
+        $selected = $list->choicesForValue((array) $element->value());
 
-		if ( ! $element instanceof ChoiceElementInterface ) {
-			throw new InvalidClassException(
-				sprintf(
-					'The given element "%s" has to implement "%s"',
-					$element->get_name(),
-					ChoiceElementInterface::class
-				)
-			);
-		}
-		$list       = $element->get_choices();
-		$attributes = $element->get_attributes();
-		$choices    = $list->get_choices();
-		$selected   = $list->get_choices_for_value( (array) $element->get_value() );
+        $html = [];
 
-		$html = [];
+        foreach ($choices as $key => $name) {
+            $elementAttr = $attributes;
+            $elementAttr['id'] .= '_'.$key;
+            $elementAttr['value'] = $key;
+            $elementAttr['checked'] = isset($selected[$key]);
 
-		foreach ( $choices as $key => $name ) {
+            $label = sprintf(
+                '<label for="%s">%s</label>',
+                $this->escapeAttribute($elementAttr['id']),
+                $this->escapeHtml($name)
+            );
 
-			$element_attr              = $attributes;
-			$element_attr[ 'id' ]      .= '_' . $key;
-			$element_attr[ 'value' ]   = $key;
-			$element_attr[ 'checked' ] = isset( $selected[ $key ] );
+            $html[] = sprintf(
+                '<p><input %s /> %s</p>',
+                $this->attributesToString($elementAttr),
+                $label
+            );
+        }
 
-			$label = sprintf(
-				'<label for="%s">%s</label>',
-				$this->esc_attr( $element_attr[ 'id' ] ),
-				$this->esc_html( $name )
-			);
-
-			$html[] = sprintf(
-				'<p><input %s /> %s</p>',
-				$this->get_attributes_as_string( $element_attr ),
-				$label
-			);
-		}
-
-		return implode( ' ', $html );
-	}
+        return implode(' ', $html);
+    }
 }

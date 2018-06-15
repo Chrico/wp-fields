@@ -31,8 +31,8 @@ class LabelTest extends AbstractViewTestCase
         $expected_label = 'Foo';
 
         $element = new Element('name');
-        $element->set_label($expected_label);
-        $element->set_label_attributes($expected_attr);
+        $element->withLabel($expected_label);
+        $element->withLabelAttributes($expected_attr);
 
         $output = (new Label())->render($element);
         static::assertContains('<label', $output);
@@ -49,7 +49,7 @@ class LabelTest extends AbstractViewTestCase
 
         /** @var \Mockery\MockInterface|ElementInterface $stub */
         $stub = \Mockery::mock(ElementInterface::class);
-        $stub->shouldReceive('get_name')
+        $stub->shouldReceive('name')
             ->andReturn('');
 
         (new Label())->render($stub);
@@ -65,7 +65,7 @@ class LabelTest extends AbstractViewTestCase
         $expected_label = 'Foo';
 
         $element = new Element($expected_name);
-        $element->set_label($expected_label);
+        $element->withLabel($expected_label);
 
         $output = (new Label())->render($element);
         static::assertContains('for="' . $expected_name . '"', $output);

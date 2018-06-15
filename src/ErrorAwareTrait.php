@@ -1,4 +1,4 @@
-<?php declare( strict_types=1 ); # -*- coding: utf-8 -*-
+<?php declare(strict_types=1); # -*- coding: utf-8 -*-
 
 namespace ChriCo\Fields;
 
@@ -7,35 +7,39 @@ namespace ChriCo\Fields;
  *
  * @package ChriCo\Fields
  */
-trait ErrorAwareTrait {
+trait ErrorAwareTrait
+{
 
-	/**
-	 * @var array
-	 */
-	protected $errors = [];
+    /**
+     * @var array
+     */
+    protected $errors = [];
 
-	/**
-	 * @return array
-	 */
-	public function get_errors(): array {
+    /**
+     * @return array
+     */
+    public function errors(): array
+    {
+        return array_unique($this->errors);
+    }
 
-		return array_unique( $this->errors );
-	}
+    /**
+     * @param array $errors
+     *
+     * @return self
+     */
+    public function withErrors(array $errors = [])
+    {
+        $this->errors = $errors;
 
-	/**
-	 * @param array $errors
-	 */
-	public function set_errors( array $errors = [] ) {
+        return $this;
+    }
 
-		$this->errors = $errors;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function has_errors(): bool {
-
-		return count( $this->errors ) > 0;
-	}
-
+    /**
+     * @return bool
+     */
+    public function hasErrors(): bool
+    {
+        return count($this->errors) > 0;
+    }
 }

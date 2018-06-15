@@ -2,12 +2,12 @@
 To work later in view with Elements, you have first to create the Element itself. There are following different types of Elements available:
 
 
-| name | extends | implements | description |
+| name | extends | description |
 | ------------- | ------------- | ------------- | ------------- |
-| `Element` | `BaseElement` | `LabelAwareInterface, ErrorAwareInterface, DescriptionAwareInterface` | default element for inputs, textareas, buttons |
-| `ChoiceElement` | `BaseElement` | `LabelAwareInterface, ChoiceElementInterface, ErrorAwareInterface, DescriptionAwareInterface` | allows us to set and get choices for checkboxes or radios |
-| `CollectionElement` | `BaseElement` | `LabelAwareInterface, CollectionElementInterface, DescriptionAwareInterface, ErrorAwareInterface` | allows us to group multiple elements into one namespace together |
-| `Form` | `CollectionElement` | `FormInterface` | allows us to work with data and delegate them to containing elements |
+| `Element` | | default element for inputs, textareas, buttons |
+| `ChoiceElement` | `Element` | allows us to set and get choices for checkboxes or radios |
+| `CollectionElement` | `Element` | allows us to group multiple elements into one namespace together |
+| `Form` | `CollectionElement` | allows us to work with data and delegate them to containing elements |
 
 Here's a short example of creating...
 
@@ -19,11 +19,11 @@ Here's a short example of creating...
 <?php
 use ChriCo\Fields\Element\Element;
 
-$text = new Element( 'my-text' );
-$text->set_attributes( [ 'type' => 'text'] );
+$text = (new Element( 'my-text' ))
+	->withAttributes( [ 'type' => 'text'] );
 
-$number = new Element( 'my-number' );
-$text->set_attributes( [ 'type' => 'number' ] );
+$number = (new Element( 'my-number' ));
+	->withAttributes( [ 'type' => 'number' ] );
 ```
 
 ## Adding a description
@@ -33,10 +33,10 @@ All elements are implementing the `DescriptionAwareInterface` which allows us to
 <?php
 use ChriCo\Fields\Element\Element;
  
-$text = new Element( 'my-text' );
-$text->set_description( 'Some additional description for our form field.' );
+$text = (new Element( 'my-text' ))
+	->withDescription( 'Some additional description for our form field.' );
   
-echo $text->get_description(); 
+echo $text->description(); 
 ```
  
  
@@ -47,12 +47,12 @@ All elements are implementing the `LabelAwareInterface` which allows us to add a
 <?php
 use ChriCo\Fields\Element\Element;
 
-$text = new Element( 'my-text' );
-$text->set_label( 'My label' );
-$text->set_label_attributes( [ 'for' => 'my-id' ] );
+$text = (new Element( 'my-text' ))
+	->withLabel( 'My label' )
+	->withLabelAttributes( [ 'for' => 'my-id' ] );
 
-echo $text->get_label(); // 'My label'
-print_r( $text->get_label_attributes() ); // [ 'for' => 'my-id' ] 
+echo $text->label(); // 'My label'
+print_r( $text->labelAttributes() ); // [ 'for' => 'my-id' ] 
 ```
 
 ## Adding errors
@@ -62,10 +62,10 @@ Elements are implementing by default the `ErrorAwareInterface` which allows us t
 <?php
 use ChriCo\Fields\Element\Element;
 
-$text = new Element( 'my-text' );
-$text->set_errors( [ 'error-id' => 'Error message' ] );
+$text = (new Element( 'my-text' ))
+	->withErrors( [ 'error-id' => 'Error message' ] );
 
-print_r( $text->get_errors() ); // [ 'error-id' => 'Error message' ]
+print_r( $text->errors() ); // [ 'error-id' => 'Error message' ]
 ```
 
 ## Using the `ElementFactory`
