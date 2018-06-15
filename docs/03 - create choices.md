@@ -15,9 +15,9 @@ use ChriCo\Fields\ChoiceList\ArrayChoiceList;
 $data = array_reduce( 
 	get_posts(), 
 	function( $data, \WP_Post $post ) {
-        $data[ $post->ID ] = "#{$post->ID} {$post->post_title}";
+        	$data[ $post->ID ] = "#{$post->ID} {$post->post_title}";
 
-        return $data;
+        	return $data;
 	}, 
 	[]
 );
