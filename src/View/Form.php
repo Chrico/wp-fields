@@ -69,7 +69,7 @@ class Form implements RenderableElementInterface
             // TODO Need to make sure $element implements CollectionElementInterface
             $element->elements(),
             function ($html, ElementInterface $next) use ($row) {
-                return $html .= $row->render($next);
+                return $html . $row->render($next);
             },
             ''
         );
