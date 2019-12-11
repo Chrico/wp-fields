@@ -48,7 +48,7 @@ class ElementFactory extends AbstractFactory
         }
 
         if ($element instanceof CollectionElementInterface) {
-            $element = $this->configureEollection($element, $spec);
+            $element = $this->configureCollection($element, $spec);
         }
 
         if ($element instanceof DescriptionAwareInterface) {
@@ -192,7 +192,7 @@ class ElementFactory extends AbstractFactory
      *
      * @return CollectionElementInterface $element
      */
-    protected function configureEollection(
+    protected function configureCollection(
         CollectionElementInterface $element,
         array $spec = []
     ): CollectionElementInterface {
