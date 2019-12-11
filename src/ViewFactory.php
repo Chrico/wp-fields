@@ -33,7 +33,6 @@ class ViewFactory extends AbstractFactory
         if (class_exists($type)) {
             $class = new $type();
             if ($class instanceof RenderableElementInterface) {
-
                 return $class;
             }
         }
