@@ -28,7 +28,7 @@ class Form extends CollectionElement implements
      * @var array
      */
     protected $attributes = [
-        'action' => 'POST',
+        'method' => 'POST',
     ];
 
     /**
