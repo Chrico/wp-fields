@@ -37,14 +37,22 @@ class Form implements RenderableElementInterface
     }
 
     /**
-     * @param ElementInterface|FormInterface $element
+     * @param FormInterface|ElementInterface $element
      *
      * @throws InvalidClassException|UnknownTypeException
      *
      * @return string
      */
-    public function render(ElementInterface $element): string
+    public function render($element): string
     {
+        if (! $element instanceof ElementInterface) {
+            throw new InvalidClassException(
+                sprintf(
+                    'The given element has to implement "%s"',
+                    ElementInterface::class
+                )
+            );
+        }
         if (! $element instanceof FormInterface) {
             throw new InvalidClassException(
                 sprintf(
@@ -58,11 +66,10 @@ class Form implements RenderableElementInterface
         $row = $this->factory->create(FormRow::class);
 
         $html = array_reduce(
+            // TODO Need to make sure $element implements CollectionElementInterface
             $element->elements(),
-            function ($html, ElementInterface $next) use ($element, $row) {
-                $html .= $row->render($next);
-
-                return $html;
+            function ($html, ElementInterface $next) use ($row) {
+                return $html .= $row->render($next);
             },
             ''
         );

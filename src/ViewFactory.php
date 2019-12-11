@@ -19,7 +19,7 @@ class ViewFactory extends AbstractFactory
      *
      * @return RenderableElementInterface $class
      */
-    public function create(string $type): RenderableElementInterface
+    public function create($type): RenderableElementInterface
     {
         $type = (string) $type;
         $search = strtolower($type);
@@ -28,9 +28,12 @@ class ViewFactory extends AbstractFactory
             $class = $this->typeToView[$search];
 
             return new $class();
-        } elseif (class_exists($type)) {
+        }
+
+        if (class_exists($type)) {
             $class = new $type();
             if ($class instanceof RenderableElementInterface) {
+
                 return $class;
             }
         }

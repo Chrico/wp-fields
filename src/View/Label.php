@@ -15,14 +15,22 @@ class Label implements RenderableElementInterface
     use AttributeFormatterTrait;
 
     /**
-     * @param ElementInterface|LabelAwareInterface $element
+     * @param LabelAwareInterface|ElementInterface $element
      *
      * @throws InvalidClassException
      *
      * @return string
      */
-    public function render(ElementInterface $element): string
+    public function render($element): string
     {
+        if (! $element instanceof ElementInterface) {
+            throw new InvalidClassException(
+                sprintf(
+                    'The given element does not implement "%s"',
+                    ElementInterface::class
+                )
+            );
+        }
         if (! $element instanceof LabelAwareInterface) {
             throw new InvalidClassException(
                 sprintf(
