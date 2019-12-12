@@ -76,7 +76,7 @@ class Form extends CollectionElement implements
      *
      * @throws LogicException
      *
-     * @return Form
+     * @return ElementInterface
      */
     public function withAttribute(string $key, $value): ElementInterface
     {
@@ -94,9 +94,9 @@ class Form extends CollectionElement implements
      *
      * @param array $data
      *
-     * @return Form
+     * @return FormInterface
      */
-    public function withData(array $data = []): Form
+    public function withData(array $data = []): FormInterface
     {
         if ($this->isSubmitted) {
             throw new LogicException('You cannot change data of a submitted form.');
@@ -174,7 +174,7 @@ class Form extends CollectionElement implements
      *
      * @throws ElementNotFoundException
      *
-     * @return bool $is_valid
+     * @return bool
      */
     private function validate(string $name, $value): bool
     {
@@ -236,9 +236,9 @@ class Form extends CollectionElement implements
      * @param string $name
      * @param FilterInterface $filter
      *
-     * @return Form
+     * @return FormInterface
      */
-    public function withFilter(string $name, FilterInterface $filter): Form
+    public function withFilter(string $name, FilterInterface $filter): FormInterface
     {
         if (! isset($this->filters[$name])) {
             $this->filters[$name] = [];
@@ -253,9 +253,9 @@ class Form extends CollectionElement implements
      * @param string $name
      * @param ValidatorInterface $validator
      *
-     * @return Form
+     * @return FormInterface
      */
-    public function withValidator(string $name, ValidatorInterface $validator): Form
+    public function withValidator(string $name, ValidatorInterface $validator): FormInterface
     {
         if (! isset($this->validators[$name])) {
             $this->validators[$name] = [];
