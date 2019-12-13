@@ -123,7 +123,7 @@ echo $form->element( 'my-text' )->value(); // '<p>value of my-text</p>'
 ----
 
 ## Filter data
-To add input filter for elements, you can use the `Form::add_filter`-method. For our exampe we're going to use the `StripTags`-filter to remove the `<p>`-Tags.
+To add input filter for elements, you can use the `Form::withFilter`-method. For our exampe we're going to use the `StripTags`-filter to remove the `<p>`-Tags.
 
 ```php
 <?php
@@ -141,7 +141,7 @@ echo $form->element( 'my-text' )->value(); // 'value of my-text'
 ----
 
 ## Validate data
-To validate the input data, you can use the `Filter::add_validator`-method to assign validators the elements. In our example we're using the `NotEmpty`-validator to ensure, that the `my-text`-element is not empty.
+To validate the input data, you can use the `Filter::withValidator`-method to assign validators the elements. In our example we're using the `NotEmpty`-validator to ensure, that the `my-text`-element is not empty.
 
 ```php
 <?php
