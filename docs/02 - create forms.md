@@ -87,7 +87,7 @@ $form = ( new ElementFactory() )->create(
 ----
 
 ## Preset data
-To set data without validation which is e.G. loaded from database, you can use the `Form::set_data`-method. We're going to re-use the `$form` from above and assign data to the `my-text`-Element.
+To set data without validation which is e.G. loaded from database, you can use the `Form::withData`-method. We're going to re-use the `$form` from above and assign data to the `my-text`-Element.
 
 ```php
 <?php
