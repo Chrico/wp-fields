@@ -53,6 +53,19 @@ class ElementFactoryTest extends AbstractTestCase
             ElementInterface::class
         ];
 
+        yield  'element_with_options' => [
+            [
+                'attributes' => [
+                    'type' => 'text',
+                    'name' => 'foo',
+                ],
+                'options' => [
+                    uniqid() => uniqid(),
+                ]
+            ],
+            ElementInterface::class
+        ];
+
         yield 'choice' => [
             [
                 'attributes' => [
@@ -345,5 +358,26 @@ class ElementFactoryTest extends AbstractTestCase
         static::assertInstanceOf(ElementInterface::class, $elements[ 0 ]);
         static::assertInstanceOf(ChoiceElementInterface::class, $elements[ 1 ]);
         static::assertInstanceOf(CollectionElementInterface::class, $elements[ 2 ]);
+    }
+
+    /**
+     * Test options are stored in the Element when provided
+     */
+    public function test_create__set_options_for_element()
+    {
+        $options = [
+            uniqid() => uniqid(),
+        ];
+        $elementSpec = [
+            'attributes' => [
+                'type' => 'text',
+                'name' => 'foo',
+            ],
+            'options' => $options
+        ];
+
+        $elements = (new ElementFactory())->create($elementSpec);
+
+        static::assertEquals($options, $elements->options());
     }
 }
