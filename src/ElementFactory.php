@@ -241,6 +241,8 @@ class ElementFactory extends AbstractFactory
     protected function configureElement(ElementInterface $element, array $specs = [])
     {
         $element->withAttributes($specs['attributes']);
+        
+        empty($specs['options']) or $element->withOptions($specs['options']);
 
         return $element;
     }
