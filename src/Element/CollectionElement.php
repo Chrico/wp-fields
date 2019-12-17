@@ -49,7 +49,7 @@ class CollectionElement extends Element implements
     private $allErrors = [];
 
     /**
-     * @param ElementInterface[] $elements
+     * @param array<int, ElementInterface> $elements
      *
      * @return CollectionElement
      */

@@ -23,7 +23,7 @@ class CallbackChoiceList extends ArrayChoiceList
     /**
      * ArrayChoiceList constructor.
      *
-     * @param $callback $callback
+     * @param callable $callback
      */
     public function __construct(callable $callback)
     {

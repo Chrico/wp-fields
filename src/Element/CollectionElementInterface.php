@@ -13,7 +13,7 @@ interface CollectionElementInterface
 {
 
     /**
-     * @param ElementInterface[] $element
+     * @param array<int, ElementInterface> $element
      */
     public function withElement(ElementInterface ...$element);
 

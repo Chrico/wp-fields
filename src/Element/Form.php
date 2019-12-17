@@ -42,7 +42,7 @@ class Form extends CollectionElement implements
     protected $validators = [];
 
     /**
-     * @var @bool
+     * @var bool
      */
     protected $isValid = true;
 

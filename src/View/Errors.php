@@ -40,14 +40,22 @@ class Errors implements RenderableElementInterface
     }
 
     /**
-     * @param ElementInterface|ErrorAwareInterface $element
+     * @param ErrorAwareInterface|ElementInterface $element
      *
      * @throws InvalidClassException
      *
      * @return string
      */
-    public function render(ElementInterface $element): string
+    public function render($element): string
     {
+        if (! $element instanceof ElementInterface) {
+            throw new InvalidClassException(
+                sprintf(
+                    'The given element does not implement "%s"',
+                    ElementInterface::class
+                )
+            );
+        }
         if (! $element instanceof ErrorAwareInterface) {
             throw new InvalidClassException(
                 sprintf(

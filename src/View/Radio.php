@@ -15,14 +15,22 @@ class Radio implements RenderableElementInterface
     use AttributeFormatterTrait;
 
     /**
-     * @param ElementInterface|ChoiceElementInterface $element
+     * @param ChoiceElementInterface|ElementInterface $element
      *
      * @throws InvalidClassException
      *
      * @return string
      */
-    public function render(ElementInterface $element): string
+    public function render($element): string
     {
+        if (! $element instanceof ElementInterface) {
+            throw new InvalidClassException(
+                sprintf(
+                    'The given element has to implement "%s"',
+                    ElementInterface::class
+                )
+            );
+        }
         if (! $element instanceof ChoiceElementInterface) {
             throw new InvalidClassException(
                 sprintf(
@@ -32,6 +40,7 @@ class Radio implements RenderableElementInterface
                 )
             );
         }
+
         $list = $element->choices();
         $attributes = $element->attributes();
         $choices = $list->choices();
