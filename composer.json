@@ -19,11 +19,11 @@
     "require-dev": {
         "php": ">=7.0",
         "pimple/pimple": "~3.0",
-        "phpunit/phpunit": "6.3.*",
-        "brain/monkey": "^2",
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.4.2",
-        "squizlabs/php_codesniffer": "~3.2.3",
-        "inpsyde/php-coding-standards": "~0.13.1"
+        "phpunit/phpunit": "@stable",
+        "brain/monkey": "@stable",
+        "dealerdirect/phpcodesniffer-composer-installer": "@stable",
+        "squizlabs/php_codesniffer": "@stable",
+        "inpsyde/php-coding-standards": "@stable"
     },
     "autoload": {
         "psr-4": {
