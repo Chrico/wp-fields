@@ -12,18 +12,12 @@
         }
     ],
     "require": {
-        "php": ">=7.0",
-        "inpsyde/filter": "~1.0",
-        "inpsyde/validator": "~1.2"
+        "php": ">=8.0"
     },
     "require-dev": {
-        "php": ">=7.0",
-        "pimple/pimple": "~3.0",
         "phpunit/phpunit": "@stable",
         "brain/monkey": "@stable",
-        "dealerdirect/phpcodesniffer-composer-installer": "@stable",
-        "squizlabs/php_codesniffer": "@stable",
-        "inpsyde/php-coding-standards": "@stable"
+        "inpsyde/php-coding-standards": "^1"
     },
     "autoload": {
         "psr-4": {
@@ -37,5 +31,10 @@
     },
     "suggest": {
         "pimple/pimple": "Allows using Pimple, a small Dependency Injection Container for PHP"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     }
 }

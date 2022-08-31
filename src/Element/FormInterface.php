@@ -2,9 +2,6 @@
 
 namespace ChriCo\Fields\Element;
 
-use Inpsyde\Filter\FilterInterface;
-use Inpsyde\Validator\ValidatorInterface;
-
 /**
  * Interface FormInterface
  *
@@ -43,22 +40,4 @@ interface FormInterface
      * @return bool
      */
     public function isValid(): bool;
-
-    /**
-     * Add a filter by passing an $name which matches to an Element.
-     *
-     * @param string $name
-     * @param FilterInterface $filter
-     */
-    public function withFilter(string $name, FilterInterface $filter);
-
-    /**
-     * Add a validator by passing an $name which matches to an Element.
-     *
-     * @param string $name
-     * @param ValidatorInterface $validator
-     *
-     * @return self
-     */
-    public function withValidator(string $name, ValidatorInterface $validator);
 }

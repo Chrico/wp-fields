@@ -2,51 +2,33 @@
 
 namespace ChriCo\Fields\Element;
 
-use ChriCo\Fields\DescriptionAwareInterface;
-use ChriCo\Fields\DescriptionAwareTrait;
-use ChriCo\Fields\ErrorAwareInterface;
-use ChriCo\Fields\ErrorAwareTrait;
 use ChriCo\Fields\Exception\ElementNotFoundException;
-use ChriCo\Fields\LabelAwareInterface;
-use ChriCo\Fields\LabelAwareTrait;
 
 /**
  * Class CollectionElement
  *
  * @package ChriCo\Fields\Element
  */
-class CollectionElement extends Element implements
-    ElementInterface,
-    CollectionElementInterface,
-    DescriptionAwareInterface,
-    LabelAwareInterface,
-    ErrorAwareInterface
+class CollectionElement extends Element implements CollectionElementInterface
 {
-
-    use ErrorAwareTrait;
-    use DescriptionAwareTrait;
-    use LabelAwareTrait;
-
     /**
      * Default attribute type "collection" to assign it to the right view.
-     *
-     * @var array
      */
-    protected $attributes = [
+    protected array $attributes = [
         'type' => 'collection',
     ];
 
     /**
      * @var ElementInterface[]
      */
-    protected $elements = [];
+    protected array $elements = [];
 
     /**
      * Contains all errors including the element itself and all children.
      *
      * @var array
      */
-    private $allErrors = [];
+    private array $allErrors = [];
 
     /**
      * @param ElementInterface[] $elements

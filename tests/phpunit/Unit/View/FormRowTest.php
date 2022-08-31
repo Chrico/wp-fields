@@ -11,8 +11,9 @@ class FormRowTest extends AbstractViewTestCase
 
     /**
      * Basic test to check the default behavior of the class.
+     * @test
      */
-    public function test_basic()
+    public function test_basic(): void
     {
 
         $testee = new FormRow();
@@ -21,24 +22,26 @@ class FormRowTest extends AbstractViewTestCase
 
     /**
      * Test rendering of an Element.
+     * @test
      */
-    public function test_render()
+    public function test_render(): void
     {
 
         $element = new Element('foo');
         $element->withAttribute('type', 'text');
 
         $output = (new FormRow())->render($element);
-        static::assertContains('<tr', $output);
-        static::assertContains('class="form-row"', $output);
-        static::assertContains('<td colspan="2">', $output);
-        static::assertContains('</tr>', $output);
+        static::assertStringContainsString('<tr', $output);
+        static::assertStringContainsString('class="form-row"', $output);
+        static::assertStringContainsString('<td colspan="2">', $output);
+        static::assertStringContainsString('</tr>', $output);
     }
 
     /**
-     * Test rendering of an Element with label
+     * Test rendering of an Element with label.
+     * @test
      */
-    public function test_render__with_label()
+    public function test_render__with_label(): void
     {
 
         $expected_label = 'bar';
@@ -48,10 +51,10 @@ class FormRowTest extends AbstractViewTestCase
         $element->withLabel($expected_label);
 
         $output = (new FormRow())->render($element);
-        static::assertContains('<tr', $output);
-        static::assertContains('class="form-row"', $output);
-        static::assertContains('<th><label', $output);
-        static::assertContains($expected_label . '</label></th>', $output);
-        static::assertContains('</tr>', $output);
+        static::assertStringContainsString('<tr', $output);
+        static::assertStringContainsString('class="form-row"', $output);
+        static::assertStringContainsString('<th><label', $output);
+        static::assertStringContainsString($expected_label . '</label></th>', $output);
+        static::assertStringContainsString('</tr>', $output);
     }
 }

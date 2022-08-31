@@ -2,10 +2,10 @@
 
 namespace ChriCo\Fields\View;
 
-use ChriCo\Fields\DescriptionAwareInterface;
+use ChriCo\Fields\Element\DescriptionAwareInterface;
 use ChriCo\Fields\Element\ElementInterface;
-use ChriCo\Fields\ErrorAwareInterface;
-use ChriCo\Fields\LabelAwareInterface;
+use ChriCo\Fields\Element\ErrorAwareInterface;
+use ChriCo\Fields\Element\LabelAwareInterface;
 use ChriCo\Fields\ViewFactory;
 
 /**
@@ -18,10 +18,7 @@ class FormRow implements RenderableElementInterface
 
     use AttributeFormatterTrait;
 
-    /**
-     * @var ViewFactory
-     */
-    protected $factory;
+    protected ViewFactory $factory;
 
     /**
      * FormRow constructor.

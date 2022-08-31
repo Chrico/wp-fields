@@ -3,7 +3,7 @@
 namespace ChriCo\Fields\View;
 
 use ChriCo\Fields\Element\ElementInterface;
-use ChriCo\Fields\ErrorAwareInterface;
+use ChriCo\Fields\Element\ErrorAwareInterface;
 use ChriCo\Fields\Exception\InvalidClassException;
 
 /**
@@ -21,7 +21,7 @@ class Errors implements RenderableElementInterface
     /**
      * @var array
      */
-    private $options = [
+    private array $options = [
         'wrapper' => self::WRAPPER_MARKUP,
         'error' => self::ERROR_MARKUP,
     ];

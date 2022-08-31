@@ -9,7 +9,6 @@ namespace ChriCo\Fields\Element;
  */
 interface ElementInterface
 {
-
     /**
      * Proxy to access the "disabled" field attribute with cast to boolean.
      *
@@ -103,4 +102,26 @@ interface ElementInterface
      * @return int|string $value
      */
     public function option(string $key);
+
+    /**
+     * @param $value
+     *
+     * @return mixed
+     */
+    public function filter($value);
+
+    /**
+     * @param callable $callable
+     */
+    public function withFilter(callable $callable);
+
+    /**
+     * @return bool
+     */
+    public function validate(): bool;
+
+    /**
+     * @param callable $callable
+     */
+    public function withValidator(callable $callable);
 }

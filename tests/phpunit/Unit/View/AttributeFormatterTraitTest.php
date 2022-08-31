@@ -9,8 +9,9 @@ class AttributeFormatterTraitTest extends AbstractViewTestCase
 
     /**
      * @dataProvider provide_get_attributes_as_string
+     * @test
      */
-    public function test_get_attributes_as_string(array $input, string $expected)
+    public function test_get_attributes_as_string(array $input, string $expected): void
     {
 
         static::assertSame(
@@ -21,7 +22,7 @@ class AttributeFormatterTraitTest extends AbstractViewTestCase
         );
     }
 
-    public function provide_get_attributes_as_string()
+    public function provide_get_attributes_as_string(): \Generator
     {
 
         yield 'empty attributes' => [[], ''];
@@ -32,5 +33,4 @@ class AttributeFormatterTraitTest extends AbstractViewTestCase
         yield 'multiple attributes' => [['foo' => 'bar', 'baz' => 'bam'], 'foo="bar" baz="bam"'];
 
     }
-
 }

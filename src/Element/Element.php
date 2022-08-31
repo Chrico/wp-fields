@@ -2,13 +2,6 @@
 
 namespace ChriCo\Fields\Element;
 
-use ChriCo\Fields\DescriptionAwareInterface;
-use ChriCo\Fields\DescriptionAwareTrait;
-use ChriCo\Fields\ErrorAwareInterface;
-use ChriCo\Fields\ErrorAwareTrait;
-use ChriCo\Fields\LabelAwareInterface;
-use ChriCo\Fields\LabelAwareTrait;
-
 /**
  * Class Element
  *
@@ -20,20 +13,23 @@ class Element implements
     ErrorAwareInterface,
     DescriptionAwareInterface
 {
-
     use ErrorAwareTrait;
     use DescriptionAwareTrait;
     use LabelAwareTrait;
 
-    /**
-     * @var array
-     */
-    protected $attributes = [];
+    protected array $attributes = [];
+
+    protected array $options = [];
 
     /**
-     * @var array
+     * @var callable|null
      */
-    protected $options = [];
+    protected $validator = null;
+
+    /**
+     * @var callable|null
+     */
+    protected $filter = null;
 
     /**
      * @param string $name
@@ -72,7 +68,7 @@ class Element implements
      */
     public function attribute(string $key)
     {
-        if (! isset($this->attributes[$key])) {
+        if (!isset($this->attributes[$key])) {
             return '';
         }
 
@@ -110,7 +106,9 @@ class Element implements
      */
     public function value()
     {
-        return $this->attribute('value');
+        $value = $this->attribute('value');
+
+        return $this->filter($value);
     }
 
     /**
@@ -191,10 +189,59 @@ class Element implements
      */
     public function option(string $key)
     {
-        if (! isset($this->options[$key])) {
+        if (!isset($this->options[$key])) {
             return '';
         }
 
         return $this->options[$key];
+    }
+
+    /**
+     * @param callable $callable
+     *
+     * @return $this
+     */
+    public function withFilter(callable $callable): Element
+    {
+        $this->filter = $callable;
+
+        return $this;
+    }
+
+    public function filter($value)
+    {
+        if ($this->filter) {
+            $value = ($this->filter)($value);
+        }
+
+        return $value;
+    }
+
+    /**
+     * @param callable $callable
+     *
+     * @return $this
+     */
+    public function withValidator(callable $callable): Element
+    {
+        $this->validator = $callable;
+
+        return $this;
+    }
+
+    public function validate(): bool
+    {
+        $value = $this->value();
+
+        $valid = true;
+        if ($this->validator) {
+            $error = ($this->validator)($value);
+            if (is_wp_error($error)) {
+                $this->withErrors($error->get_error_messages());
+                $valid = false;
+            }
+        }
+
+        return $valid;
     }
 }

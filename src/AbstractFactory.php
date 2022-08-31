@@ -20,7 +20,7 @@ abstract class AbstractFactory
      *
      * @var View\RenderableElementInterface[]
      */
-    protected $typeToView = [
+    protected static array $typeToView = [
         'form' => View\Form::class,
 
         'row' => View\FormRow::class,
@@ -61,10 +61,8 @@ abstract class AbstractFactory
 
     /**
      * Map of types to related Element-class.
-     *
-     * @var array
      */
-    protected $typeToElement = [
+    protected static array $typeToElement = [
         'form' => Form::class,
 
         'checkbox' => ChoiceElement::class,

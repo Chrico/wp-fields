@@ -6,6 +6,7 @@ use ChriCo\Fields\ChoiceList\ArrayChoiceList;
 use ChriCo\Fields\ChoiceList\ChoiceListInterface;
 use ChriCo\Fields\Element\ChoiceElement;
 use ChriCo\Fields\Element\ElementInterface;
+use ChriCo\Fields\Exception\InvalidClassException;
 use ChriCo\Fields\View\RenderableElementInterface;
 use ChriCo\Fields\View\Select;
 
@@ -14,20 +15,20 @@ class SelectTest extends AbstractViewTestCase
 
     /**
      * Basic test to check the default behavior of the class.
+     * @test
      */
-    public function test_basic()
+    public function test_basic(): void
     {
-
         $testee = new Select();
         static::assertInstanceOf(RenderableElementInterface::class, $testee);
     }
 
     /**
-     * @expectedException \ChriCo\Fields\Exception\InvalidClassException
+     * @test
      */
-    public function test_render__invalid_element()
+    public function test_render__invalid_element(): void
     {
-
+        static::expectException(InvalidClassException::class);
         (new Select())->render(
             $this->getMockBuilder(ElementInterface::class)
                 ->getMock()
@@ -36,17 +37,18 @@ class SelectTest extends AbstractViewTestCase
 
     /**
      * Test rendering of an Select with empty ChoiceList.
+     * @test
      */
-    public function test_render__no_choices()
+    public function test_render__no_choices(): void
     {
 
         $element  = $this->element('element', new ArrayChoiceList([]));
         $rendered = (new Select())->render($element);
 
-        static::assertContains('<select', $rendered);
-        static::assertContains('name="element"', $rendered);
-        static::assertContains('id="element"', $rendered);
-        static::assertContains('</select>', $rendered);
+        static::assertStringContainsString('<select', $rendered);
+        static::assertStringContainsString('name="element"', $rendered);
+        static::assertStringContainsString('id="element"', $rendered);
+        static::assertStringContainsString('</select>', $rendered);
     }
 
     /**
@@ -57,7 +59,7 @@ class SelectTest extends AbstractViewTestCase
      *
      * @return ChoiceElement
      */
-    private function element(string $name, ChoiceListInterface $list)
+    private function element(string $name, ChoiceListInterface $list): ChoiceElement
     {
 
         $element = new ChoiceElement($name);
@@ -69,60 +71,62 @@ class SelectTest extends AbstractViewTestCase
 
     /**
      * Test rendering of an Select with 1 item in ChoiceList.
+     * @test
      */
-    public function test_render__one_choice()
+    public function test_render__one_choice(): void
     {
 
         $element = $this->element('element', new ArrayChoiceList(['foo' => 'bar']));
 
         $rendered = (new Select())->render($element);
 
-        static::assertContains('<select', $rendered);
-        static::assertContains('name="element"', $rendered);
+        static::assertStringContainsString('<select', $rendered);
+        static::assertStringContainsString('name="element"', $rendered);
 
-        static::assertContains('<option', $rendered);
-        static::assertContains('value="foo"', $rendered);
-        static::assertContains('bar</option>', $rendered);
+        static::assertStringContainsString('<option', $rendered);
+        static::assertStringContainsString('value="foo"', $rendered);
+        static::assertStringContainsString('bar</option>', $rendered);
 
-        static::assertContains('</select>', $rendered);
+        static::assertStringContainsString('</select>', $rendered);
     }
 
     /**
      * Test rendering of an Select with 1 item in ChoiceList which is selected.
+     * @test
      */
-    public function test_render__one_choice_selected()
+    public function test_render__one_choice_selected(): void
     {
 
         $expected_value = 'foo';
         $element        = $this->element('element', new ArrayChoiceList([$expected_value => 'bar']));
         $element->withValue($expected_value);
 
-        static::assertContains('selected="selected"', (new Select())->render($element));
+        static::assertStringContainsString('selected="selected"', (new Select())->render($element));
     }
 
     /**
      * Test rendering of an Select with multiple items in ChoiceList.
+     * @test
      */
-    public function test_render__multiple_choices()
+    public function test_render__multiple_choices(): void
     {
 
         $element = $this->element('element', new ArrayChoiceList(['foo' => 'bar', 'baz' => 'bam']));
 
         $rendered = (new Select())->render($element);
-        static::assertContains('<select', $rendered);
-        static::assertContains('name="element"', $rendered);
+        static::assertStringContainsString('<select', $rendered);
+        static::assertStringContainsString('name="element"', $rendered);
 
         // First element
-        static::assertContains('<option', $rendered);
-        static::assertContains('value="foo"', $rendered);
-        static::assertContains('bar</option>', $rendered);
+        static::assertStringContainsString('<option', $rendered);
+        static::assertStringContainsString('value="foo"', $rendered);
+        static::assertStringContainsString('bar</option>', $rendered);
 
         // second element
-        static::assertContains('<option', $rendered);
-        static::assertContains('value="baz"', $rendered);
-        static::assertContains('bam</option>', $rendered);
+        static::assertStringContainsString('<option', $rendered);
+        static::assertStringContainsString('value="baz"', $rendered);
+        static::assertStringContainsString('bam</option>', $rendered);
 
-        static::assertContains('</select>', $rendered);
+        static::assertStringContainsString('</select>', $rendered);
     }
-
 }

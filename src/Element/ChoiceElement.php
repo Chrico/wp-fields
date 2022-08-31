@@ -4,34 +4,15 @@ namespace ChriCo\Fields\Element;
 
 use ChriCo\Fields\ChoiceList\ArrayChoiceList;
 use ChriCo\Fields\ChoiceList\ChoiceListInterface;
-use ChriCo\Fields\DescriptionAwareInterface;
-use ChriCo\Fields\DescriptionAwareTrait;
-use ChriCo\Fields\ErrorAwareInterface;
-use ChriCo\Fields\ErrorAwareTrait;
-use ChriCo\Fields\LabelAwareInterface;
-use ChriCo\Fields\LabelAwareTrait;
 
 /**
  * Class ChoiceElement
  *
  * @package ChriCo\Fields\Element
  */
-class ChoiceElement extends Element implements
-    ElementInterface,
-    ChoiceElementInterface,
-    ErrorAwareInterface,
-    DescriptionAwareInterface,
-    LabelAwareInterface
+class ChoiceElement extends Element implements ChoiceElementInterface
 {
-
-    use ErrorAwareTrait;
-    use DescriptionAwareTrait;
-    use LabelAwareTrait;
-
-    /**
-     * @var ChoiceListInterface
-     */
-    protected $list;
+    protected ?ChoiceListInterface $list = null;
 
     /**
      * @param ChoiceListInterface $list

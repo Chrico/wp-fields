@@ -4,7 +4,7 @@ namespace ChriCo\Fields\View;
 
 use ChriCo\Fields\Element\ElementInterface;
 use ChriCo\Fields\Exception\InvalidClassException;
-use ChriCo\Fields\LabelAwareInterface;
+use ChriCo\Fields\Element\LabelAwareInterface;
 
 /**
  * @package ChriCo\Fields\View

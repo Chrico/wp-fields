@@ -1,12 +1,17 @@
 <?xml version="1.0"?>
-<ruleset name="ChriCo WP Fields" namespace="ChriCo\Fields">
-	<description>ChriCo WP Fields coding standard.</description>
-	<file>./src</file>
-    <rule ref="Inpsyde"/>
+<ruleset>
 
-    <rule ref="Inpsyde">
-        <!-- kind of hard..because we're having mixed values in form fields -->
-        <exclude name="Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType" />
-        <exclude name="Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType" />
+    <file>./src</file>
+
+    <arg value="sp"/>
+    <arg name="colors"/>
+    <config name="testVersion" value="8.0-"/>
+    <config name="ignore_warnings_on_exit" value="1"/>
+
+    <rule ref="Inpsyde.CodeQuality.Psr4">
+        <properties>
+            <property name="psr4" type="array" value="ChriCo\Fields\=>src"/>
+        </properties>
     </rule>
+
 </ruleset>

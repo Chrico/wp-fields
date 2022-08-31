@@ -19,9 +19,9 @@ $collection = (new CollectionElement( 'my-collection' ))
 
 This way we have later on in our view for each element the prefix from our collection to the `id`- and `name`-attribute:
 
-| element | name | id |
-| ------------- | ------------- | ------------- |
-| `$text` | `my-collection[my-text]` | `my-collection_my-text` |
+| element   | name                       | id                        |
+|-----------|----------------------------|---------------------------|
+| `$text`   | `my-collection[my-text]`   | `my-collection_my-text`   |
 | `$number` | `my-collection[my-number]` | `my-collection_my-number` |
 
 **Note:** The manipulation of `id`- and `name`-attribute will only happen when creating the view. 

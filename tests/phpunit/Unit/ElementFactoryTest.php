@@ -8,14 +8,18 @@ use ChriCo\Fields\Element\ChoiceElementInterface;
 use ChriCo\Fields\Element\CollectionElementInterface;
 use ChriCo\Fields\Element\ElementInterface;
 use ChriCo\Fields\ElementFactory;
+use ChriCo\Fields\Exception\InvalidClassException;
+use ChriCo\Fields\Exception\MissingAttributeException;
+use ChriCo\Fields\Exception\UnknownTypeException;
 
 class ElementFactoryTest extends AbstractTestCase
 {
 
     /**
      * Basic test to check the default behavior of the class.
+     * @test
      */
-    public function test_basic()
+    public function test_basic(): void
     {
 
         $testee = new ElementFactory();
@@ -29,8 +33,9 @@ class ElementFactoryTest extends AbstractTestCase
      * @param $expected
      *
      * @dataProvider provide_create
+     * @test
      */
-    public function test_create($spec, $expected)
+    public function test_create($spec, $expected): void
     {
 
         $testee = new ElementFactory();
@@ -40,7 +45,7 @@ class ElementFactoryTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function provide_create()
+    public function provide_create(): \Generator
     {
 
         yield  'element' => [
@@ -91,16 +96,15 @@ class ElementFactoryTest extends AbstractTestCase
      * @param array $spec
      *
      * @dataProvider provide_create__missing_attributes
-     *
-     * @expectedException \ChriCo\Fields\Exception\MissingAttributeException
+     * @test
      */
-    public function test_create__missing_attributes($spec)
+    public function test_create__missing_attributes(array $spec): void
     {
-
+        static::expectException(MissingAttributeException::class);
         (new ElementFactory())->create($spec);
     }
 
-    public function provide_create__missing_attributes()
+    public function provide_create__missing_attributes(): \Generator
     {
 
         yield 'missing name' => [
@@ -122,30 +126,29 @@ class ElementFactoryTest extends AbstractTestCase
 
     /**
      * Test if the creation of an invalid class fails.
-     *
-     * @expectedException \ChriCo\Fields\Exception\InvalidClassException
+     * @test
      */
-    public function test_create__invalid_class()
+    public function test_create__invalid_class(): void
     {
-
+        static::expectException(InvalidClassException::class);
         (new ElementFactory())->create(['attributes' => ['type' => ElementFactory::class, 'name' => '']]);
     }
 
     /**
      * Test if the creation with an unknown type fails.
-     *
-     * @expectedException \ChriCo\Fields\Exception\UnknownTypeException
+     * @test
      */
-    public function test_create__unknown_type()
+    public function test_create__unknown_type(): void
     {
-
+        static::expectException(UnknownTypeException::class);
         (new ElementFactory())->create(['attributes' => ['type' => 'i am an unknown type', 'name' => '']]);
     }
 
     /**
      * Test if we can create a Text-Element which implements the LabelAwareInterface and set label and label_attributes.
+     * @test
      */
-    public function test_create__with_label()
+    public function test_create__with_label(): void
     {
 
         $testee                    = new ElementFactory();
@@ -170,9 +173,10 @@ class ElementFactoryTest extends AbstractTestCase
     }
 
     /**
-     * Test if we can create a Text-Element which implements the DescriptionAwareInterface and set description
+     * Test if we can create a Text-Element which implements the DescriptionAwareInterface and set description.
+     * @test
      */
-    public function test_create__with_description()
+    public function test_create__with_description(): void
     {
 
         $testee   = new ElementFactory();
@@ -193,8 +197,9 @@ class ElementFactoryTest extends AbstractTestCase
 
     /**
      * Test if we can create a Text-Element which implements the ErrorAwareInterface and set errors
+     * @test
      */
-    public function test_create__with_errors()
+    public function test_create__with_errors(): void
     {
 
         $testee   = new ElementFactory();
@@ -222,8 +227,9 @@ class ElementFactoryTest extends AbstractTestCase
      * @param array          $expected
      * @param string         $instance_of
      *
+     * @test
      */
-    public function test_create__with_choices($choices, $expected, $instance_of)
+    public function test_create__with_choices($choices, array $expected, string $instance_of): void
     {
 
         $testee = new ElementFactory();
@@ -243,7 +249,7 @@ class ElementFactoryTest extends AbstractTestCase
         static::assertSame($expected, $choices->choices());
     }
 
-    public function provide_create__with_choices()
+    public function provide_create__with_choices(): \Generator
     {
 
         // normal choice list
@@ -268,8 +274,9 @@ class ElementFactoryTest extends AbstractTestCase
 
     /**
      * Test creation of an Collection element with elements.
+     * @test
      */
-    public function test_create__with_collection()
+    public function test_create__with_collection(): void
     {
 
         $testee = new ElementFactory();
@@ -299,8 +306,9 @@ class ElementFactoryTest extends AbstractTestCase
 
     /**
      * Test creating of an element with additional attributes.
+     * @test
      */
-    public function test_create__with_attributes()
+    public function test_create__with_attributes(): void
     {
 
         $testee = new ElementFactory();
@@ -321,8 +329,9 @@ class ElementFactoryTest extends AbstractTestCase
 
     /**
      * Test if we can create multiple Elements from a specification.
+     * @test
      */
-    public function test_create__multiple()
+    public function test_create__multiple(): void
     {
 
         // Element
@@ -362,8 +371,9 @@ class ElementFactoryTest extends AbstractTestCase
 
     /**
      * Test options are stored in the Element when provided
+     * @test
      */
-    public function test_create__set_options_for_element()
+    public function test_create__set_options_for_element(): void
     {
         $options = [
             uniqid() => uniqid(),

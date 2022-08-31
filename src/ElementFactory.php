@@ -3,9 +3,7 @@
 namespace ChriCo\Fields;
 
 use ChriCo\Fields\ChoiceList\ArrayChoiceList;
-use ChriCo\Fields\Element\ChoiceElementInterface;
-use ChriCo\Fields\Element\CollectionElementInterface;
-use ChriCo\Fields\Element\ElementInterface;
+use ChriCo\Fields\Element as Element;
 use ChriCo\Fields\Exception\InvalidClassException;
 use ChriCo\Fields\Exception\MissingAttributeException;
 use ChriCo\Fields\Exception\UnknownTypeException;
@@ -17,68 +15,65 @@ use ChriCo\Fields\Exception\UnknownTypeException;
  */
 class ElementFactory extends AbstractFactory
 {
-
     /**
      * @param array $spec
      *
-     * @throws InvalidClassException
+     * @return Element\ElementInterface $element
      * @throws UnknownTypeException|MissingAttributeException
      *
-     * @return ElementInterface|LabelAwareInterface|DescriptionAwareInterface|ChoiceElementInterface|CollectionElementInterface $element
+     * @throws InvalidClassException
      */
-    public function create(array $spec = [])
+    public static function create(array $spec = [])
     {
-        $this->ensureRequiredAttributes($spec);
+        static::ensureRequiredAttributes($spec);
 
         $type = $spec['attributes']['type'];
         $name = $spec['attributes']['name'];
 
-        $element = $this->buildElement($type, $name);
+        $element = static::buildElement($type, $name);
 
-        if ($element instanceof ChoiceElementInterface) {
-            $element = $this->configureChoiceElement($element, $spec);
+        if ($element instanceof Element\ChoiceElementInterface) {
+            $element = static::configureChoiceElement($element, $spec);
         }
 
-        if ($element instanceof LabelAwareInterface) {
-            $element = $this->configureLabel($element, $spec);
+        if ($element instanceof Element\LabelAwareInterface) {
+            $element = static::configureLabel($element, $spec);
         }
 
-        if ($element instanceof ErrorAwareInterface) {
-            $element = $this->configureErrors($element, $spec);
+        if ($element instanceof Element\ErrorAwareInterface) {
+            $element = static::configureErrors($element, $spec);
         }
 
-        if ($element instanceof CollectionElementInterface) {
-            $element = $this->configureCollection($element, $spec);
+        if ($element instanceof Element\CollectionElementInterface) {
+            $element = static::configureCollection($element, $spec);
         }
 
-        if ($element instanceof DescriptionAwareInterface) {
-            $element = $this->configureDescription($element, $spec);
+        if ($element instanceof Element\DescriptionAwareInterface) {
+            $element = static::configureDescription($element, $spec);
         }
 
-        $element = $this->configureElement($element, $spec);
-
-        return $element;
+        return static::configureElement($element, $spec);
     }
 
     /**
      * @param string $type
      * @param string $name
      *
-     * @return ElementInterface
+     * @return Element\ElementInterface
      * @throws InvalidClassException
      * @throws UnknownTypeException
      */
-    private function buildElement(string $type, string $name): ElementInterface
+    private static function buildElement(string $type, string $name): Element\ElementInterface
     {
         if (class_exists($type)) {
             $element = new $type($name);
 
-            if (! $element instanceof ElementInterface) {
+            if (!$element instanceof Element\ElementInterface) {
                 throw new InvalidClassException(
                     sprintf(
                         'The given type "%s" does not implement %s.',
                         $type,
-                        ElementInterface::class
+                        Element\ElementInterface::class
                     )
                 );
             }
@@ -86,15 +81,15 @@ class ElementFactory extends AbstractFactory
             return $element;
         }
 
-        if (isset($this->typeToElement[$type])) {
-            return new $this->typeToElement[$type]($name);
+        if (isset(self::$typeToElement[$type])) {
+            return new self::$typeToElement[$type]($name);
         }
 
         throw new UnknownTypeException(
             sprintf(
                 'The given type "%s" will not create a valid class which implements "%s"',
                 $type,
-                ElementInterface::class
+                Element\ElementInterface::class
             )
         );
     }
@@ -106,9 +101,9 @@ class ElementFactory extends AbstractFactory
      *
      * @throws MissingAttributeException
      */
-    protected function ensureRequiredAttributes(array $spec = [])
+    protected static function ensureRequiredAttributes(array $spec = [])
     {
-        if (! isset($spec['attributes'])) {
+        if (!isset($spec['attributes'])) {
             throw new MissingAttributeException(
                 sprintf('The attribute "attributes" is not defined, but required.')
             );
@@ -116,7 +111,7 @@ class ElementFactory extends AbstractFactory
 
         $required = ['type', 'name'];
         foreach ($required as $key) {
-            if (! isset($spec['attributes'][$key])) {
+            if (!isset($spec['attributes'][$key])) {
                 throw new MissingAttributeException(
                     sprintf('The attribute "%s" is not defined, but required.', $key)
                 );
@@ -125,17 +120,16 @@ class ElementFactory extends AbstractFactory
     }
 
     /**
-     * @param ChoiceElementInterface $element
+     * @param Element\ChoiceElementInterface $element
      * @param array $spec
      *
-     * @return ChoiceElementInterface $element
+     * @return Element\ChoiceElementInterface $element
      */
-    protected function configureChoiceElement(
-        ChoiceElementInterface $element,
+    protected static function configureChoiceElement(
+        Element\ChoiceElementInterface $element,
         array $spec = []
-    ): ChoiceElementInterface {
-
-        if (! isset($spec['choices'])) {
+    ): Element\ChoiceElementInterface {
+        if (!isset($spec['choices'])) {
             return $element;
         }
 
@@ -151,16 +145,15 @@ class ElementFactory extends AbstractFactory
     }
 
     /**
-     * @param LabelAwareInterface $element
+     * @param Element\LabelAwareInterface $element
      * @param array $spec
      *
-     * @return LabelAwareInterface $element
+     * @return Element\LabelAwareInterface $element
      */
-    protected function configureLabel(
-        LabelAwareInterface $element,
+    protected static function configureLabel(
+        Element\LabelAwareInterface $element,
         array $spec = []
-    ): LabelAwareInterface {
-
+    ): Element\LabelAwareInterface {
         if (isset($spec['label'])) {
             $element->withLabel($spec['label']);
         }
@@ -172,12 +165,12 @@ class ElementFactory extends AbstractFactory
     }
 
     /**
-     * @param ErrorAwareInterface $element
+     * @param Element\ErrorAwareInterface $element
      * @param array $spec
      *
-     * @return ErrorAwareInterface $element
+     * @return Element\ErrorAwareInterface $element
      */
-    protected function configureErrors(ErrorAwareInterface $element, array $spec = [])
+    protected static function configureErrors(Element\ErrorAwareInterface $element, array $spec = [])
     {
         if (isset($spec['errors']) && is_array($spec['errors'])) {
             $element->withErrors($spec['errors']);
@@ -187,18 +180,17 @@ class ElementFactory extends AbstractFactory
     }
 
     /**
-     * @param CollectionElementInterface $element
+     * @param Element\CollectionElementInterface $element
      * @param array $spec
      *
-     * @return CollectionElementInterface $element
+     * @return Element\CollectionElementInterface $element
      */
-    protected function configureCollection(
-        CollectionElementInterface $element,
+    protected static function configureCollection(
+        Element\CollectionElementInterface $element,
         array $spec = []
-    ): CollectionElementInterface {
-
+    ): Element\CollectionElementInterface {
         if (isset($spec['elements']) && is_array($spec['elements'])) {
-            $element->withElement(...$this->createMultiple($spec['elements']));
+            $element->withElement(...static::createMultiple($spec['elements']));
         }
 
         return $element;
@@ -207,24 +199,23 @@ class ElementFactory extends AbstractFactory
     /**
      * @param array $specs
      *
-     * @return ElementInterface[] $elements
+     * @return Element\ElementInterface[] $elements
      */
-    public function createMultiple(array $specs = []): array
+    public static function createMultiple(array $specs = []): array
     {
-        return array_map([$this, 'create'], $specs);
+        return array_map([__CLASS__, 'create'], $specs);
     }
 
     /**
-     * @param DescriptionAwareInterface $element
+     * @param Element\DescriptionAwareInterface $element
      * @param array $spec
      *
-     * @return DescriptionAwareInterface $element
+     * @return Element\DescriptionAwareInterface $element
      */
-    protected function configureDescription(
-        DescriptionAwareInterface $element,
+    protected static function configureDescription(
+        Element\DescriptionAwareInterface $element,
         array $spec = []
-    ): DescriptionAwareInterface {
-
+    ): Element\DescriptionAwareInterface {
         if (isset($spec['description'])) {
             $element->withDescription($spec['description']);
         }
@@ -233,16 +224,25 @@ class ElementFactory extends AbstractFactory
     }
 
     /**
-     * @param ElementInterface $element
+     * @param Element\ElementInterface $element
      * @param array $specs
      *
-     * @return ElementInterface $element
+     * @return Element\ElementInterface $element
      */
-    protected function configureElement(ElementInterface $element, array $specs = [])
+    protected static function configureElement(Element\ElementInterface $element, array $specs = [])
     {
         $element->withAttributes($specs['attributes']);
-        
-        empty($specs['options']) or $element->withOptions($specs['options']);
+
+        if (!empty($specs['options'])) {
+            $element->withOptions($specs['options']);
+        }
+
+        if (!empty($specs['validator']) && is_callable($specs['validator'])) {
+            $element->withValidator($specs['validator']);
+        }
+        if (!empty($specs['filter']) && is_callable($specs['filter'])) {
+            $element->withFilter($specs['filter']);
+        }
 
         return $element;
     }

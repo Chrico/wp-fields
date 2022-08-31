@@ -2,7 +2,7 @@
 ChriCo WP-Fields is a Composer package (not a plugin) that allows to generate form fields in WordPress.
 
 ## Motivation
-I'm really tired of writing fields by hand again and again and again. Since WordPress does not provide any kind of "help" here, you've to write everything from scratch for each Plugin over and over again.
+I'm exhausted of writing fields by hand again and again and again. Since WordPress does not provide any kind of "help" here, you've to write everything from scratch for each Plugin over and over again.
 
 There are several different locations in WordPress, where you can use form fields:
 
@@ -21,7 +21,7 @@ Here's a short example of writing a so called "Metabox" to the "Post edit"-scree
 <?php
 add_action( 
 	'plugins_loaded', 
-	function() {
+	static function(): void {
 	
 		add_action( 
 			'add_meta_boxes', 
@@ -30,7 +30,7 @@ add_action(
 			 *
 			 * @return bool
 			*/ 
-			function( string $post_type ) : bool {
+			static function( string $post_type ) : bool {
 			
 				// some checks if we're allowed to print our fields.
 				if ( $post_type !== 'post' ) {

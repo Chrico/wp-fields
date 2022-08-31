@@ -4,16 +4,17 @@ namespace ChriCo\Fields\Tests\Unit\Element;
 
 use ChriCo\Fields\Element\Element;
 use ChriCo\Fields\Element\ElementInterface;
-use ChriCo\Fields\LabelAwareInterface;
+use ChriCo\Fields\Element\LabelAwareInterface;
 use ChriCo\Fields\Tests\Unit\AbstractTestCase;
 
 class ElementTest extends AbstractTestCase
 {
 
     /**
-     * Basic test to check the default behavoir of the class.
+     * Basic test to check the default behavior of the class.
+     * @test
      */
-    public function test_basic()
+    public function test_basic(): void
     {
 
         $expected_name = 'foo';
@@ -43,8 +44,9 @@ class ElementTest extends AbstractTestCase
 
     /**
      * Test if we can set and get again the description.
+     * @test
      */
-    public function test_set_get_description()
+    public function test_set_get_description(): void
     {
 
         $expected = 'test';
@@ -57,8 +59,9 @@ class ElementTest extends AbstractTestCase
 
     /**
      * Test if we can set and get again the label.
+     * @test
      */
-    public function test_set_get_label()
+    public function test_set_get_label(): void
     {
 
         $expected = 'test';
@@ -71,8 +74,9 @@ class ElementTest extends AbstractTestCase
 
     /**
      * Test if we can set and get again the label attributes.
+     * @test
      */
-    public function test_set_get_label_attributes()
+    public function test_set_get_label_attributes(): void
     {
 
         $expected = ['foo' => 'bar'];
@@ -85,8 +89,9 @@ class ElementTest extends AbstractTestCase
 
     /**
      * Test if we can set and get again the value.
+     * @test
      */
-    public function test_set_get_value()
+    public function test_set_get_value(): void
     {
 
         $expected = 'test';
@@ -99,8 +104,9 @@ class ElementTest extends AbstractTestCase
 
     /**
      * Test if we can set and get again the errors.
+     * @test
      */
-    public function test_set_get_errors()
+    public function test_set_get_errors(): void
     {
 
         $expected = ['foo' => 'bar', 'baz' => 'bam'];
@@ -112,7 +118,10 @@ class ElementTest extends AbstractTestCase
         static::assertTrue($testee->hasErrors());
     }
 
-    public function test_set_get_attributes()
+    /**
+     * @test
+     */
+    public function test_set_get_attributes(): void
     {
 
         $expected_id = 'id';
@@ -128,7 +137,10 @@ class ElementTest extends AbstractTestCase
         static::assertArrayHasKey('id', $attributes);
     }
 
-    public function test_set_get_options()
+    /**
+     * @test
+     */
+    public function test_set_get_options(): void
     {
 
         $expected = ['name' => 'text', 'type' => 'bam'];
@@ -141,8 +153,9 @@ class ElementTest extends AbstractTestCase
 
     /**
      * Basic test to check, if we can set and get a single option.
+     * @test
      */
-    public function test_set_get_option()
+    public function test_set_get_option(): void
     {
 
         $testee = new Element('id');
@@ -153,7 +166,10 @@ class ElementTest extends AbstractTestCase
         static::assertSame('', $testee->option('undefined key'));
     }
 
-    public function test_is_disabled()
+    /**
+     * @test
+     */
+    public function test_is_disabled(): void
     {
 
         $testee = new Element('');

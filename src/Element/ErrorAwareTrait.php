@@ -1,6 +1,6 @@
 <?php declare(strict_types=1); # -*- coding: utf-8 -*-
 
-namespace ChriCo\Fields;
+namespace ChriCo\Fields\Element;
 
 /**
  * Trait ErrorAwareTrait

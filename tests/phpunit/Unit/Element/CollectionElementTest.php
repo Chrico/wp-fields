@@ -5,13 +5,16 @@ namespace ChriCo\Fields\Tests\Unit\Element;
 use ChriCo\Fields\Element\CollectionElement;
 use ChriCo\Fields\Element\Element;
 use ChriCo\Fields\Element\ElementInterface;
-use ChriCo\Fields\ErrorAwareInterface;
+use ChriCo\Fields\Element\ErrorAwareInterface;
+use ChriCo\Fields\Exception\ElementNotFoundException;
 use ChriCo\Fields\Tests\Unit\AbstractTestCase;
 
 class CollectionElementTest extends AbstractTestCase
 {
-
-    public function test_basic()
+    /**
+     * @test
+     */
+    public function test_basic(): void
     {
 
         $expected_name = 'name';
@@ -25,8 +28,9 @@ class CollectionElementTest extends AbstractTestCase
 
     /**
      * Basic test to add 1 element and get the element back.
+     * @test
      */
-    public function test_add_get_elements()
+    public function test_add_get_elements(): void
     {
 
         $element_name = 'element-name';
@@ -45,18 +49,19 @@ class CollectionElementTest extends AbstractTestCase
     }
 
     /**
-     * @expectedException \ChriCo\Fields\Exception\ElementNotFoundException
+     * @test
      */
-    public function test_get_element__not_exist()
+    public function test_get_element__not_exist(): void
     {
-
+        static::expectException(ElementNotFoundException::class);
         (new CollectionElement('collection'))->element('not existing element');
     }
 
     /**
      * Test if success/failure is returned for not existing/existing elements.
+     * @test
      */
-    public function test_has_element()
+    public function test_has_element(): void
     {
 
         $expected_element_name = 'element';
@@ -70,8 +75,9 @@ class CollectionElementTest extends AbstractTestCase
 
     /**
      * Test if errors which are not matching with the element name are assigned to the collection itself.
+     * @test
      */
-    public function test_add_errors()
+    public function test_add_errors(): void
     {
 
         $expected_error = ['error_message'];
@@ -85,8 +91,9 @@ class CollectionElementTest extends AbstractTestCase
 
     /**
      * Test if errors are delegated to the elements in the collection.
+     * @test
      */
-    public function test_add_errors__delegate()
+    public function test_add_errors__delegate(): void
     {
 
         $expected_element_name = 'element';
@@ -104,8 +111,9 @@ class CollectionElementTest extends AbstractTestCase
 
     /**
      * Test if values are delegated to the elements in the collection.
+     * @test
      */
-    public function test_set_attribute__value()
+    public function test_set_attribute__value(): void
     {
 
         $expected_element_name = 'element';
@@ -122,8 +130,9 @@ class CollectionElementTest extends AbstractTestCase
 
     /**
      * Test if we can get all values back again after delegation on set_value().
+     * @test
      */
-    public function test_get_attribute__value()
+    public function test_get_attribute__value(): void
     {
 
         $expected_element_name = 'element';

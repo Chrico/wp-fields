@@ -5,10 +5,9 @@ namespace ChriCo\Fields\Tests\Unit\Element;
 use ChriCo\Fields\Element\ElementInterface;
 use ChriCo\Fields\Element\Form;
 use ChriCo\Fields\Element\FormInterface;
-use ChriCo\Fields\ErrorAwareInterface;
+use ChriCo\Fields\Element\ErrorAwareInterface;
+use ChriCo\Fields\Exception\LogicException;
 use ChriCo\Fields\Tests\Unit\AbstractTestCase;
-use Inpsyde\Filter\FilterInterface;
-use Inpsyde\Validator\ValidatorInterface;
 use Mockery;
 
 class FormTest extends AbstractTestCase
@@ -16,8 +15,9 @@ class FormTest extends AbstractTestCase
 
     /**
      * Basic test to check the default behavior of the class.
+     * @test
      */
-    public function test_basic()
+    public function test_basic(): void
     {
         $expected_name = 'foo';
         $testee = new Form($expected_name);
@@ -34,7 +34,10 @@ class FormTest extends AbstractTestCase
         static::assertFalse($testee->isSubmitted());
     }
 
-    public function test_is_valid()
+    /**
+     * @test
+     */
+    public function test_is_valid(): void
     {
         $expected_key = 'foo';
         $expected_value = 'bar';
@@ -47,39 +50,33 @@ class FormTest extends AbstractTestCase
 
         // element which has additionally a validator which fails.
         $element = Mockery::mock(ElementInterface::class.','.ErrorAwareInterface::class);
-        $element->shouldReceive('withValue')
+        $element->allows('withValue')
             ->once()
             ->with($expected_value);
-        $element->shouldReceive('isDisabled')
+        $element->allows('isDisabled')
             ->andReturn(false);
-        $element->shouldReceive('name')
+        $element->allows('name')
             ->andReturn($expected_key);
-        $element->shouldReceive('value')
+        $element->allows('value')
             ->andReturn($expected_value);
-        $element->shouldReceive('withErrors')
-            ->once()
+        $element->allows('withErrors')
             ->with($expected_error);
+        $element->allows('validate')
+            ->andReturnFalse();
 
         // element which has no validator assigned.
         $not_validated_element2 = $this->get_element_stub($expected_key2);
-        $not_validated_element2->shouldReceive('value')
-            ->andReturn($expected_value2);
+        $not_validated_element2->allows('value')
+            ->andReturns($expected_value2);
+        $not_validated_element2->allows('validate')
+            ->andReturnTrue();
 
-        // element which is disabled shouldn be validated
+        // element which is disabled shouldn't't be validated
         $disabled_element = $this->get_element_stub($expected_key3, true);
-
-        $validator = Mockery::mock(ValidatorInterface::class);
-        $validator->shouldReceive('is_valid')
-            ->once()
-            ->with($expected_value)
-            ->andReturn(false);
-        $validator->shouldReceive('get_error_messages')
-            ->once()
-            ->andReturn($expected_error);
+        $disabled_element->allows('validate')->never();
 
         $testee = (new Form(''))
-            ->withElement($element, $not_validated_element2, $disabled_element)
-            ->withValidator($expected_key, $validator);
+            ->withElement($element, $not_validated_element2, $disabled_element);
 
         $testee->submit(
             [
@@ -96,59 +93,56 @@ class FormTest extends AbstractTestCase
     private function get_element_stub(string $name, $disabled = false)
     {
         $element = Mockery::mock(ElementInterface::class);
-        $element->shouldReceive('withValue')
+        $element->allows('withValue')
             ->with(Mockery::type('string'));
-        $element->shouldReceive('name')
+        $element->allows('name')
             ->once()
             ->andReturn($name);
-        $element->shouldReceive('isDisabled')
+        $element->allows('isDisabled')
             ->andReturn($disabled);
 
         return $element;
     }
 
     /**
-     * @expectedException \ChriCo\Fields\Exception\LogicException
+     * @test
      */
-    public function test_is_valid__not_submitted()
+    public function test_is_valid__not_submitted(): void
     {
+        static::expectException(LogicException::class);
         $testee = new Form('');
         $testee->isValid();
     }
 
-    public function test_set_data()
+    /**
+     * @test
+     */
+    public function test_set_data(): void
     {
         $expected_key = 'foo';
         $expected_value = 'bar';
-        $expected_key2 = 'baz';
 
         $element = Mockery::mock(ElementInterface::class);
-        $element->shouldReceive('withValue')
+        $element->allows('withValue')
             ->with(Mockery::type('string'));
-        $element->shouldReceive('name')
+        $element->allows('name')
             ->once()
             ->andReturn($expected_key);
-        $element->shouldReceive('value')
-            ->once()
+        $element->allows('value')
             ->andReturn($expected_value);
-        $element->shouldReceive('isDisabled')
+        $element->allows('isDisabled')
             ->andReturn(false);
-
-        $element2 = $this->get_element_stub($expected_key2, true);
 
         $testee = new Form('');
         $testee->withElement($element)
-            ->withElement($element2)
             ->withData(
                 [
                     $expected_key => $expected_value,
-                    $expected_key2 => 'foo',
                     'undefined key' => 'foo',
                 ]
             );
 
         static::assertFalse($testee->isSubmitted());
-
         static::assertSame(
             $expected_value,
             $testee->element($expected_key)
@@ -157,40 +151,42 @@ class FormTest extends AbstractTestCase
     }
 
     /**
-     * @expectedException \ChriCo\Fields\Exception\LogicException
+     * @test
      */
-    public function test_set_data__already_submitted()
+    public function test_set_data__already_submitted(): void
     {
+        static::expectException(LogicException::class);
         $testee = new Form('');
         $testee->submit();
         $testee->withData(['foo' => 'bar']);
     }
 
-    public function test_submit()
+    /**
+     * @test
+     */
+    public function test_submit(): void
     {
         $expected_key = 'foo';
         $expected_value = 'bar';
 
         $element = $this->get_element_stub($expected_key);
-        $element->shouldReceive('value')
+        $element->allows('value')
             ->andReturn($expected_value);
-
-        $filter = Mockery::mock(FilterInterface::class);
-        $filter->shouldReceive('filter')
-            ->once()
-            ->with($expected_value)
-            ->andReturn($expected_value);
+        $element->allows('validate')
+            ->andReturnTrue();
 
         $testee = new Form('');
         $testee->withElement($element);
-        $testee->withFilter($expected_key, $filter);
 
         static::assertFalse($testee->isSubmitted());
         static::assertNull($testee->submit([$expected_key => $expected_value]));
         static::assertTrue($testee->isSubmitted());
     }
 
-    public function test_set_attribute()
+    /**
+     * @test
+     */
+    public function test_set_attribute(): void
     {
         $expected_key = 'foo';
         $expected_value = 'bar';
@@ -202,25 +198,5 @@ class FormTest extends AbstractTestCase
 
         // this triggers a Form::bind_data
         $testee->withAttribute('value', ['baz' => 'bam']);
-    }
-
-    public function test_add_filter_validator()
-    {
-        $expected_key = 'foo';
-
-        $element = $this->get_element_stub($expected_key);
-
-        $testee = new Form('');
-        $testee->withElement($element);
-
-        static::assertInstanceOf(
-            Form::class,
-            $testee->withFilter($expected_key, Mockery::mock(FilterInterface::class))
-
-        );
-        static::assertInstanceOf(
-            Form::class,
-            $testee->withValidator($expected_key, Mockery::mock(ValidatorInterface::class))
-        );
     }
 }

@@ -11,8 +11,9 @@ class InputTest extends AbstractViewTestCase
 
     /**
      * Basic test to check the default behavior of the class.
+     * @test
      */
-    public function test_basic()
+    public function test_basic(): void
     {
 
         $testee = new Input();
@@ -21,17 +22,18 @@ class InputTest extends AbstractViewTestCase
 
     /**
      * Test rendering of an Element.
+     * @test
      */
-    public function test_render()
+    public function test_render(): void
     {
 
         $element = new Element('foo');
         $element->withAttribute('type', 'text');
 
         $output = (new Input())->render($element);
-        static::assertContains('<input', $output);
-        static::assertContains('name="foo"', $output);
-        static::assertContains('type="text"', $output);
-        static::assertContains('/>', $output);
+        static::assertStringContainsString('<input', $output);
+        static::assertStringContainsString('name="foo"', $output);
+        static::assertStringContainsString('type="text"', $output);
+        static::assertStringContainsString('/>', $output);
     }
 }

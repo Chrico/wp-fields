@@ -17,10 +17,7 @@ class Collection implements RenderableElementInterface
 
     use AttributeFormatterTrait;
 
-    /**
-     * @var ViewFactory
-     */
-    protected $factory;
+    protected ViewFactory $factory;
 
     /**
      * Collection constructor.

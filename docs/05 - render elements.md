@@ -3,12 +3,15 @@ Creating elements is only 1 part of this package. The most important one is to r
 
 
 ## Render a single element
-To render our `$element` into HTML we can use the provied `ViewFactory`. 
+To render our `$element` into HTML we can use the provided `ViewFactory`. 
 
 ```php
 <?php
 use ChriCo\Fields\ViewFactory;
 use ChriCo\Fields\ElementFactory;
+
+use function ChriCo\Fields\createElement;
+use function ChriCo\Fields\renderElement;
 
 $text_spec = [
 	'attributes' => [
@@ -19,8 +22,11 @@ $text_spec = [
 ];
 
 $element = ( new ElementFactory() )->create( $text_spec );
-
 echo ( new ViewFactory() )->create( 'text' )->render( $element );
+
+// or shorter:
+$element = createElement($text_spec);
+echo renderElement($form);
 ```
 
 This will output the `<input type="text" />` with `<label>`. To render just specific elements, there are a lot of classes available. Just have a look at `ChriCo\Fields\AbstractFactory::$type_to_view`.
@@ -55,5 +61,5 @@ $form = ( new ElementFactory() )->create(
 	]
 );
 
-echo ( new ViewFactory() )->create( 'form' )->render( $form );
+echo ChriCo\Fields\renderElement($form);
 ```

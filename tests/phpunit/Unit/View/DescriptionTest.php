@@ -4,6 +4,7 @@ namespace ChriCo\Fields\Tests\Unit\View;
 
 use ChriCo\Fields\Element\Element;
 use ChriCo\Fields\Element\ElementInterface;
+use ChriCo\Fields\Exception\InvalidClassException;
 use ChriCo\Fields\View\Description;
 use ChriCo\Fields\View\RenderableElementInterface;
 
@@ -12,8 +13,9 @@ class DescriptionTest extends AbstractViewTestCase
 
     /**
      * Basic test to check the default behavior of the class.
+     * @test
      */
-    public function test_basic()
+    public function test_basic(): void
     {
 
         $testee = new Description();
@@ -22,9 +24,9 @@ class DescriptionTest extends AbstractViewTestCase
 
     /**
      * Test rendering of an Element.
-     *
+     * @test
      */
-    public function test_render()
+    public function test_render(): void
     {
 
         $expected = 'lorum ipsum';
@@ -33,23 +35,22 @@ class DescriptionTest extends AbstractViewTestCase
         $element->withDescription($expected);
 
         $output = (new Description())->render($element);
-        static::assertContains('<p', $output);
-        static::assertContains('>' . $expected, $output);
-        static::assertContains('</p>', $output);
+        static::assertStringContainsString('<p', $output);
+        static::assertStringContainsString('>' . $expected, $output);
+        static::assertStringContainsString('</p>', $output);
     }
 
     /**
-     * @expectedException \ChriCo\Fields\Exception\InvalidClassException
+     * @test
      */
-    public function test_render__invalid_element()
+    public function test_render__invalid_element(): void
     {
-
+        static::expectException(InvalidClassException::class);
         /** @var \Mockery\MockInterface|ElementInterface $stub */
         $stub = \Mockery::mock(ElementInterface::class);
-        $stub->shouldReceive('name')
+        $stub->allows('name')
             ->andReturn('');
 
         (new Description())->render($stub);
     }
-
 }

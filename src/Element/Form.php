@@ -2,71 +2,34 @@
 
 namespace ChriCo\Fields\Element;
 
-use ChriCo\Fields\DescriptionAwareInterface;
-use ChriCo\Fields\ErrorAwareInterface;
 use ChriCo\Fields\Exception\ElementNotFoundException;
 use ChriCo\Fields\Exception\LogicException;
-use ChriCo\Fields\LabelAwareInterface;
-use Inpsyde\Filter\FilterInterface;
-use Inpsyde\Validator\ErrorLoggerAwareValidatorInterface;
-use Inpsyde\Validator\ValidatorInterface;
 
 /**
  * Class Form
  *
  * @package ChriCo\Fields\Element
  */
-class Form extends CollectionElement implements
-    FormInterface,
-    CollectionElementInterface,
-    DescriptionAwareInterface,
-    LabelAwareInterface,
-    ErrorAwareInterface
+class Form extends CollectionElement implements FormInterface
 {
 
-    /**
-     * @var array
-     */
-    protected $attributes = [
+    protected array $attributes = [
         'method' => 'POST',
     ];
 
-    /**
-     * @var FilterInterface[][]
-     */
-    protected $filters = [];
+    protected bool $isValid = true;
 
-    /**
-     * @var ValidatorInterface|ErrorLoggerAwareValidatorInterface[][]
-     */
-    protected $validators = [];
+    protected bool $validated = false;
 
-    /**
-     * @var @bool
-     */
-    protected $isValid = true;
-
-    /**
-     * @var bool
-     */
-    protected $validated = false;
-
-    /**
-     * @var bool
-     */
-    protected $isSubmitted = false;
+    protected bool $isSubmitted = false;
 
     /**
      * Contains the raw data assigned by Form::bind_data
-     *
-     * @var array
      */
-    protected $rawData = [];
+    protected array $rawData = [];
 
     /**
      * Contains the filtered data.
-     *
-     * @var array
      */
     protected $data = [];
 
@@ -74,9 +37,9 @@ class Form extends CollectionElement implements
      * @param string $key
      * @param string|array $value
      *
+     * @return ElementInterface
      * @throws LogicException
      *
-     * @return ElementInterface
      */
     public function withAttribute(string $key, $value): ElementInterface
     {
@@ -90,11 +53,11 @@ class Form extends CollectionElement implements
     }
 
     /**
-     * @throws LogicException
-     *
      * @param array $data
      *
      * @return FormInterface
+     * @throws LogicException
+     *
      */
     public function withData(array $data = []): FormInterface
     {
@@ -106,35 +69,12 @@ class Form extends CollectionElement implements
         foreach ($this->elements() as $name => $element) {
             $value = $data[$name] ?? '';
             $this->rawData[$name] = $value;
-            $value = $this->filter($name, $value);
-            $this->data[$name] = $value;
+
             $element->withValue($value);
+            $this->data[$name] = $element->value();
         }
 
         return $this;
-    }
-
-    /**
-     * Filter a value to a given name.
-     *
-     * @param string $name
-     * @param mixed $value
-     *
-     * @return mixed $value
-     */
-    private function filter(string $name, $value)
-    {
-        if (! isset($this->filters[$name])) {
-            return $value;
-        }
-
-        return array_reduce(
-            $this->filters[$name],
-            function ($value, FilterInterface $filter) {
-                return $filter->filter($value);
-            },
-            $value
-        );
     }
 
     /**
@@ -150,54 +90,21 @@ class Form extends CollectionElement implements
 
         /** @var ElementInterface $element */
         foreach ($this->elements() as $name => $element) {
+            // only validate elements which are not disabled.
             if ($element->isDisabled()) {
                 continue;
             }
+
             $value = $inputData[$name] ?? '';
             $this->rawData[$name] = $value;
-            $value = $this->filter($name, $value);
-            $this->data[$name] = $value;
-            $element->withValue($value);
 
-            // only validate elements which are not disabled.
-            if (! $this->validate($name, $element->value())) {
+            $element->withValue($value);
+            $this->data[$name] = $element->value();
+
+            if (!$element->validate()) {
                 $this->isValid = false;
             }
         }
-    }
-
-    /**
-     * Internal function to validate data based on the $name.
-     *
-     * @param string $name
-     * @param mixed $value
-     *
-     * @throws ElementNotFoundException
-     *
-     * @return bool
-     */
-    private function validate(string $name, $value): bool
-    {
-        if (! isset($this->validators[$name])) {
-            return true;
-        }
-
-        $errors = [];
-
-        $isValid = true;
-        foreach ($this->validators[$name] as $validator) {
-            if (! $validator->is_valid($value)) {
-                $errors = array_merge($errors, $validator->get_error_messages());
-                $isValid = false;
-            }
-        }
-
-        $element = $this->element($name);
-        if ($element instanceof ErrorAwareInterface) {
-            $element->withErrors($errors);
-        }
-
-        return $isValid;
     }
 
     /**
@@ -209,13 +116,13 @@ class Form extends CollectionElement implements
     }
 
     /**
+     * @return bool
      * @throws LogicException
      *
-     * @return bool
      */
     public function isValid(): bool
     {
-        if (! $this->isSubmitted) {
+        if (!$this->isSubmitted) {
             throw new LogicException(
                 'Cannot check if a not submitted form is valid. Call Form::is_submitted() before Form::is_valid().'
             );
@@ -230,39 +137,5 @@ class Form extends CollectionElement implements
     public function isSubmitted(): bool
     {
         return $this->isSubmitted;
-    }
-
-    /**
-     * @param string $name
-     * @param FilterInterface $filter
-     *
-     * @return FormInterface
-     */
-    public function withFilter(string $name, FilterInterface $filter): FormInterface
-    {
-        if (! isset($this->filters[$name])) {
-            $this->filters[$name] = [];
-        }
-
-        $this->filters[$name][] = $filter;
-
-        return $this;
-    }
-
-    /**
-     * @param string $name
-     * @param ValidatorInterface $validator
-     *
-     * @return FormInterface
-     */
-    public function withValidator(string $name, ValidatorInterface $validator): FormInterface
-    {
-        if (! isset($this->validators[$name])) {
-            $this->validators[$name] = [];
-        }
-
-        $this->validators[$name][] = $validator;
-
-        return $this;
     }
 }

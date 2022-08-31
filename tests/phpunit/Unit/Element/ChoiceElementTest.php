@@ -3,11 +3,11 @@
 namespace ChriCo\Fields\Tests\Unit\Element;
 
 use ChriCo\Fields\ChoiceList\ArrayChoiceList;
-use ChriCo\Fields\DescriptionAwareInterface;
+use ChriCo\Fields\Element\DescriptionAwareInterface;
 use ChriCo\Fields\Element\ChoiceElement;
 use ChriCo\Fields\Element\ElementInterface;
-use ChriCo\Fields\ErrorAwareInterface;
-use ChriCo\Fields\LabelAwareInterface;
+use ChriCo\Fields\Element\ErrorAwareInterface;
+use ChriCo\Fields\Element\LabelAwareInterface;
 use ChriCo\Fields\Tests\Unit\AbstractTestCase;
 
 class ChoiceElementTest extends AbstractTestCase
@@ -15,8 +15,9 @@ class ChoiceElementTest extends AbstractTestCase
 
     /**
      * Basic test to check the default behavior of the class.
+     * @test
      */
-    public function test_basic()
+    public function test_basic(): void
     {
 
         $testee = new ChoiceElement('name');
@@ -33,8 +34,9 @@ class ChoiceElementTest extends AbstractTestCase
 
     /**
      * Test set and get choices methods.
+     * @test
      */
-    public function test_set_get_choices()
+    public function test_set_get_choices(): void
     {
 
         $expected = new ArrayChoiceList();
@@ -43,5 +45,4 @@ class ChoiceElementTest extends AbstractTestCase
 
         static::assertSame($expected, $testee->choices());
     }
-
 }

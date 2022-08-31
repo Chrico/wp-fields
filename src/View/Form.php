@@ -4,7 +4,7 @@ namespace ChriCo\Fields\View;
 
 use ChriCo\Fields\Element\ElementInterface;
 use ChriCo\Fields\Element\FormInterface;
-use ChriCo\Fields\ErrorAwareInterface;
+use ChriCo\Fields\Element\ErrorAwareInterface;
 use ChriCo\Fields\Exception\InvalidClassException;
 use ChriCo\Fields\Exception\UnknownTypeException;
 use ChriCo\Fields\ViewFactory;
@@ -19,10 +19,7 @@ class Form implements RenderableElementInterface
 
     use AttributeFormatterTrait;
 
-    /**
-     * @var ViewFactory
-     */
-    protected $factory;
+    protected ViewFactory $factory;
 
     /**
      * Form constructor.

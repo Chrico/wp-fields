@@ -4,6 +4,7 @@ namespace ChriCo\Fields\Tests\Unit\View;
 
 use ChriCo\Fields\Element\Element;
 use ChriCo\Fields\Element\ElementInterface;
+use ChriCo\Fields\Exception\InvalidClassException;
 use ChriCo\Fields\View\Label;
 use ChriCo\Fields\View\RenderableElementInterface;
 
@@ -12,8 +13,9 @@ class LabelTest extends AbstractViewTestCase
 
     /**
      * Basic test to check the default behavior of the class.
+     * @test
      */
-    public function test_basic()
+    public function test_basic(): void
     {
 
         $testee = new Label();
@@ -22,9 +24,9 @@ class LabelTest extends AbstractViewTestCase
 
     /**
      * Test rendering of an Element.
-     *
+     * @test
      */
-    public function test_render()
+    public function test_render(): void
     {
 
         $expected_attr  = ['for' => 'foo'];
@@ -35,21 +37,21 @@ class LabelTest extends AbstractViewTestCase
         $element->withLabelAttributes($expected_attr);
 
         $output = (new Label())->render($element);
-        static::assertContains('<label', $output);
-        static::assertContains('</label>', $output);
-        static::assertContains('for="foo"', $output);
-        static::assertContains('>Foo</label>', $output);
+        static::assertStringContainsString('<label', $output);
+        static::assertStringContainsString('</label>', $output);
+        static::assertStringContainsString('for="foo"', $output);
+        static::assertStringContainsString('>Foo</label>', $output);
     }
 
     /**
-     * @expectedException \ChriCo\Fields\Exception\InvalidClassException
+     * @test
      */
-    public function test_render__invalid_element()
+    public function test_render__invalid_element(): void
     {
-
+        static::expectException(InvalidClassException::class);
         /** @var \Mockery\MockInterface|ElementInterface $stub */
         $stub = \Mockery::mock(ElementInterface::class);
-        $stub->shouldReceive('name')
+        $stub->allows('name')
             ->andReturn('');
 
         (new Label())->render($stub);
@@ -57,8 +59,9 @@ class LabelTest extends AbstractViewTestCase
 
     /**
      * Test if the "for"-attribute is automatically used from element id if not set.
+     * @test
      */
-    public function test_render__for_attribute()
+    public function test_render__for_attribute(): void
     {
 
         $expected_name  = 'name';
@@ -68,8 +71,8 @@ class LabelTest extends AbstractViewTestCase
         $element->withLabel($expected_label);
 
         $output = (new Label())->render($element);
-        static::assertContains('for="' . $expected_name . '"', $output);
-        static::assertContains('>' . $expected_label . '</label>', $output);
+        static::assertStringContainsString('for="' . $expected_name . '"', $output);
+        static::assertStringContainsString('>' . $expected_label . '</label>', $output);
 
     }
 }

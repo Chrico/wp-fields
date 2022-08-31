@@ -2,12 +2,12 @@
 To work later in view with Elements, you have first to create the Element itself. There are following different types of Elements available:
 
 
-| name | extends | description |
-| ------------- | ------------- | ------------- |
-| `Element` | | default element for inputs, textareas, buttons |
-| `ChoiceElement` | `Element` | allows us to set and get choices for checkboxes or radios |
-| `CollectionElement` | `Element` | allows us to group multiple elements into one namespace together |
-| `Form` | `CollectionElement` | allows us to work with data and delegate them to containing elements |
+| name                | extends             | description                                                          |
+|---------------------|---------------------|----------------------------------------------------------------------|
+| `Element`           |                     | default element for inputs, textareas, buttons                       |
+| `ChoiceElement`     | `Element`           | allows us to set and get choices for checkboxes or radios            |
+| `CollectionElement` | `Element`           | allows us to group multiple elements into one namespace together     |
+| `Form`              | `CollectionElement` | allows us to work with data and delegate them to containing elements |
 
 Here's a short example of creating...
 
@@ -66,6 +66,17 @@ $text = (new Element( 'my-text' ))
 	->withErrors( [ 'error-id' => 'Error message' ] );
 
 print_r( $text->errors() ); // [ 'error-id' => 'Error message' ]
+```
+
+## Adding Validators and Filters
+Validation callbacks can be used to validate the Element value, while Filters are being used to sanitize the Element value.
+
+```
+use ChriCo\Fields\Element\Element;
+
+$text = (new Element( 'my-text' ))
+    ->withValidator(static fn(string $value): bool => is_email($value));
+	->withFilter(static fn($value) => sanitize_text_field($value));
 ```
 
 ## Using the `ElementFactory`

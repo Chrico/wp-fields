@@ -2,6 +2,7 @@
 
 namespace ChriCo\Fields\Tests\Unit;
 
+use ChriCo\Fields\Exception\UnknownTypeException;
 use ChriCo\Fields\Tests\Unit\Fixtures\CustomViewElement;
 use ChriCo\Fields\View\Errors;
 use ChriCo\Fields\View\Input;
@@ -14,8 +15,9 @@ class ViewFactoryTest extends AbstractTestCase
 
     /**
      * Basic test to check the default behavior of the class.
+     * @test
      */
-    public function test_basic()
+    public function test_basic(): void
     {
 
         $testee = new ViewFactory();
@@ -29,15 +31,16 @@ class ViewFactoryTest extends AbstractTestCase
      * @param $expected
      *
      * @dataProvider provide_create
+     * @test
      */
-    public function test_create($type, $expected)
+    public function test_create($type, $expected): void
     {
 
         $testee = new ViewFactory();
         static::assertInstanceOf($expected, $testee->create($type));
     }
 
-    public function provide_create()
+    public function provide_create(): \Generator
     {
 
         yield 'label type' => ['label', Label::class];
@@ -48,8 +51,9 @@ class ViewFactoryTest extends AbstractTestCase
 
     /**
      * Test if we can create an instance of a custom view-element.
+     * @test
      */
-    public function test_create__custom_view_element()
+    public function test_create__custom_view_element(): void
     {
 
         $expected = CustomViewElement::class;
@@ -58,12 +62,11 @@ class ViewFactoryTest extends AbstractTestCase
 
     /**
      * Test if an unknown type throws an Exception.
-     *
-     * @expectedException \ChriCo\Fields\Exception\UnknownTypeException
+     * @test
      */
-    public function test_create__unknown_type()
+    public function test_create__unknown_type(): void
     {
-
+        static::expectException(UnknownTypeException::class);
         $testee = new ViewFactory();
         $testee->create('i am an unknown type');
     }

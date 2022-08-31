@@ -11,8 +11,9 @@ class CallbackChoiceListTest extends AbstractTestCase
 
     /**
      * Basic test with default class behavior.
+     * @test
      */
-    public function test_basic()
+    public function test_basic(): void
     {
 
         $callback = function () {
@@ -26,8 +27,9 @@ class CallbackChoiceListTest extends AbstractTestCase
 
     /**
      * Test if we can use a simple closoure to load some results.
+     * @test
      */
-    public function test_get_choices()
+    public function test_get_choices(): void
     {
 
         $expected = ['foo' => 'bar'];
@@ -44,5 +46,4 @@ class CallbackChoiceListTest extends AbstractTestCase
         // trigger again should not reload choices.
         static::assertSame($expected, $testee->choices());
     }
-
 }

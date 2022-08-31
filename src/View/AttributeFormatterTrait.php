@@ -13,7 +13,7 @@ trait AttributeFormatterTrait
     /**
      * @var array
      */
-    protected $booleanAttributes = [
+    protected array $booleanAttributes = [
         'autofocus',
         'checked',
         'disabled',

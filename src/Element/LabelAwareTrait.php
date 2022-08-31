@@ -1,6 +1,6 @@
 <?php declare(strict_types=1); # -*- coding: utf-8 -*-
 
-namespace ChriCo\Fields;
+namespace ChriCo\Fields\Element;
 
 /**
  * Trait LabelAwareTrait
@@ -9,16 +9,8 @@ namespace ChriCo\Fields;
  */
 trait LabelAwareTrait
 {
-
-    /**
-     * @var string
-     */
-    protected $label = '';
-
-    /**
-     * @var array
-     */
-    protected $labelAttributes = [];
+    protected string $label = '';
+    protected array $labelAttributes = [];
 
     /**
      * @return string

@@ -11,8 +11,9 @@ class ProgressTest extends AbstractViewTestCase
 
     /**
      * Basic test to check the default behavior of the class.
+     * @test
      */
-    public function test_basic()
+    public function test_basic(): void
     {
 
         $testee = new Progress();
@@ -21,16 +22,17 @@ class ProgressTest extends AbstractViewTestCase
 
     /**
      * Test rendering of an Element.
+     * @test
      */
-    public function test_render()
+    public function test_render(): void
     {
 
         $element = new Element('foo');
         $element->withValue('100');
 
         $output = (new Progress())->render($element);
-        static::assertContains('</progress>', $output);
-        static::assertContains('name="foo"', $output);
-        static::assertContains('>100</progress>', $output);
+        static::assertStringContainsString('</progress>', $output);
+        static::assertStringContainsString('name="foo"', $output);
+        static::assertStringContainsString('>100</progress>', $output);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace ChriCo\Fields\View;
 
-use ChriCo\Fields\DescriptionAwareInterface;
+use ChriCo\Fields\Element\DescriptionAwareInterface;
 use ChriCo\Fields\Element\ElementInterface;
 use ChriCo\Fields\Exception\InvalidClassException;
 

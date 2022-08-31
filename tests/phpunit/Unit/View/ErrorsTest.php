@@ -4,6 +4,7 @@ namespace ChriCo\Fields\Tests\Unit\View;
 
 use ChriCo\Fields\Element\Element;
 use ChriCo\Fields\Element\ElementInterface;
+use ChriCo\Fields\Exception\InvalidClassException;
 use ChriCo\Fields\View\Errors;
 use ChriCo\Fields\View\RenderableElementInterface;
 
@@ -12,8 +13,9 @@ class ErrorsTest extends AbstractViewTestCase
 
     /**
      * Basic test to check the default behavior of the class.
+     * @test
      */
-    public function test_basic()
+    public function test_basic(): void
     {
 
         $testee = new Errors();
@@ -27,8 +29,9 @@ class ErrorsTest extends AbstractViewTestCase
      * @param string $expected
      *
      * @dataProvider provide_render
+     * @test
      */
-    public function test_render($input, $expected)
+    public function test_render(array $input, string $expected): void
     {
 
         $element = new Element('name');
@@ -40,7 +43,7 @@ class ErrorsTest extends AbstractViewTestCase
         );
     }
 
-    public function provide_render()
+    public function provide_render(): \Generator
     {
 
         yield 'no errors' => [
@@ -59,8 +62,9 @@ class ErrorsTest extends AbstractViewTestCase
 
     /**
      * Test if we can change the markup around the error output.
+     * @test
      */
-    public function test_render__changed_markup()
+    public function test_render__changed_markup(): void
     {
 
         $element = new Element('name');
@@ -78,14 +82,14 @@ class ErrorsTest extends AbstractViewTestCase
     }
 
     /**
-     * @expectedException \ChriCo\Fields\Exception\InvalidClassException
+     * @test
      */
-    public function test_render__invalid_element()
+    public function test_render__invalid_element(): void
     {
-
+        static::expectException(InvalidClassException::class);
         /** @var \Mockery\MockInterface|ElementInterface $stub */
         $stub = \Mockery::mock(ElementInterface::class);
-        $stub->shouldReceive('name')
+        $stub->allows('name')
             ->andReturn('');
 
         (new Errors())->render($stub);

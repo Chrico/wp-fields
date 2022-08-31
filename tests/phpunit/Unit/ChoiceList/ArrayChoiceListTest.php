@@ -11,8 +11,10 @@ class ArrayChoiceListTest extends AbstractTestCase
 
     /**
      * Basic test with default class behavior.
+     *
+     * @test
      */
-    public function test_basic()
+    public function test_basic(): void
     {
 
         $testee = new ArrayChoiceList();
@@ -24,7 +26,10 @@ class ArrayChoiceListTest extends AbstractTestCase
 
     }
 
-    public function test_get_choices()
+    /**
+     * @test
+     */
+    public function test_get_choices(): void
     {
 
         $expected = ['foo' => 'bar'];
@@ -38,14 +43,15 @@ class ArrayChoiceListTest extends AbstractTestCase
      * @param array $expected
      *
      * @dataProvider provide_get_values
+     * @test
      */
-    public function test_get_values($input, $expected)
+    public function test_get_values($input, $expected): void
     {
 
         static::assertSame($expected, (new ArrayChoiceList($input))->values());
     }
 
-    public function provide_get_values()
+    public function provide_get_values(): \Generator
     {
 
         yield 'string values' => [['foo' => 'bar'], ['foo']];
@@ -58,15 +64,16 @@ class ArrayChoiceListTest extends AbstractTestCase
      * @param array $expected
      *
      * @dataProvider provide_get_choices_for_value
+     * @test
      */
-    public function test_get_choices_for_value($list, $selected, $expected)
+    public function test_get_choices_for_value($list, $selected, $expected): void
     {
 
         static::assertSame($expected, (new ArrayChoiceList($list))->choicesForValue($selected));
 
     }
 
-    public function provide_get_choices_for_value()
+    public function provide_get_choices_for_value(): \Generator
     {
 
         yield '1 selected' => [
