@@ -32,7 +32,7 @@ class FormRowTest extends AbstractViewTestCase
 
         $output = (new FormRow())->render($element);
         static::assertStringContainsString('<tr', $output);
-        static::assertStringContainsString('class="form-row"', $output);
+        static::assertStringContainsString('class="form-row', $output);
         static::assertStringContainsString('<td colspan="2">', $output);
         static::assertStringContainsString('</tr>', $output);
     }
@@ -52,7 +52,7 @@ class FormRowTest extends AbstractViewTestCase
 
         $output = (new FormRow())->render($element);
         static::assertStringContainsString('<tr', $output);
-        static::assertStringContainsString('class="form-row"', $output);
+        static::assertStringContainsString('class="form-row', $output);
         static::assertStringContainsString('<th><label', $output);
         static::assertStringContainsString($expected_label . '</label></th>', $output);
         static::assertStringContainsString('</tr>', $output);

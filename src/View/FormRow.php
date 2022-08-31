@@ -15,7 +15,6 @@ use ChriCo\Fields\ViewFactory;
  */
 class FormRow implements RenderableElementInterface
 {
-
     use AttributeFormatterTrait;
 
     protected ViewFactory $factory;
@@ -75,12 +74,22 @@ class FormRow implements RenderableElementInterface
                 $errors
             );
 
+        $classes = ['form-row', 'form-row--' . $element->type()];
+        if ($errors !== '') {
+            $classes[] = 'form-row--has-errors';
+        }
+        if ($element->type() === 'hidden') {
+            $classes[] = 'hidden';
+        }
+
         $rowAttributes = [
-            'class' => 'form-row'.($errors === ''
-                    ? ''
-                    : ' form-row--has-errors'),
+            'class' => implode(' ', $classes),
         ];
 
-        return '<tr '.$this->attributesToString($rowAttributes).'>'.$html.'</tr>';
+        return sprintf(
+            '<tr %s>%s</tr>',
+            $this->attributesToString($rowAttributes),
+            $html
+        );
     }
 }
