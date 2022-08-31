@@ -56,7 +56,7 @@ class Form implements RenderableElementInterface
 
         $html = array_reduce(
             $element->elements(),
-            function ($html, ElementInterface $next) use ($element, $row) {
+            static function ($html, ElementInterface $next) use ($element, $row): string {
                 $html .= $row->render($next);
 
                 return $html;

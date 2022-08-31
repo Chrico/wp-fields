@@ -39,7 +39,7 @@ class CollectionElement extends Element implements CollectionElementInterface
     {
         array_walk(
             $elements,
-            function (ElementInterface $element) {
+            function (ElementInterface $element): void {
                 $this->elements[$element->name()] = $element;
             }
         );
@@ -50,13 +50,13 @@ class CollectionElement extends Element implements CollectionElementInterface
     /**
      * @param string $name
      *
+     * @return ElementInterface
      * @throws ElementNotFoundException
      *
-     * @return ElementInterface
      */
     public function element(string $name): ElementInterface
     {
-        if (! isset($this->elements[$name])) {
+        if (!isset($this->elements[$name])) {
             throw new ElementNotFoundException(
                 sprintf('The element with name <code>%s</code> does not exists', $name)
             );
@@ -112,9 +112,7 @@ class CollectionElement extends Element implements CollectionElementInterface
         }
 
         return array_map(
-            function (ElementInterface $element) {
-                return $element->value();
-            },
+            static fn (ElementInterface $element) => $element->value(),
             $this->elements()
         );
     }
@@ -140,7 +138,7 @@ class CollectionElement extends Element implements CollectionElementInterface
 
         array_walk(
             $this->elements,
-            function (ElementInterface $element) use ($errors) {
+            static function (ElementInterface $element) use ($errors): void {
                 $name = $element->name();
                 if (isset($errors[$name]) && $element instanceof ErrorAwareInterface) {
                     $element->withErrors($errors);
@@ -161,5 +159,22 @@ class CollectionElement extends Element implements CollectionElementInterface
     public function hasErrors(): bool
     {
         return count($this->allErrors) > 0;
+    }
+
+    public function validate(): bool
+    {
+        $isValid = parent::validate();
+
+        if (!$isValid) {
+            return $isValid;
+        }
+
+        foreach ($this->elements() as $element) {
+            if (!$element->validate()) {
+                $isValid = false;
+            }
+        }
+
+        return $isValid;
     }
 }

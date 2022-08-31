@@ -54,7 +54,7 @@ class Collection implements RenderableElementInterface
 
         $html = array_reduce(
             $element->elements(),
-            function ($html, ElementInterface $next) use ($element, $row) {
+            static function ($html, ElementInterface $next) use ($element, $row): string {
                 // adding the CollectionElement name to the Element name and ID as prefix.
                 $next->withAttribute('id', $element->name().'_'.$next->id());
                 $next->withAttribute('name', $element->name().'['.$next->name().']');
