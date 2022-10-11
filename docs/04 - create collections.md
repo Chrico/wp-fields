@@ -32,9 +32,9 @@ To create multiple elements for a collection, we can easily use the `ElementFact
 
 ```php
 <?php
-use ChriCo\Fields\ElementFactory;
+use function ChriCo\Fields\createElement;
 
-$collection = (new ElementFactory())->create(
+$collection = createElement(
 	[
 		'attributes' => [
 			'type' => 'collection',

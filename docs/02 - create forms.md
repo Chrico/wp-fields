@@ -5,12 +5,10 @@ Here's the same example for an `<input type="text" />` and `<select>` which are 
 
 ```php
 <?php
-use ChriCo\Fields\ElementFactory;
-
-$factory = new ElementFactory(); 
+use function ChriCo\Fields\createElement;
 
 // The text element
-$text = $factory->create(
+$text = createElement(
 	[
 		'attributes' => [
 			'name' => 'my-text',
@@ -23,7 +21,7 @@ $text = $factory->create(
 );
 
 // the select element
-$select = $factory->create(
+$select = createElement(
 	[
 		'attributes' => [
 			'name' => 'my-select',
@@ -34,7 +32,7 @@ $select = $factory->create(
 	]
 );
 
-$form = $factory->create(
+$form = createElement(
 	[
     	'attributes' => [
     		'name' => 'my-form',
@@ -53,9 +51,9 @@ And now the complete example with 1 specification which could be placed into an 
 
 ```php
 <?php
-use ChriCo\Fields\ElementFactory;
+use function ChriCo\Fields\createElement;
 
-$form = (new ElementFactory())->create(
+$form = createElement(
 	[
 		'attributes' => [
 			'name' => 'my-form',
