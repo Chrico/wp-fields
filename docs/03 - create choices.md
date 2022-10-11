@@ -12,6 +12,8 @@ To show the differences for both, here's a short example for a `<select>` which 
 use ChriCo\Fields\Element\ChoiceElement;
 use ChriCo\Fields\ChoiceList\ArrayChoiceList;
 
+use function ChriCo\Fields\createElement;
+
 $data = array_reduce(
 	get_posts(), 
 	static function($data, \WP_Post $post): array {
@@ -26,7 +28,17 @@ $data = array_reduce(
 $select = (new ChoiceElement('post-select'))
 	->withAttributes([ 'type' => 'select' ])
 	->withChoices(new ArrayChoiceList($data));
-
+	
+// or
+$select = createElement(
+    [
+        'attributes' => [
+            'name' => 'post-select',
+            'type' => 'select',
+        ],
+        'choices' => $data,
+    ]
+);
 ```
 
 **2. CallbackChoiceList**
@@ -35,12 +47,14 @@ $select = (new ChoiceElement('post-select'))
 use ChriCo\Fields\Element\ChoiceElement;
 use ChriCo\Fields\ChoiceList\CallbackChoiceList;
 
+use function ChriCo\Fields\createElement;
+
 /**
  * A callable closure which loads posts.
  * 
  * @return array(int => string)
  */
-$data = function() {
+$data = static function(): array {
 
 	return array_reduce(
 		get_posts(), 
@@ -57,6 +71,16 @@ $select = (new ChoiceElement('post-select'))
 	->withAttributes([ 'type' => 'select' ])
 	->withChoices(new CallbackChoiceList($data));
 
+// or
+$select = createElement(
+    [
+        'attributes' => [
+            'name' => 'post-select',
+            'type' => 'select',
+        ],
+        'choices' => new CallbackChoiceList($data),
+    ]
+);
 ```
 
 The main difference is: The `CallbackChoiceList` only loads the choices, when they are first time accessed in view. The `ArrayChoiceList` has already assigned the complete choice-values in it's constructor.
