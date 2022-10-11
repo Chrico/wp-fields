@@ -38,10 +38,10 @@ To render complete forms with elements, you can use again the `ViewFactory` in c
 
 ```php
 <?php
-use ChriCo\Fields\ViewFactory;
-use ChriCo\Fields\ElementFactory;
+use function ChriCo\Fields\createElement;
+use function ChriCo\Fields\renderElement;
 
-$form = (new ElementFactory())->create(
+$form = createElement(
 	[
 		'attributes' => [
 			'name' => 'my-form',
@@ -61,5 +61,5 @@ $form = (new ElementFactory())->create(
 	]
 );
 
-echo ChriCo\Fields\renderElement($form);
+echo renderElement($form);
 ```
