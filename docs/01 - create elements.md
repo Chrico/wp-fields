@@ -71,7 +71,7 @@ print_r( $text->errors() ); // [ 'error-id' => 'Error message' ]
 ## Adding Validators and Filters
 Validation callbacks can be used to validate the Element value, while Filters are being used to sanitize the Element value.
 
-```
+```php
 use ChriCo\Fields\Element\Element;
 
 $text = (new Element( 'my-text' ))

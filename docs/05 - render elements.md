@@ -3,7 +3,7 @@ Creating elements is only 1 part of this package. The most important one is to r
 
 
 ## Render a single element
-To render our `$element` into HTML we can use the provided `ViewFactory`. 
+To render our `$element` into HTML we can use the provided `ViewFactory`.
 
 ```php
 <?php
@@ -13,7 +13,7 @@ use ChriCo\Fields\ElementFactory;
 use function ChriCo\Fields\createElement;
 use function ChriCo\Fields\renderElement;
 
-$text_spec = [
+$spec = [
 	'attributes' => [
 		'name' => 'my-text',
 		'type' => 'text'
@@ -21,11 +21,11 @@ $text_spec = [
 	'label'     => 'My label'
 ];
 
-$element = ( new ElementFactory() )->create( $text_spec );
+$element = ( new ElementFactory() )->create( $spec );
 echo ( new ViewFactory() )->create( 'text' )->render( $element );
 
 // or shorter:
-$element = createElement($text_spec);
+$element = createElement($spec);
 echo renderElement($form);
 ```
 
