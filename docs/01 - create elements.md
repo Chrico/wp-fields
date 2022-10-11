@@ -75,8 +75,8 @@ Validation callbacks can be used to validate the Element value, while Filters ar
 use ChriCo\Fields\Element\Element;
 
 $text = (new Element( 'my-text' ))
-    ->withValidator(static fn(string $value): bool => is_email($value));
-	->withFilter(static fn($value) => sanitize_text_field($value));
+    ->withValidator(static fn(string $value): bool => is_email($value))
+    ->withFilter(static fn($value): string => sanitize_text_field($value));
 ```
 
 ## Using the `ElementFactory`
