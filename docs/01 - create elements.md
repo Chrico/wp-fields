@@ -19,11 +19,11 @@ Here's a short example of creating...
 <?php
 use ChriCo\Fields\Element\Element;
 
-$text = (new Element( 'my-text' ))
-	->withAttributes( [ 'type' => 'text'] );
+$text = (new Element('my-text'))
+	->withAttributes([ 'type' => 'text']);
 
-$number = (new Element( 'my-number' ));
-	->withAttributes( [ 'type' => 'number' ] );
+$number = (new Element('my-number'));
+	->withAttributes([ 'type' => 'number' ]);
 ```
 
 ## Adding a description
@@ -33,8 +33,8 @@ All elements are implementing the `DescriptionAwareInterface` which allows us to
 <?php
 use ChriCo\Fields\Element\Element;
  
-$text = (new Element( 'my-text' ))
-	->withDescription( 'Some additional description for our form field.' );
+$text = (new Element('my-text'))
+	->withDescription('Some additional description for our form field.');
   
 echo $text->description(); 
 ```
@@ -47,12 +47,12 @@ All elements are implementing the `LabelAwareInterface` which allows us to add a
 <?php
 use ChriCo\Fields\Element\Element;
 
-$text = (new Element( 'my-text' ))
-	->withLabel( 'My label' )
-	->withLabelAttributes( [ 'for' => 'my-id' ] );
+$text = (new Element('my-text'))
+	->withLabel('My label')
+	->withLabelAttributes([ 'for' => 'my-id' ]);
 
 echo $text->label(); // 'My label'
-print_r( $text->labelAttributes() ); // [ 'for' => 'my-id' ] 
+print_r($text->labelAttributes()); // [ 'for' => 'my-id' ] 
 ```
 
 ## Adding errors
@@ -62,10 +62,10 @@ Elements are implementing by default the `ErrorAwareInterface` which allows us t
 <?php
 use ChriCo\Fields\Element\Element;
 
-$text = (new Element( 'my-text' ))
-	->withErrors( [ 'error-id' => 'Error message' ] );
+$text = (new Element('my-text'))
+	->withErrors([ 'error-id' => 'Error message' ]);
 
-print_r( $text->errors() ); // [ 'error-id' => 'Error message' ]
+print_r($text->errors()); // [ 'error-id' => 'Error message' ]
 ```
 
 ## Adding Validators and Filters
@@ -74,7 +74,7 @@ Validation callbacks can be used to validate the Element value, while Filters ar
 ```php
 use ChriCo\Fields\Element\Element;
 
-$text = (new Element( 'my-text' ))
+$text = (new Element('my-text'))
     ->withValidator(static fn(string $value): bool => is_email($value))
     ->withFilter(static fn($value): string => sanitize_text_field($value));
 ```
@@ -89,7 +89,7 @@ use ChriCo\Fields\ElementFactory;
 $factory = new ElementFactory(); 
 
 // The text element
-$text_spec = [
+$spec = [
 	'attributes' => [
 		'name' => 'my-text',
 		'type' => 'text'
@@ -98,5 +98,7 @@ $text_spec = [
 	'label_attributes'  => [ 'for' => 'my-id' ],
 	'errors'            => [ 'error-id' => 'Error message' ]
 ];
-$text = $factory->create( $text_spec );
+$text = $factory->create($spec);
+// or
+$text = \ChriCo\Fields\createElement($spec);
 ```

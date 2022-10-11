@@ -19,34 +19,34 @@ Here's a short example of writing a so called "Metabox" to the "Post edit"-scree
 
 ```php
 <?php
-add_action( 
+add_action(
 	'plugins_loaded', 
 	static function(): void {
 	
-		add_action( 
+		add_action(
 			'add_meta_boxes', 
 			/**
 			 * @param string $post_type
 			 *
 			 * @return bool
 			*/ 
-			static function( string $post_type ) : bool {
+			static function(string $post_type) : bool {
 			
 				// some checks if we're allowed to print our fields.
-				if ( $post_type !== 'post' ) {
+				if ($post_type !== 'post') {
 					return FALSE;
 				}
 
 				add_meta_box(
 					'maybe-unique-id',
 					'Here\'s a title for the MetaBox',
-					function ( \WP_Post $post ) {
+					function (\WP_Post $post) {
 		
 						// The MetaBox-content with your fields are going here...
 						// so in theory something like: <input type="text" /> and so on
 					},
 					$post_type
-		        );
+		       );
 				
 				return TRUE;				
 			}

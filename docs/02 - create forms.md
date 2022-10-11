@@ -42,7 +42,7 @@ $form = $factory->create(
     	]
     ]
 );
-$form->withElement( $text, $select )
+$form->withElement($text, $select)
 ```
 
 ----
@@ -55,7 +55,7 @@ And now the complete example with 1 specification which could be placed into an 
 <?php
 use ChriCo\Fields\ElementFactory;
 
-$form = ( new ElementFactory() )->create( 
+$form = (new ElementFactory())->create(
 	[
 		'attributes' => [
 			'name' => 'my-form',
@@ -94,9 +94,9 @@ To set data without validation which is e.G. loaded from database, you can use t
 
 // snip - see instance creation above
 
-$form->withData( [ 'my-text' => '<p>value of my-text</p>' ] );
+$form->withData([ 'my-text' => '<p>value of my-text</p>' ]);
 
-echo $form->element( 'my-text' )->value(); // '<p>value of my-text</p>'
+echo $form->element('my-text')->value(); // '<p>value of my-text</p>'
 ```
 
 ----
@@ -112,10 +112,10 @@ The second way to bind data to elements is the usage of `Form::submit` which als
 
 $form->isSubmitted(); // FALSE
 
-$form->submit( [ 'my-text' => '<p>value of my-text</p>' ] );
+$form->submit([ 'my-text' => '<p>value of my-text</p>' ]);
 
 $form->isSubmitted(); // TRUE
 $form->isValid(); // TRUE - no validators are set.
 
-echo $form->element( 'my-text' )->value(); // '<p>value of my-text</p>'
+echo $form->element('my-text')->value(); // '<p>value of my-text</p>'
 ```

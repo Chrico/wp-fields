@@ -21,8 +21,8 @@ $spec = [
 	'label'     => 'My label'
 ];
 
-$element = ( new ElementFactory() )->create( $spec );
-echo ( new ViewFactory() )->create( 'text' )->render( $element );
+$element = (new ElementFactory())->create($spec);
+echo (new ViewFactory())->create('text')->render($element);
 
 // or shorter:
 $element = createElement($spec);
@@ -41,7 +41,7 @@ To render complete forms with elements, you can use again the `ViewFactory` in c
 use ChriCo\Fields\ViewFactory;
 use ChriCo\Fields\ElementFactory;
 
-$form = ( new ElementFactory() )->create( 
+$form = (new ElementFactory())->create(
 	[
 		'attributes' => [
 			'name' => 'my-form',

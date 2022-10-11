@@ -12,9 +12,9 @@ To show the differences for both, here's a short example for a `<select>` which 
 use ChriCo\Fields\Element\ChoiceElement;
 use ChriCo\Fields\ChoiceList\ArrayChoiceList;
 
-$data = array_reduce( 
+$data = array_reduce(
 	get_posts(), 
-	static function( $data, \WP_Post $post ): array {
+	static function($data, \WP_Post $post): array {
         	$data[ $post->ID ] = "#{$post->ID} {$post->post_title}";
 
         	return $data;
@@ -23,9 +23,9 @@ $data = array_reduce(
 );
 
 // normal ArrayChoiceList
-$select = (new ChoiceElement( 'post-select' ))
-	->withAttributes( [ 'type' => 'select' ] )
-	->withChoices( new ArrayChoiceList( $data ) );
+$select = (new ChoiceElement('post-select'))
+	->withAttributes([ 'type' => 'select' ])
+	->withChoices(new ArrayChoiceList($data));
 
 ```
 
@@ -38,13 +38,13 @@ use ChriCo\Fields\ChoiceList\CallbackChoiceList;
 /**
  * A callable closure which loads posts.
  * 
- * @return array( int => string )
+ * @return array(int => string)
  */
 $data = function() {
 
-	return array_reduce( 
+	return array_reduce(
 		get_posts(), 
-		static function( $data, \WP_Post $post ): array {
+		static function($data, \WP_Post $post): array {
 			$data[ $post->ID ] = "#{$post->ID} {$post->post_title}";
 
 			return $data;
@@ -53,9 +53,9 @@ $data = function() {
 	);
 };
 
-$select = (new ChoiceElement( 'post-select' ))
-	->withAttributes( [ 'type' => 'select' ] )
-	->withChoices( new CallbackChoiceList( $data ) );
+$select = (new ChoiceElement('post-select'))
+	->withAttributes([ 'type' => 'select' ])
+	->withChoices(new CallbackChoiceList($data));
 
 ```
 
