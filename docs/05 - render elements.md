@@ -26,7 +26,7 @@ echo (new ViewFactory())->create('text')->render($element);
 
 // or shorter:
 $element = createElement($spec);
-echo renderElement($form);
+echo renderElement($element);
 ```
 
 This will output the `<input type="text" />` with `<label>`. To render just specific elements, there are a lot of classes available. Just have a look at `ChriCo\Fields\AbstractFactory::$type_to_view`.
