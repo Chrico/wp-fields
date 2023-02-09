@@ -7,28 +7,29 @@ use ChriCo\Fields\Element\ElementInterface;
 use ChriCo\Fields\Exception\InvalidClassException;
 use ChriCo\Fields\View\Description;
 use ChriCo\Fields\View\RenderableElementInterface;
+use Mockery;
+use Mockery\MockInterface;
 
 class DescriptionTest extends AbstractViewTestCase
 {
-
     /**
      * Basic test to check the default behavior of the class.
+     *
      * @test
      */
-    public function test_basic(): void
+    public function testBasic(): void
     {
-
         $testee = new Description();
         static::assertInstanceOf(RenderableElementInterface::class, $testee);
     }
 
     /**
      * Test rendering of an Element.
+     *
      * @test
      */
-    public function test_render(): void
+    public function testRender(): void
     {
-
         $expected = 'lorum ipsum';
 
         $element = new Element('name');
@@ -43,11 +44,11 @@ class DescriptionTest extends AbstractViewTestCase
     /**
      * @test
      */
-    public function test_render__invalid_element(): void
+    public function testRenderInvalidElement(): void
     {
         static::expectException(InvalidClassException::class);
-        /** @var \Mockery\MockInterface|ElementInterface $stub */
-        $stub = \Mockery::mock(ElementInterface::class);
+        /** @var MockInterface|ElementInterface $stub */
+        $stub = Mockery::mock(ElementInterface::class);
         $stub->allows('name')
             ->andReturn('');
 

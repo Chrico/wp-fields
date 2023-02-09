@@ -8,25 +8,24 @@ use ChriCo\Fields\View\RenderableElementInterface;
 
 class FormRowTest extends AbstractViewTestCase
 {
-
     /**
      * Basic test to check the default behavior of the class.
+     *
      * @test
      */
-    public function test_basic(): void
+    public function testBasic(): void
     {
-
         $testee = new FormRow();
         static::assertInstanceOf(RenderableElementInterface::class, $testee);
     }
 
     /**
      * Test rendering of an Element.
+     *
      * @test
      */
-    public function test_render(): void
+    public function testRender(): void
     {
-
         $element = new Element('foo');
         $element->withAttribute('type', 'text');
 
@@ -39,11 +38,11 @@ class FormRowTest extends AbstractViewTestCase
 
     /**
      * Test rendering of an Element with label.
+     *
      * @test
      */
-    public function test_render__with_label(): void
+    public function testRenderWithLabel(): void
     {
-
         $expected_label = 'bar';
 
         $element = new Element('foo');

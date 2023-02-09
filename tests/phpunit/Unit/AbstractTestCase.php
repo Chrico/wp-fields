@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 abstract class AbstractTestCase extends TestCase
 {
-
     /**
      * Sets up the environment.
      *
@@ -15,7 +14,6 @@ abstract class AbstractTestCase extends TestCase
      */
     protected function setUp(): void
     {
-
         parent::setUp();
         Monkey\setUp();
     }
@@ -27,9 +25,7 @@ abstract class AbstractTestCase extends TestCase
      */
     protected function tearDown(): void
     {
-
         Monkey\tearDown();
         parent::tearDown();
     }
-
 }

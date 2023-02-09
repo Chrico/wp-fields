@@ -8,17 +8,18 @@ use ChriCo\Fields\Element\FormInterface;
 use ChriCo\Fields\Exception\InvalidClassException;
 use ChriCo\Fields\View\Form;
 use ChriCo\Fields\View\RenderableElementInterface;
+use Mockery;
+use Mockery\MockInterface;
 
 class FormTest extends AbstractViewTestCase
 {
-
     /**
      * Basic test to check the default behavior of the class.
+     *
      * @test
      */
-    public function test_basic(): void
+    public function testBasic(): void
     {
-
         $testee = new Form();
         static::assertInstanceOf(RenderableElementInterface::class, $testee);
     }
@@ -26,11 +27,11 @@ class FormTest extends AbstractViewTestCase
     /**
      * @test
      */
-    public function test_render__invalid_element(): void
+    public function testRenderInvalidElement(): void
     {
         static::expectException(InvalidClassException::class);
-        /** @var \Mockery\MockInterface|ElementInterface $stub */
-        $stub = \Mockery::mock(ElementInterface::class);
+        /** @var MockInterface|ElementInterface $stub */
+        $stub = Mockery::mock(ElementInterface::class);
         $stub->allows('name')
             ->andReturn('');
 
@@ -39,14 +40,14 @@ class FormTest extends AbstractViewTestCase
 
     /**
      * Test if a single element is rendered.
+     *
      * @test
      */
-    public function test_render(): void
+    public function testRender(): void
     {
-
         $expected_name = 'foo';
 
-        $element_stub = \Mockery::mock(ElementInterface::class);
+        $element_stub = Mockery::mock(ElementInterface::class);
         $element_stub->allows('name')
             ->andReturn($expected_name);
         $element_stub->allows('type')
@@ -54,7 +55,7 @@ class FormTest extends AbstractViewTestCase
         $element_stub->allows('attributes')
             ->andReturn([]);
 
-        $form_stub = \Mockery::mock(FormInterface::class, ElementInterface::class, CollectionElementInterface::class);
+        $form_stub = Mockery::mock(FormInterface::class, ElementInterface::class, CollectionElementInterface::class);
         $form_stub->allows('name')
             ->andReturn('form');
         $form_stub->allows('attributes')

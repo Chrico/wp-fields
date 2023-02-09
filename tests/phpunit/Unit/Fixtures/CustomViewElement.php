@@ -7,7 +7,6 @@ use ChriCo\Fields\View\RenderableElementInterface;
 
 class CustomViewElement implements RenderableElementInterface
 {
-
     /**
      * @param ElementInterface $element
      *
@@ -15,7 +14,6 @@ class CustomViewElement implements RenderableElementInterface
      */
     public function render(ElementInterface $element): string
     {
-
         return '';
     }
 }

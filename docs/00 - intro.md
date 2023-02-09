@@ -65,8 +65,8 @@ This package will only provide form fields *for WordPress* and the way to bind e
 
 Nothing more and nothing less. Everything related to:
  
-- Validation of data - see [Inpsyde-Validator](https://github.com/inpsyde/inpsyde-validator)
-- Filtering data - see [Inpsyde-Filter](https://github.com/inpsyde/inpsyde-filter)
-- Metaboxes - see [Metabox Orchestra](https://github.com/inpsyde/MetaboxOrchestra)
+- Validation of data - see for example [Inpsyde-Validator](https://github.com/inpsyde/inpsyde-validator)
+- Filtering data - see for example [Inpsyde-Filter](https://github.com/inpsyde/inpsyde-filter)
+- Metaboxes - see for example [Metabox Orchestra](https://github.com/inpsyde/MetaboxOrchestra)
 
 will be done in separate packages and just used in this one.

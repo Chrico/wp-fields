@@ -8,34 +8,31 @@ use ChriCo\Fields\Tests\Unit\AbstractTestCase;
 
 class CallbackChoiceListTest extends AbstractTestCase
 {
-
     /**
      * Basic test with default class behavior.
+     *
      * @test
      */
-    public function test_basic(): void
+    public function testBasic(): void
     {
-
         $callback = function () {
         };
-        $testee   = new CallbackChoiceList($callback);
+        $testee = new CallbackChoiceList($callback);
 
         static::assertInstanceOf(ChoiceListInterface::class, $testee);
         static::assertFalse($testee->isLoaded());
-
     }
 
     /**
      * Test if we can use a simple closoure to load some results.
+     *
      * @test
      */
-    public function test_get_choices(): void
+    public function testGetChoices(): void
     {
-
         $expected = ['foo' => 'bar'];
 
         $callback = function () use ($expected) {
-
             return $expected;
         };
 

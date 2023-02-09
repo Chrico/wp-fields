@@ -8,25 +8,24 @@ use ChriCo\Fields\View\RenderableElementInterface;
 
 class ProgressTest extends AbstractViewTestCase
 {
-
     /**
      * Basic test to check the default behavior of the class.
+     *
      * @test
      */
-    public function test_basic(): void
+    public function testBasic(): void
     {
-
         $testee = new Progress();
         static::assertInstanceOf(RenderableElementInterface::class, $testee);
     }
 
     /**
      * Test rendering of an Element.
+     *
      * @test
      */
-    public function test_render(): void
+    public function testRender(): void
     {
-
         $element = new Element('foo');
         $element->withValue('100');
 

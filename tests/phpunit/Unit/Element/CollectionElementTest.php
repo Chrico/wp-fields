@@ -14,11 +14,10 @@ class CollectionElementTest extends AbstractTestCase
     /**
      * @test
      */
-    public function test_basic(): void
+    public function testBasic(): void
     {
-
         $expected_name = 'name';
-        $testee        = new CollectionElement($expected_name);
+        $testee = new CollectionElement($expected_name);
 
         static::assertInstanceOf(Element::class, $testee);
         static::assertInstanceOf(ElementInterface::class, $testee);
@@ -28,11 +27,11 @@ class CollectionElementTest extends AbstractTestCase
 
     /**
      * Basic test to add 1 element and get the element back.
+     *
      * @test
      */
-    public function test_add_get_elements(): void
+    public function testAddGetElements(): void
     {
-
         $element_name = 'element-name';
 
         $element = new Element($element_name);
@@ -44,14 +43,14 @@ class CollectionElementTest extends AbstractTestCase
 
         static::assertCount(1, $elements);
         static::assertArrayHasKey($element_name, $elements);
-        static::assertSame($element, $elements[ $element_name ]);
+        static::assertSame($element, $elements[$element_name]);
         static::assertSame($element, $testee->element($element_name));
     }
 
     /**
      * @test
      */
-    public function test_get_element__not_exist(): void
+    public function testGetElementNotExistent(): void
     {
         static::expectException(ElementNotFoundException::class);
         (new CollectionElement('collection'))->element('not existing element');
@@ -59,13 +58,13 @@ class CollectionElementTest extends AbstractTestCase
 
     /**
      * Test if success/failure is returned for not existing/existing elements.
+     *
      * @test
      */
-    public function test_has_element(): void
+    public function testHasElement(): void
     {
-
         $expected_element_name = 'element';
-        $testee                = new CollectionElement('collection');
+        $testee = new CollectionElement('collection');
 
         static::assertFalse($testee->elementExists($expected_element_name));
 
@@ -75,11 +74,11 @@ class CollectionElementTest extends AbstractTestCase
 
     /**
      * Test if errors which are not matching with the element name are assigned to the collection itself.
+     *
      * @test
      */
-    public function test_add_errors(): void
+    public function testAddErrors(): void
     {
-
         $expected_error = ['error_message'];
 
         $testee = new CollectionElement('collection');
@@ -91,13 +90,13 @@ class CollectionElementTest extends AbstractTestCase
 
     /**
      * Test if errors are delegated to the elements in the collection.
+     *
      * @test
      */
-    public function test_add_errors__delegate(): void
+    public function testAddErrorsDeletaged(): void
     {
-
         $expected_element_name = 'element';
-        $expected_error        = [$expected_element_name => 'error_message'];
+        $expected_error = [$expected_element_name => 'error_message'];
 
         $testee = new CollectionElement('collection');
         $testee->withElement(new Element($expected_element_name));
@@ -111,13 +110,13 @@ class CollectionElementTest extends AbstractTestCase
 
     /**
      * Test if values are delegated to the elements in the collection.
+     *
      * @test
      */
-    public function test_set_attribute__value(): void
+    public function testSetAttributeValue(): void
     {
-
         $expected_element_name = 'element';
-        $expected_value        = 'the value';
+        $expected_value = 'the value';
 
         $testee = new CollectionElement('collection');
         $testee->withElement(new Element($expected_element_name));
@@ -130,14 +129,14 @@ class CollectionElementTest extends AbstractTestCase
 
     /**
      * Test if we can get all values back again after delegation on set_value().
+     *
      * @test
      */
-    public function test_get_attribute__value(): void
+    public function testGetAttributeValue(): void
     {
-
         $expected_element_name = 'element';
-        $expected_value        = 'the value';
-        $expected              = [$expected_element_name => $expected_value];
+        $expected_value = 'the value';
+        $expected = [$expected_element_name => $expected_value];
 
         $testee = new CollectionElement('collection');
         $testee->withElement(new Element($expected_element_name));

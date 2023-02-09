@@ -1,9 +1,0 @@
-name: Quality
-on:
-  workflow_dispatch:
-  push:
-jobs:
-  static-code-analysis-php:
-    uses: inpsyde/reusable-workflows/.github/workflows/coding-standards-php.yml@main
-    with:
-      PHP_VERSION: 8.0

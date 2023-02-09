@@ -9,17 +9,18 @@ use ChriCo\Fields\Element\ElementInterface;
 use ChriCo\Fields\Exception\InvalidClassException;
 use ChriCo\Fields\View\Checkbox;
 use ChriCo\Fields\View\RenderableElementInterface;
+use Mockery;
+use Mockery\MockInterface;
 
 class CheckboxTest extends AbstractViewTestCase
 {
-
     /**
      * Basic test to check the default behavior of the class.
+     *
      * @test
      */
-    public function test_basic(): void
+    public function testBasic(): void
     {
-
         $testee = new Checkbox();
         static::assertInstanceOf(RenderableElementInterface::class, $testee);
     }
@@ -27,11 +28,11 @@ class CheckboxTest extends AbstractViewTestCase
     /**
      * @test
      */
-    public function test_render__invalid_element(): void
+    public function testRenderInvalidElement(): void
     {
         static::expectException(InvalidClassException::class);
-        /** @var \Mockery\MockInterface|ElementInterface $stub */
-        $stub = \Mockery::mock(ElementInterface::class);
+        /** @var MockInterface|ElementInterface $stub */
+        $stub = Mockery::mock(ElementInterface::class);
         $stub->allows('name')
             ->andReturn('');
 
@@ -40,26 +41,25 @@ class CheckboxTest extends AbstractViewTestCase
 
     /**
      * Test rendering of an CheckBox with empty ChoiceList.
+     *
      * @test
      */
-    public function test_render__no_choices(): void
+    public function testRenderNoChoices(): void
     {
-
-        $element = $this->get_element('element', new ArrayChoiceList([]));
+        $element = $this->getElement('element', new ArrayChoiceList([]));
         static::assertSame('', (new Checkbox())->render($element));
     }
 
     /**
      * Internal function to create a new ChoiceElement with type="checkbox".
      *
-     * @param string              $name
+     * @param string $name
      * @param ChoiceListInterface $list
      *
      * @return ChoiceElement
      */
-    private function get_element(string $name, ChoiceListInterface $list): ChoiceElement
+    private function getElement(string $name, ChoiceListInterface $list): ChoiceElement
     {
-
         $element = new ChoiceElement($name);
         $element->withAttribute('type', 'checkbox');
         $element->withChoices($list);
@@ -69,12 +69,12 @@ class CheckboxTest extends AbstractViewTestCase
 
     /**
      * Test rendering of an CheckBox with 1 item in ChoiceList.
+     *
      * @test
      */
-    public function test_render__one_choice(): void
+    public function testRenderOneChoice(): void
     {
-
-        $element = $this->get_element('element', new ArrayChoiceList(['foo' => 'bar']));
+        $element = $this->getElement('element', new ArrayChoiceList(['foo' => 'bar']));
 
         $rendered = (new Checkbox())->render($element);
         static::assertStringContainsString('name="element"', $rendered);
@@ -85,13 +85,13 @@ class CheckboxTest extends AbstractViewTestCase
 
     /**
      * Test rendering of an CheckBox with 1 item in ChoiceList which is checked.
+     *
      * @test
      */
-    public function test_render__one_choice_checked(): void
+    public function testRenderOneChoiceChecked(): void
     {
-
         $expected_value = 'foo';
-        $element        = $this->get_element('element', new ArrayChoiceList([$expected_value => 'bar']));
+        $element = $this->getElement('element', new ArrayChoiceList([$expected_value => 'bar']));
         $element->withValue($expected_value);
 
         static::assertStringContainsString('checked="checked"', (new Checkbox())->render($element));
@@ -99,12 +99,12 @@ class CheckboxTest extends AbstractViewTestCase
 
     /**
      * Test rendering of an CheckBox with multiple items in ChoiceList.
+     *
      * @test
      */
-    public function test_render__multiple_choices(): void
+    public function testRenderMulitpleChoices(): void
     {
-
-        $element = $this->get_element('element', new ArrayChoiceList(['foo' => 'bar', 'baz' => 'bam']));
+        $element = $this->getElement('element', new ArrayChoiceList(['foo' => 'bar', 'baz' => 'bam']));
 
         $rendered = (new Checkbox())->render($element);
         // both elements are having this name.

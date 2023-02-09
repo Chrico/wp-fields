@@ -12,14 +12,13 @@ use ChriCo\Fields\View\RenderableElementInterface;
 
 class RadioTest extends AbstractViewTestCase
 {
-
     /**
      * Basic test to check the default behavior of the class.
+     *
      * @test
      */
-    public function test_basic(): void
+    public function testBasic(): void
     {
-
         $testee = new Radio();
         static::assertInstanceOf(RenderableElementInterface::class, $testee);
     }
@@ -27,7 +26,7 @@ class RadioTest extends AbstractViewTestCase
     /**
      * @test
      */
-    public function test_render__invalid_element(): void
+    public function testRenderInvalidElement(): void
     {
         static::expectException(InvalidClassException::class);
         (new Radio())->render(
@@ -38,11 +37,11 @@ class RadioTest extends AbstractViewTestCase
 
     /**
      * Test rendering of an CheckBox with empty ChoiceList.
+     *
      * @test
      */
-    public function test_render__no_choices(): void
+    public function testRenderNoChoices(): void
     {
-
         $element = $this->element('element', new ArrayChoiceList([]));
         static::assertSame('', (new Radio())->render($element));
     }
@@ -50,14 +49,13 @@ class RadioTest extends AbstractViewTestCase
     /**
      * Internal function to create a new ChoiceElement with type="radio".
      *
-     * @param string              $name
+     * @param string $name
      * @param ChoiceListInterface $list
      *
      * @return ChoiceElement
      */
     private function element(string $name, ChoiceListInterface $list): ChoiceElement
     {
-
         $element = new ChoiceElement($name);
         $element->withAttribute('type', 'radio');
         $element->withChoices($list);
@@ -67,11 +65,11 @@ class RadioTest extends AbstractViewTestCase
 
     /**
      * Test rendering of an Radio with 1 item in ChoiceList.
+     *
      * @test
      */
-    public function test_render__one_choice(): void
+    public function testRenderOneChoice(): void
     {
-
         $element = $this->element('element', new ArrayChoiceList(['foo' => "bar"]));
 
         $rendered = (new Radio())->render($element);
@@ -85,13 +83,13 @@ class RadioTest extends AbstractViewTestCase
 
     /**
      * Test rendering of an Radio with 1 item in ChoiceList which is checked.
+     *
      * @test
      */
-    public function test_render__one_choice_checked(): void
+    public function testRenderOneChoiceChecked(): void
     {
-
         $expected_value = 'foo';
-        $element        = $this->element('element', new ArrayChoiceList([$expected_value => 'bar']));
+        $element = $this->element('element', new ArrayChoiceList([$expected_value => 'bar']));
         $element->withValue($expected_value);
 
         static::assertStringContainsString('checked="checked"', (new Radio())->render($element));
@@ -99,11 +97,11 @@ class RadioTest extends AbstractViewTestCase
 
     /**
      * Test rendering of an Radio with multiple items in ChoiceList.
+     *
      * @test
      */
-    public function test_render__multiple_choices(): void
+    public function testRenderMultipleChoices(): void
     {
-
         $element = $this->element('element', new ArrayChoiceList(['foo' => 'bar', 'baz' => 'bam']));
 
         $rendered = (new Radio())->render($element);

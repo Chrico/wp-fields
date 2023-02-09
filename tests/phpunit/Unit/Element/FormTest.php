@@ -3,21 +3,21 @@
 namespace ChriCo\Fields\Tests\Unit\Element;
 
 use ChriCo\Fields\Element\ElementInterface;
+use ChriCo\Fields\Element\ErrorAwareInterface;
 use ChriCo\Fields\Element\Form;
 use ChriCo\Fields\Element\FormInterface;
-use ChriCo\Fields\Element\ErrorAwareInterface;
 use ChriCo\Fields\Exception\LogicException;
 use ChriCo\Fields\Tests\Unit\AbstractTestCase;
 use Mockery;
 
 class FormTest extends AbstractTestCase
 {
-
     /**
      * Basic test to check the default behavior of the class.
+     *
      * @test
      */
-    public function test_basic(): void
+    public function testBasic(): void
     {
         $expected_name = 'foo';
         $testee = new Form($expected_name);
@@ -37,7 +37,7 @@ class FormTest extends AbstractTestCase
     /**
      * @test
      */
-    public function test_is_valid(): void
+    public function testIsValid(): void
     {
         $expected_key = 'foo';
         $expected_value = 'bar';
@@ -49,7 +49,7 @@ class FormTest extends AbstractTestCase
         $expected_key3 = 'baz';
 
         // element which has additionally a validator which fails.
-        $element = Mockery::mock(ElementInterface::class.','.ErrorAwareInterface::class);
+        $element = Mockery::mock(ElementInterface::class . ',' . ErrorAwareInterface::class);
         $element->allows('withValue')
             ->once()
             ->with($expected_value);
@@ -65,14 +65,14 @@ class FormTest extends AbstractTestCase
             ->andReturnFalse();
 
         // element which has no validator assigned.
-        $not_validated_element2 = $this->get_element_stub($expected_key2);
+        $not_validated_element2 = $this->getElementStub($expected_key2);
         $not_validated_element2->allows('value')
             ->andReturns($expected_value2);
         $not_validated_element2->allows('validate')
             ->andReturnTrue();
 
         // element which is disabled shouldn't't be validated
-        $disabled_element = $this->get_element_stub($expected_key3, true);
+        $disabled_element = $this->getElementStub($expected_key3, true);
         $disabled_element->allows('validate')->never();
 
         $testee = (new Form(''))
@@ -90,7 +90,7 @@ class FormTest extends AbstractTestCase
         static::assertFalse($testee->isValid());
     }
 
-    private function get_element_stub(string $name, $disabled = false)
+    private function getElementStub(string $name, $disabled = false)
     {
         $element = Mockery::mock(ElementInterface::class);
         $element->allows('withValue')
@@ -107,7 +107,7 @@ class FormTest extends AbstractTestCase
     /**
      * @test
      */
-    public function test_is_valid__not_submitted(): void
+    public function testIsValidNotSubmitted(): void
     {
         static::expectException(LogicException::class);
         $testee = new Form('');
@@ -117,7 +117,7 @@ class FormTest extends AbstractTestCase
     /**
      * @test
      */
-    public function test_set_data(): void
+    public function testSetData(): void
     {
         $expected_key = 'foo';
         $expected_value = 'bar';
@@ -153,7 +153,7 @@ class FormTest extends AbstractTestCase
     /**
      * @test
      */
-    public function test_set_data__already_submitted(): void
+    public function testSetDataAlreadySubmitted(): void
     {
         static::expectException(LogicException::class);
         $testee = new Form('');
@@ -164,12 +164,12 @@ class FormTest extends AbstractTestCase
     /**
      * @test
      */
-    public function test_submit(): void
+    public function testSubmit(): void
     {
         $expected_key = 'foo';
         $expected_value = 'bar';
 
-        $element = $this->get_element_stub($expected_key);
+        $element = $this->getElementStub($expected_key);
         $element->allows('value')
             ->andReturn($expected_value);
         $element->allows('validate')
@@ -186,7 +186,7 @@ class FormTest extends AbstractTestCase
     /**
      * @test
      */
-    public function test_set_attribute(): void
+    public function testSetAttribute(): void
     {
         $expected_key = 'foo';
         $expected_value = 'bar';

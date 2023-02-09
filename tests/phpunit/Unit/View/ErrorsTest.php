@@ -7,17 +7,19 @@ use ChriCo\Fields\Element\ElementInterface;
 use ChriCo\Fields\Exception\InvalidClassException;
 use ChriCo\Fields\View\Errors;
 use ChriCo\Fields\View\RenderableElementInterface;
+use Generator;
+use Mockery;
+use Mockery\MockInterface;
 
 class ErrorsTest extends AbstractViewTestCase
 {
-
     /**
      * Basic test to check the default behavior of the class.
+     *
      * @test
      */
-    public function test_basic(): void
+    public function testBasic(): void
     {
-
         $testee = new Errors();
         static::assertInstanceOf(RenderableElementInterface::class, $testee);
     }
@@ -25,15 +27,14 @@ class ErrorsTest extends AbstractViewTestCase
     /**
      * Test rendering of an Element.
      *
-     * @param array  $input
+     * @param array $input
      * @param string $expected
      *
-     * @dataProvider provide_render
+     * @dataProvider provideRender
      * @test
      */
-    public function test_render(array $input, string $expected): void
+    public function testRender(array $input, string $expected): void
     {
-
         $element = new Element('name');
         $element->withErrors($input);
 
@@ -43,12 +44,11 @@ class ErrorsTest extends AbstractViewTestCase
         );
     }
 
-    public function provide_render(): \Generator
+    public function provideRender(): Generator
     {
-
         yield 'no errors' => [
             [],
-            ''
+            '',
         ];
 
         yield '1 error' => [
@@ -56,23 +56,23 @@ class ErrorsTest extends AbstractViewTestCase
             sprintf(
                 Errors::WRAPPER_MARKUP,
                 sprintf(Errors::ERROR_MARKUP, 'bar')
-            )
+            ),
         ];
     }
 
     /**
      * Test if we can change the markup around the error output.
+     *
      * @test
      */
-    public function test_render__changed_markup(): void
+    public function testRenderChangedMarkup(): void
     {
-
         $element = new Element('name');
         $element->withErrors(['foo' => 'bar']);
 
         $markup = [
             'wrapper' => '<ul>%s</ul>',
-            'error'   => '<li>%s</li>'
+            'error' => '<li>%s</li>',
         ];
 
         static::assertSame(
@@ -84,11 +84,11 @@ class ErrorsTest extends AbstractViewTestCase
     /**
      * @test
      */
-    public function test_render__invalid_element(): void
+    public function testRenderInvalidElement(): void
     {
         static::expectException(InvalidClassException::class);
-        /** @var \Mockery\MockInterface|ElementInterface $stub */
-        $stub = \Mockery::mock(ElementInterface::class);
+        /** @var MockInterface|ElementInterface $stub */
+        $stub = Mockery::mock(ElementInterface::class);
         $stub->allows('name')
             ->andReturn('');
 

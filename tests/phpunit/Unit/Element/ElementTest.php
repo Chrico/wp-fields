@@ -9,16 +9,15 @@ use ChriCo\Fields\Tests\Unit\AbstractTestCase;
 
 class ElementTest extends AbstractTestCase
 {
-
     /**
      * Basic test to check the default behavior of the class.
+     *
      * @test
      */
-    public function test_basic(): void
+    public function testBasic(): void
     {
-
         $expected_name = 'foo';
-        $testee        = new Element($expected_name);
+        $testee = new Element($expected_name);
 
         static::assertInstanceOf(ElementInterface::class, $testee);
         static::assertInstanceOf(LabelAwareInterface::class, $testee);
@@ -44,11 +43,11 @@ class ElementTest extends AbstractTestCase
 
     /**
      * Test if we can set and get again the description.
+     *
      * @test
      */
-    public function test_set_get_description(): void
+    public function testSetGetDescription(): void
     {
-
         $expected = 'test';
 
         $testee = new Element('id');
@@ -59,11 +58,11 @@ class ElementTest extends AbstractTestCase
 
     /**
      * Test if we can set and get again the label.
+     *
      * @test
      */
-    public function test_set_get_label(): void
+    public function testSetGetLabel(): void
     {
-
         $expected = 'test';
 
         $testee = new Element('id');
@@ -74,11 +73,11 @@ class ElementTest extends AbstractTestCase
 
     /**
      * Test if we can set and get again the label attributes.
+     *
      * @test
      */
-    public function test_set_get_label_attributes(): void
+    public function testSetGetLabelAttributes(): void
     {
-
         $expected = ['foo' => 'bar'];
 
         $testee = new Element('id');
@@ -89,11 +88,11 @@ class ElementTest extends AbstractTestCase
 
     /**
      * Test if we can set and get again the value.
+     *
      * @test
      */
-    public function test_set_get_value(): void
+    public function testSetGetValue(): void
     {
-
         $expected = 'test';
 
         $testee = new Element('id');
@@ -104,11 +103,11 @@ class ElementTest extends AbstractTestCase
 
     /**
      * Test if we can set and get again the errors.
+     *
      * @test
      */
-    public function test_set_get_errors(): void
+    public function testSetGetErrors(): void
     {
-
         $expected = ['foo' => 'bar', 'baz' => 'bam'];
 
         $testee = new Element('id');
@@ -121,11 +120,10 @@ class ElementTest extends AbstractTestCase
     /**
      * @test
      */
-    public function test_set_get_attributes(): void
+    public function testSetGetAttributes(): void
     {
-
         $expected_id = 'id';
-        $expected    = ['name' => 'text', 'type' => 'bam'];
+        $expected = ['name' => 'text', 'type' => 'bam'];
 
         $testee = new Element($expected_id);
         $testee->withAttributes($expected);
@@ -140,9 +138,8 @@ class ElementTest extends AbstractTestCase
     /**
      * @test
      */
-    public function test_set_get_options(): void
+    public function testSetGetOptions(): void
     {
-
         $expected = ['name' => 'text', 'type' => 'bam'];
 
         $testee = new Element('id');
@@ -153,11 +150,11 @@ class ElementTest extends AbstractTestCase
 
     /**
      * Basic test to check, if we can set and get a single option.
+     *
      * @test
      */
-    public function test_set_get_option(): void
+    public function testSetGetOption(): void
     {
-
         $testee = new Element('id');
         $testee->withOption('foo', 'bar');
 
@@ -169,9 +166,8 @@ class ElementTest extends AbstractTestCase
     /**
      * @test
      */
-    public function test_is_disabled(): void
+    public function testIsDisabled(): void
     {
-
         $testee = new Element('');
         $testee->withAttribute('disabled', true);
 

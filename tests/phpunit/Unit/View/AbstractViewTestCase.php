@@ -10,7 +10,6 @@ use ChriCo\Fields\Tests\Unit\AbstractTestCase;
  */
 abstract class AbstractViewTestCase extends AbstractTestCase
 {
-
     /**
      * Sets up the environment.
      *
@@ -18,9 +17,7 @@ abstract class AbstractViewTestCase extends AbstractTestCase
      */
     protected function setUp(): void
     {
-
         parent::setUp();
         Functions\stubs(['esc_attr', 'esc_html']);
     }
-
 }

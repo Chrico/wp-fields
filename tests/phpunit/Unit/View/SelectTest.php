@@ -12,12 +12,12 @@ use ChriCo\Fields\View\Select;
 
 class SelectTest extends AbstractViewTestCase
 {
-
     /**
      * Basic test to check the default behavior of the class.
+     *
      * @test
      */
-    public function test_basic(): void
+    public function testBasic(): void
     {
         $testee = new Select();
         static::assertInstanceOf(RenderableElementInterface::class, $testee);
@@ -26,7 +26,7 @@ class SelectTest extends AbstractViewTestCase
     /**
      * @test
      */
-    public function test_render__invalid_element(): void
+    public function testRenderInvalidElement(): void
     {
         static::expectException(InvalidClassException::class);
         (new Select())->render(
@@ -37,12 +37,12 @@ class SelectTest extends AbstractViewTestCase
 
     /**
      * Test rendering of an Select with empty ChoiceList.
+     *
      * @test
      */
-    public function test_render__no_choices(): void
+    public function testRenderNoChoices(): void
     {
-
-        $element  = $this->element('element', new ArrayChoiceList([]));
+        $element = $this->element('element', new ArrayChoiceList([]));
         $rendered = (new Select())->render($element);
 
         static::assertStringContainsString('<select', $rendered);
@@ -54,14 +54,13 @@ class SelectTest extends AbstractViewTestCase
     /**
      * Internal function to create a new ChoiceElement with type="select".
      *
-     * @param string              $name
+     * @param string $name
      * @param ChoiceListInterface $list
      *
      * @return ChoiceElement
      */
     private function element(string $name, ChoiceListInterface $list): ChoiceElement
     {
-
         $element = new ChoiceElement($name);
         $element->withAttribute('type', 'select');
         $element->withChoices($list);
@@ -71,11 +70,11 @@ class SelectTest extends AbstractViewTestCase
 
     /**
      * Test rendering of an Select with 1 item in ChoiceList.
+     *
      * @test
      */
-    public function test_render__one_choice(): void
+    public function testRenderOneChoice(): void
     {
-
         $element = $this->element('element', new ArrayChoiceList(['foo' => 'bar']));
 
         $rendered = (new Select())->render($element);
@@ -92,13 +91,13 @@ class SelectTest extends AbstractViewTestCase
 
     /**
      * Test rendering of an Select with 1 item in ChoiceList which is selected.
+     *
      * @test
      */
-    public function test_render__one_choice_selected(): void
+    public function testRenderOneChoiceSelected(): void
     {
-
         $expected_value = 'foo';
-        $element        = $this->element('element', new ArrayChoiceList([$expected_value => 'bar']));
+        $element = $this->element('element', new ArrayChoiceList([$expected_value => 'bar']));
         $element->withValue($expected_value);
 
         static::assertStringContainsString('selected="selected"', (new Select())->render($element));
@@ -106,11 +105,11 @@ class SelectTest extends AbstractViewTestCase
 
     /**
      * Test rendering of an Select with multiple items in ChoiceList.
+     *
      * @test
      */
-    public function test_render__multiple_choices(): void
+    public function testRenderMultipleChoices(): void
     {
-
         $element = $this->element('element', new ArrayChoiceList(['foo' => 'bar', 'baz' => 'bam']));
 
         $rendered = (new Select())->render($element);
