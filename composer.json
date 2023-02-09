@@ -15,7 +15,7 @@
         "php": ">=8.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "@stable",
+        "phpunit/phpunit": "^9",
         "brain/monkey": "@stable",
         "inpsyde/php-coding-standards": "^1"
     },
