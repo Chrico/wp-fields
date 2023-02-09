@@ -13,7 +13,7 @@ class ArrayChoiceList implements ChoiceListInterface
     /**
      * @var array
      */
-    protected $choices;
+    protected array $choices;
 
     /**
      * ArrayChoiceList constructor.

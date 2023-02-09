@@ -13,7 +13,7 @@ trait ErrorAwareTrait
     /**
      * @var array
      */
-    protected $errors = [];
+    protected array $errors = [];
 
     /**
      * @return array

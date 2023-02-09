@@ -13,7 +13,7 @@ class CallbackChoiceList extends ArrayChoiceList
     /**
      * @var bool
      */
-    protected $isLoaded = false;
+    protected bool $isLoaded = false;
 
     /**
      * @var callable

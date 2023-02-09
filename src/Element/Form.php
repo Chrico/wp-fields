@@ -31,7 +31,7 @@ class Form extends CollectionElement implements FormInterface
     /**
      * Contains the filtered data.
      */
-    protected $data = [];
+    protected array $data = [];
 
     /**
      * @param string $key
