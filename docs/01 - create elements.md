@@ -86,8 +86,6 @@ To save some writing and creating objects by hand, you can use the `ChriCo\Field
 <?php
 use ChriCo\Fields\ElementFactory;
 
-$factory = new ElementFactory(); 
-
 // The text element
 $spec = [
 	'attributes' => [
@@ -98,7 +96,8 @@ $spec = [
 	'label_attributes'  => [ 'for' => 'my-id' ],
 	'errors'            => [ 'error-id' => 'Error message' ]
 ];
-$text = $factory->create($spec);
+
+$text = (new ElementFactory())->create($spec);
 // or
 $text = \ChriCo\Fields\createElement($spec);
 ```
