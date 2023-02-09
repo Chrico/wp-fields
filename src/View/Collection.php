@@ -54,12 +54,18 @@ class Collection implements RenderableElementInterface
 
         $html = array_reduce(
             $element->elements(),
-            static function ($html, ElementInterface $next) use ($element, $row): string {
-                // adding the CollectionElement name to the Element name and ID as prefix.
-                $next->withAttribute('id', $element->name().'_'.$next->id());
+            function ($html, ElementInterface $next) use ($element, $row): string {
+                // Adding the CollectionElement name to the Element name and ID as prefix.
+                $next->withAttribute('id', $element->id().'_'.$next->id());
                 $next->withAttribute('name', $element->name().'['.$next->name().']');
 
-                $html .= $row->render($next);
+                // In case we have nested CollectionElement, then
+                // we don't want to nest "<table><tr>"-wrapper.
+                if ($next instanceof Element\CollectionElement) {
+                   $html .= $this->render($next);
+                } else {
+                    $html .= $row->render($next);
+                }
 
                 return $html;
             },
