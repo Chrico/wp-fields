@@ -15,6 +15,8 @@ class Errors implements RenderableElementInterface
 {
 
     use AttributeFormatterTrait;
+    use AssertElementInstanceOfTrait;
+
     const WRAPPER_MARKUP = '<div class="form-errors">%s</div>';
     const ERROR_MARKUP = '<p class="form-errors__entry">%s</p>';
 
@@ -48,15 +50,7 @@ class Errors implements RenderableElementInterface
      */
     public function render(ElementInterface $element): string
     {
-        if (! $element instanceof ErrorAwareInterface) {
-            throw new InvalidClassException(
-                sprintf(
-                    'The given element "%s" does not implement "%s"',
-                    $element->name(),
-                    ErrorAwareInterface::class
-                )
-            );
-        }
+        $this->assertElementIsInstanceOf($element, ErrorAwareInterface::class);
 
         $errors = $element->errors();
         if (count($errors) < 1) {

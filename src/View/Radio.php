@@ -13,6 +13,7 @@ class Radio implements RenderableElementInterface
 {
 
     use AttributeFormatterTrait;
+    use AssertElementInstanceOfTrait;
 
     /**
      * @param ElementInterface|ChoiceElementInterface $element
@@ -23,15 +24,8 @@ class Radio implements RenderableElementInterface
      */
     public function render(ElementInterface $element): string
     {
-        if (! $element instanceof ChoiceElementInterface) {
-            throw new InvalidClassException(
-                sprintf(
-                    'The given element "%s" has to implement "%s"',
-                    $element->name(),
-                    ChoiceElementInterface::class
-                )
-            );
-        }
+        $this->assertElementIsInstanceOf($element, ChoiceElementInterface::class);
+
         $list = $element->choices();
         $attributes = $element->attributes();
         $choices = $list->choices();

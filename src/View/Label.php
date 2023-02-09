@@ -2,6 +2,7 @@
 
 namespace ChriCo\Fields\View;
 
+use ChriCo\Fields\Element\ChoiceElementInterface;
 use ChriCo\Fields\Element\ElementInterface;
 use ChriCo\Fields\Exception\InvalidClassException;
 use ChriCo\Fields\Element\LabelAwareInterface;
@@ -13,6 +14,7 @@ class Label implements RenderableElementInterface
 {
 
     use AttributeFormatterTrait;
+    use AssertElementInstanceOfTrait;
 
     /**
      * @param ElementInterface|LabelAwareInterface $element
@@ -23,15 +25,7 @@ class Label implements RenderableElementInterface
      */
     public function render(ElementInterface $element): string
     {
-        if (! $element instanceof LabelAwareInterface) {
-            throw new InvalidClassException(
-                sprintf(
-                    'The given element "%s" does not implement "%s"',
-                    $element->name(),
-                    LabelAwareInterface::class
-                )
-            );
-        }
+        $this->assertElementIsInstanceOf($element, LabelAwareInterface::class);
 
         if ($element->label() === '') {
             return '';

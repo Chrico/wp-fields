@@ -18,6 +18,7 @@ class Form implements RenderableElementInterface
 {
 
     use AttributeFormatterTrait;
+    use AssertElementInstanceOfTrait;
 
     protected ViewFactory $factory;
 
@@ -42,15 +43,7 @@ class Form implements RenderableElementInterface
      */
     public function render(ElementInterface $element): string
     {
-        if (! $element instanceof FormInterface) {
-            throw new InvalidClassException(
-                sprintf(
-                    'The given element "%s" has to implement "%s"',
-                    $element->name(),
-                    FormInterface::class
-                )
-            );
-        }
+        $this->assertElementIsInstanceOf($element, FormInterface::class);
 
         $row = $this->factory->create(FormRow::class);
 

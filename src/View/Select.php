@@ -14,6 +14,7 @@ class Select implements RenderableElementInterface
 {
 
     use AttributeFormatterTrait;
+    use AssertElementInstanceOfTrait;
 
     /**
      * @param ElementInterface|ChoiceElementInterface $element
@@ -24,15 +25,7 @@ class Select implements RenderableElementInterface
      */
     public function render(ElementInterface $element): string
     {
-        if (! $element instanceof ChoiceElementInterface) {
-            throw new InvalidClassException(
-                sprintf(
-                    'The given element "%s" has to implement "%s"',
-                    $element->name(),
-                    ChoiceElementInterface::class
-                )
-            );
-        }
+        $this->assertElementIsInstanceOf($element, ChoiceElementInterface::class);
 
         $attributes = $element->attributes();
         unset($attributes['type'], $attributes['value']);

@@ -13,27 +13,20 @@ use ChriCo\Fields\Exception\InvalidClassException;
  */
 class Checkbox implements RenderableElementInterface
 {
-
     use AttributeFormatterTrait;
+    use AssertElementInstanceOfTrait;
 
     /**
      * @param ElementInterface|ChoiceElementInterface $element
      *
+     * @return string
      * @throws InvalidClassException
      *
-     * @return string
      */
     public function render(ElementInterface $element): string
     {
-        if (! $element instanceof ChoiceElementInterface) {
-            throw new InvalidClassException(
-                sprintf(
-                    'The given element "%s" has to implement "%s"',
-                    $element->name(),
-                    ChoiceElementInterface::class
-                )
-            );
-        }
+        $this->assertElementIsInstanceOf($element, ChoiceElementInterface::class);
+
         $list = $element->choices();
         $attributes = $element->attributes();
         $choices = $list->choices();
@@ -47,7 +40,7 @@ class Checkbox implements RenderableElementInterface
 
         $isMultiChoice = false;
         if (count($choices) > 1) {
-            $attributes['name'] = $element->name().'[]';
+            $attributes['name'] = $element->name() . '[]';
             $isMultiChoice = true;
         }
 
@@ -56,7 +49,7 @@ class Checkbox implements RenderableElementInterface
             $elementAttr['value'] = $key;
             $elementAttr['checked'] = isset($selected[$key]);
             $elementAttr['id'] = $isMultiChoice
-                ? $element->id().'_'.$key
+                ? $element->id() . '_' . $key
                 : $element->id();
 
             $label = sprintf(

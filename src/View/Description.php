@@ -15,6 +15,7 @@ class Description implements RenderableElementInterface
 {
 
     use AttributeFormatterTrait;
+    use AssertElementInstanceOfTrait;
 
     /**
      * @param ElementInterface|DescriptionAwareInterface $element
@@ -25,15 +26,7 @@ class Description implements RenderableElementInterface
      */
     public function render(ElementInterface $element): string
     {
-        if (! $element instanceof DescriptionAwareInterface) {
-            throw new InvalidClassException(
-                sprintf(
-                    'The given element "%s" does not implement "%s"',
-                    $element->name(),
-                    DescriptionAwareInterface::class
-                )
-            );
-        }
+        $this->assertElementIsInstanceOf($element, DescriptionAwareInterface::class);
 
         $description = $element->description();
         if ($description === '') {
