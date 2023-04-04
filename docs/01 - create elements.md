@@ -75,7 +75,12 @@ Validation callbacks can be used to validate the Element value, while Filters ar
 use ChriCo\Fields\Element\Element;
 
 $text = (new Element('my-text'))
-    ->withValidator(static fn(string $value): bool => is_email($value))
+    ->withValidator(static function(string $value): ?WP_Error {
+        if(!is_email($value)){
+            return new WP_Error('my-text', __('Please insert a valid E-Mail address', 'your-textdomain'));
+        }
+        return null;
+    })
     ->withFilter(static fn($value): string => sanitize_text_field($value));
 ```
 

@@ -9,6 +9,7 @@ use ChriCo\Fields\Tests\Unit\AbstractTestCase;
 
 class ElementTest extends AbstractTestCase
 {
+
     /**
      * Basic test to check the default behavior of the class.
      *
@@ -172,5 +173,52 @@ class ElementTest extends AbstractTestCase
         $testee->withAttribute('disabled', true);
 
         static::assertTrue($testee->isDisabled());
+    }
+
+    /**
+     * @test
+     */
+    public function testValidation(): void
+    {
+        $testee = new Element('my-element');
+
+        static::assertTrue($testee->validate());
+
+        $expectedMessage = 'some error happened';
+
+        $errorStub = \Mockery::mock(\WP_Error::class);
+        $errorStub->expects('get_error_messages')->andReturn([$expectedMessage]);
+
+        $testee->withValidator(static function () use ($errorStub): ?\WP_Error {
+            return $errorStub;
+        });
+
+        static::assertFalse($testee->validate());
+        static::assertTrue($testee->hasErrors());
+        static::assertContains($expectedMessage, $testee->errors());
+    }
+
+    /**
+     * @test
+     */
+    public function testFilter(): void
+    {
+        $inputValue = 'foo';
+        $expectedValue = 'bar';
+
+        $testee = new Element('my-element');
+        $testee->withValue($inputValue);
+
+        static::assertSame($inputValue, $testee->value());
+
+        $filter = function (string $value) use ($inputValue, $expectedValue): string {
+            static::assertSame($inputValue, $value);
+
+            return $expectedValue;
+        };
+
+        $testee->withFilter($filter);
+
+        static::assertSame($expectedValue, $testee->value());
     }
 }
