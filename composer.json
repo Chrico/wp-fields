@@ -2,7 +2,7 @@
     "name": "chrico/wp-fields",
     "description": "Package which provides some re-usable fields for WordPress.",
     "type": "library",
-    "license": "MIT",
+    "license": "GPL-2.0-or-later",
     "authors": [
         {
             "name": "Christian Leucht",
