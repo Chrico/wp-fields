@@ -34,11 +34,11 @@ $select = createElement(
 
 $form = createElement(
 	[
-    	'attributes' => [
-    		'name' => 'my-form',
-    		'type' => 'form'
-    	]
-    ]
+		'attributes' => [
+			'name' => 'my-form',
+			'type' => 'form'
+		]
+	]
 );
 $form->withElement($text, $select)
 ```

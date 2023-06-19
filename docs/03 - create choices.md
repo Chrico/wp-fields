@@ -17,9 +17,9 @@ use function ChriCo\Fields\createElement;
 $data = array_reduce(
 	get_posts(), 
 	static function($data, \WP_Post $post): array {
-        	$data[ $post->ID ] = "#{$post->ID} {$post->post_title}";
+		$data[ $post->ID ] = "#{$post->ID} {$post->post_title}";
 
-        	return $data;
+		return $data;
 	}, 
 	[]
 );
@@ -31,13 +31,13 @@ $select = (new ChoiceElement('post-select'))
 	
 // or
 $select = createElement(
-    [
-        'attributes' => [
-            'name' => 'post-select',
-            'type' => 'select',
-        ],
-        'choices' => $data,
-    ]
+	[
+		'attributes' => [
+			'name' => 'post-select',
+			'type' => 'select',
+		],
+		'choices' => $data,
+	]
 );
 ```
 
@@ -62,7 +62,7 @@ $data = static function(): array {
 			$data[ $post->ID ] = "#{$post->ID} {$post->post_title}";
 
 			return $data;
-		}, 
+		},
 		[]
 	);
 };
@@ -73,13 +73,13 @@ $select = (new ChoiceElement('post-select'))
 
 // or
 $select = createElement(
-    [
-        'attributes' => [
-            'name' => 'post-select',
-            'type' => 'select',
-        ],
-        'choices' => new CallbackChoiceList($data),
-    ]
+	[
+		'attributes' => [
+			'name' => 'post-select',
+			'type' => 'select',
+		],
+		'choices' => new CallbackChoiceList($data),
+	]
 );
 ```
 
