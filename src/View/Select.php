@@ -2,7 +2,7 @@
 
 namespace ChriCo\Fields\View;
 
-use ChriCO\Fields\ChoiceList\ChoiceListInterface;
+use ChriCo\Fields\ChoiceList\ChoiceListInterface;
 use ChriCo\Fields\Element\ChoiceElementInterface;
 use ChriCo\Fields\Element\ElementInterface;
 use ChriCo\Fields\Exception\InvalidClassException;
