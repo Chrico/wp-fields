@@ -24,7 +24,7 @@ This way we have later on in our view for each element the prefix from our colle
 | `$text`   | `my-collection[my-text]`   | `my-collection_my-text`   |
 | `$number` | `my-collection[my-number]` | `my-collection_my-number` |
 
-**Note:** The manipulation of `id`- and `name`-attribute will only happen when creating the view. 
+**Note:** The manipulation of `id`- and `name`-attribute will only happen when creating the view.
 
 ## Create collection via spec
 

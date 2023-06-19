@@ -28,18 +28,18 @@ $number = (new Element('my-number'));
 
 ## Adding a description
 All elements are implementing the `DescriptionAwareInterface` which allows us to add a description to each field:
- 
+
 ```php
 <?php
 use ChriCo\Fields\Element\Element;
- 
+
 $text = (new Element('my-text'))
 	->withDescription('Some additional description for our form field.');
-  
-echo $text->description(); 
+
+echo $text->description();
 ```
- 
- 
+
+
 ## Adding a label
 All elements are implementing the `LabelAwareInterface` which allows us to add a `<label>` and label attributes:
 
@@ -52,7 +52,7 @@ $text = (new Element('my-text'))
 	->withLabelAttributes([ 'for' => 'my-id' ]);
 
 echo $text->label(); // 'My label'
-print_r($text->labelAttributes()); // [ 'for' => 'my-id' ] 
+print_r($text->labelAttributes()); // [ 'for' => 'my-id' ]
 ```
 
 ## Adding errors

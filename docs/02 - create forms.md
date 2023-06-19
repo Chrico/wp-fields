@@ -25,7 +25,7 @@ $select = createElement(
 	[
 		'attributes' => [
 			'name' => 'my-select',
-			'type' => 'select' 
+			'type' => 'select'
 		],
 		'label'     => 'My Label',
 		'choices'   => [ 'for' => 'my-id' ]
@@ -72,7 +72,7 @@ $form = createElement(
 			[
 				'attributes' => [
 					'name' => 'my-select',
-					'type' => 'select' 
+					'type' => 'select'
 				],
 				'label'     => 'My Label',
 				'choices'   => [ 'for' => 'my-id' ]

@@ -15,12 +15,12 @@ use ChriCo\Fields\ChoiceList\ArrayChoiceList;
 use function ChriCo\Fields\createElement;
 
 $data = array_reduce(
-	get_posts(), 
+	get_posts(),
 	static function($data, \WP_Post $post): array {
 		$data[ $post->ID ] = "#{$post->ID} {$post->post_title}";
 
 		return $data;
-	}, 
+	},
 	[]
 );
 
@@ -28,7 +28,7 @@ $data = array_reduce(
 $select = (new ChoiceElement('post-select'))
 	->withAttributes([ 'type' => 'select' ])
 	->withChoices(new ArrayChoiceList($data));
-	
+
 // or
 $select = createElement(
 	[
@@ -51,13 +51,13 @@ use function ChriCo\Fields\createElement;
 
 /**
  * A callable closure which loads posts.
- * 
+ *
  * @return array(int => string)
  */
 $data = static function(): array {
 
 	return array_reduce(
-		get_posts(), 
+		get_posts(),
 		static function($data, \WP_Post $post): array {
 			$data[ $post->ID ] = "#{$post->ID} {$post->post_title}";
 

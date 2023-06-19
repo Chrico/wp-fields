@@ -29,9 +29,9 @@ Documentation can be found in [`docs/`](docs/).
 
 > Why are you not just using existing packages like the [Symfony Forms](http://symfony.com/doc/current/forms.html) or [Zend Form](https://framework.zend.com/manual/2.4/en/modules/zend.form.intro.html)?
 
-That's a good question! As already mentioned above, WordPress has different pages and scenarios where to use form fields. Both packages are excellent and i worked a lot with them in past. 
+That's a good question! As already mentioned above, WordPress has different pages and scenarios where to use form fields. Both packages are excellent and i worked a lot with them in past.
 
-*But:* They need a ton of dependencies. 
+*But:* They need a ton of dependencies.
 
 As example, if you're going to use Symfony Forms, you've to use other Symfony Packages like Event Dispatcher, Intl, Options Resolver, Property Access. And that's not all, if you're serious, you'll probably end up using as well [Symfony Validation](https://symfony.com/doc/current/validation.html), [Symfony CSRF](http://symfony.com/doc/current/form/csrf_protection.html), [Twig](http://twig.sensiolabs.org/). And that's the whole point..when we load half of Symfony and we're not far away from including Doctrine as well...why do we still use WordPress?
 
@@ -41,23 +41,24 @@ I guess you're wrong here. ;-)
 
 > What about the upcoming [WordPress Fields API](https://github.com/sc0ttkclark/wordpress-fields-api)?
 
-Nothing. There's a lot of weird and quirky code in it. No interfaces, no real abstraction, no strict return types, PHP 5.2, missing Unit Tests, ... _the list is endless, so i'll stop here._ 
+Nothing. There's a lot of weird and quirky code in it. No interfaces, no real abstraction, no strict return types, PHP 5.2, missing Unit Tests, ... _the list is endless, so i'll stop here._
 
 In fact, the API will eventually appear in WordPress in near - or far - future. But until then, everything is fine. If the API is really released, i'll adapt this code to fit on top of the Fields API.
 
 ---
 
 ## License
+
 Copyright (c) 2017 ChriCo.
 
 ChriCo Fields code is licensed under [MIT license](https://opensource.org/licenses/MIT).
 
 ```
-   _____ _          _  _____      
-  / ____| |        (_)/ ____|     
- | |    | |__  _ __ _| |     ___  
- | |    | '_ \| '__| | |    / _ \ 
+   _____ _          _  _____
+  / ____| |        (_)/ ____|
+ | |    | |__  _ __ _| |     ___
+ | |    | '_ \| '__| | |    / _ \
  | |____| | | | |  | | |___| (_) |
-  \_____|_| |_|_|  |_|\_____\___/ 
-                                  
+  \_____|_| |_|_|  |_|\_____\___/
+
 ```
