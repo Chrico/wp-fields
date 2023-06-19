@@ -22,7 +22,10 @@
     "autoload": {
         "psr-4": {
             "ChriCo\\Fields\\": "src/"
-        }
+        },
+        "files": [
+            "inc/functions.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
