@@ -112,7 +112,7 @@ class CollectionElement extends Element implements CollectionElementInterface
         }
 
         return array_map(
-            static fn (ElementInterface $element) => $element->value(),
+            static fn(ElementInterface $element) => $element->value(),
             $this->elements()
         );
     }
@@ -158,16 +158,21 @@ class CollectionElement extends Element implements CollectionElementInterface
      */
     public function hasErrors(): bool
     {
-        return count($this->allErrors) > 0;
+        if (count($this->allErrors) > 0) {
+            return true;
+        }
+        foreach ($this->elements() as $element) {
+            if ($element instanceof ErrorAwareInterface && $element->hasErrors()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function validate(): bool
     {
         $isValid = parent::validate();
-
-        if (!$isValid) {
-            return $isValid;
-        }
 
         foreach ($this->elements() as $element) {
             if (!$element->validate()) {

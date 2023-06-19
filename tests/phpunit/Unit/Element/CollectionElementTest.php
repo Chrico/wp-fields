@@ -109,6 +109,27 @@ class CollectionElementTest extends AbstractTestCase
     }
 
     /**
+     * @test
+     */
+
+    public function testChildHasError(): void
+    {
+        $errorStub = \Mockery::mock(\WP_Error::class);
+        $errorStub->expects('get_error_messages')->andReturn(['some' => 'error message']);
+
+        \Brain\Monkey\Functions\expect('is_wp_error')->andReturn(true);
+
+        $child = new Element('element');
+        $child->withValidator(static fn() => $errorStub);
+
+        $testee = new CollectionElement('collection');
+        $testee->withElement($child);
+
+        static::assertFalse($testee->validate());
+        static::assertTrue($testee->hasErrors());
+    }
+
+    /**
      * Test if values are delegated to the elements in the collection.
      *
      * @test
