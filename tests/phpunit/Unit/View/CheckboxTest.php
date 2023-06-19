@@ -102,7 +102,7 @@ class CheckboxTest extends AbstractViewTestCase
      *
      * @test
      */
-    public function testRenderMulitpleChoices(): void
+    public function testRenderMultipleChoices(): void
     {
         $element = $this->getElement('element', new ArrayChoiceList(['foo' => 'bar', 'baz' => 'bam']));
 
