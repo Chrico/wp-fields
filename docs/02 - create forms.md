@@ -102,7 +102,6 @@ echo $form->element('my-text')->value(); // '<p>value of my-text</p>'
 ## Submit data
 The second way to bind data to elements is the usage of `Form::submit` which also validates the data and binds errors to the element.
 
-
 ```php
 <?php
 
