@@ -13,8 +13,6 @@ class ViewFactory extends AbstractFactory
     /**
      * Find the correct Field-Class by type.
      *
-     * @param mixed $type
-     *
      * @throws Exception\UnknownTypeException
      *
      * @return RenderableElementInterface $class
