@@ -63,7 +63,7 @@ class ViewFactoryTest extends AbstractTestCase
      *
      * @test
      */
-    public function testCreateUnkonwnType(): void
+    public function testCreateUnknownType(): void
     {
         static::expectException(UnknownTypeException::class);
         $testee = new ViewFactory();
