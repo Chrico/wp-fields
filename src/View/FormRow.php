@@ -74,7 +74,7 @@ class FormRow implements RenderableElementInterface
                 $errors
             );
 
-        $classes = ['form-row', 'form-row--' . $element->type()];
+        $classes = ['form-row', 'form-row__' . $element->name(), 'form-row--' . $element->type()];
         if ($errors !== '') {
             $classes[] = 'form-row--has-errors';
         }
