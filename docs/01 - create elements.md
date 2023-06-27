@@ -71,12 +71,14 @@ print_r($text->errors()); // [ 'error-id' => 'Error message' ]
 ## Adding Validators and Filters
 Validation callbacks can be used to validate the Element value, while Filters are being used to sanitize the Element value.
 
+Validators and Filters receive as first parameter the `$value` and as second parameter the `Element $element` itself to have access to attributes, options, ...
+
 ```php
 use ChriCo\Fields\Element\Element;
 
 $text = (new Element('my-text'))
-    ->withValidator(static function(string $value): ?WP_Error {
-        if(!is_email($value)){
+    ->withValidator(static function($value, Element $element): ?WP_Error {
+        if(!is_string($value) && !is_email($value)){
             return new WP_Error('my-text', __('Please insert a valid E-Mail address', 'your-textdomain'));
         }
         return null;

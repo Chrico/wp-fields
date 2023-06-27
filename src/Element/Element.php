@@ -211,7 +211,7 @@ class Element implements
     public function filter($value)
     {
         if ($this->filter) {
-            $value = ($this->filter)($value);
+            $value = ($this->filter)($value, $this);
         }
 
         return $value;
@@ -235,7 +235,7 @@ class Element implements
 
         $valid = true;
         if ($this->validator) {
-            $error = ($this->validator)($value);
+            $error = ($this->validator)($value, $this);
             if (is_wp_error($error)) {
                 $this->withErrors($error->get_error_messages());
                 $valid = false;
