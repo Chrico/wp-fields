@@ -9,7 +9,6 @@ namespace ChriCo\Fields\ChoiceList;
  */
 class CallbackChoiceList extends ArrayChoiceList
 {
-
     /**
      * @var bool
      */
@@ -49,9 +48,9 @@ class CallbackChoiceList extends ArrayChoiceList
      */
     private function maybeLoadChoices(): bool
     {
-        if (! $this->isLoaded()) {
+        if (!$this->isLoaded()) {
             $callback = $this->callback;
-            $this->choices = $callback();
+            $this->choices = $this->prepareChoices($callback());
             $this->isLoaded = true;
 
             return true;

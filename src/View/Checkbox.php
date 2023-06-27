@@ -44,18 +44,20 @@ class Checkbox implements RenderableElementInterface
             $isMultiChoice = true;
         }
 
-        foreach ($choices as $key => $name) {
+        foreach ($choices as $key => $choice) {
             $elementAttr = $attributes;
             $elementAttr['value'] = $key;
             $elementAttr['checked'] = isset($selected[$key]);
+            $elementAttr['disabled'] = $choice['disabled'];
             $elementAttr['id'] = $isMultiChoice
                 ? $element->id() . '_' . $key
                 : $element->id();
+            $elementAttr = $this->buildCssClasses($elementAttr, 'element', $element);
 
             $label = sprintf(
                 '<label for="%s">%s</label>',
                 $this->escapeAttribute($elementAttr['id']),
-                $this->escapeHtml($name)
+                $this->escapeHtml($choice['label'])
             );
 
             $html[] = sprintf(

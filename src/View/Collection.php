@@ -15,7 +15,6 @@ use ChriCo\Fields\ViewFactory;
  */
 class Collection implements RenderableElementInterface
 {
-
     use AttributeFormatterTrait;
     use AssertElementInstanceOfTrait;
 
@@ -36,9 +35,9 @@ class Collection implements RenderableElementInterface
     /**
      * @param ElementInterface|Element\CollectionElement $element
      *
+     * @return string
      * @throws InvalidClassException
      *
-     * @return string
      */
     public function render(ElementInterface $element): string
     {
@@ -50,13 +49,13 @@ class Collection implements RenderableElementInterface
             $element->elements(),
             function ($html, ElementInterface $next) use ($element, $row): string {
                 // Adding the CollectionElement name to the Element name and ID as prefix.
-                $next->withAttribute('id', $element->id().'_'.$next->id());
-                $next->withAttribute('name', $element->name().'['.$next->name().']');
+                $next->withAttribute('id', $element->id() . '_' . $next->id());
+                $next->withAttribute('name', $element->name() . '[' . $next->name() . ']');
 
                 // In case we have nested CollectionElement, then
-                // we don't want to nest "<table><tr>"-wrapper.
+                // we don't want to nest those when rendering.
                 if ($next instanceof Element\CollectionElement) {
-                   $html .= $this->render($next);
+                    $html .= $this->render($next);
                 } else {
                     $html .= $row->render($next);
                 }
@@ -66,12 +65,22 @@ class Collection implements RenderableElementInterface
             ''
         );
 
+        $attributes = $element->attributes();
+        $attributes = $this->buildCssClasses($attributes, 'collection', $element);
+        // we do not want to get the "name" and "type" rendered as attribute on wrapper.
+        unset($attributes['name'], $attributes['type']);
+
         $errors = $this->factory->create(Errors::class)
             ->render($element);
-        $class = $errors !== ''
-            ? 'form-table--has-errors'
-            : '';
+        if ($errors !== '') {
+            $attributes['class'] .= ' form-collection--has-errors';
+        }
 
-        return sprintf('%1$s<table class="form-table %2$s">%3$s</table>', $errors, $class, $html);
+        return sprintf(
+            '%1$s<div %2$s>%3$s</div>',
+            $errors,
+            $this->attributesToString($attributes),
+            $html
+        );
     }
 }

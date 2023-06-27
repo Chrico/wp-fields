@@ -57,6 +57,9 @@ abstract class AbstractFactory
 
         'textarea' => View\Textarea::class,
         'progress' => View\Progress::class,
+
+        'button' => View\Button::class,
+        'reset' => View\Button::class,
     ];
 
     /**
@@ -71,6 +74,7 @@ abstract class AbstractFactory
 
         'collection' => CollectionElement::class,
 
+        'button' => Element::class,
         'col' => Element::class,
         'color' => Element::class,
         'date' => Element::class,
@@ -87,6 +91,7 @@ abstract class AbstractFactory
         'range' => Element::class,
         'search' => Element::class,
         'submit' => Element::class,
+        'reset' => Element::class,
         'tel' => Element::class,
         'text' => Element::class,
         'textarea' => Element::class,

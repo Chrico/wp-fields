@@ -10,23 +10,28 @@ use ChriCo\Fields\Element\LabelAwareInterface;
  *
  * @package ChriCo\Fields\View
  */
-class Input implements RenderableElementInterface
+class Button implements RenderableElementInterface
 {
     use AttributeFormatterTrait;
+    use AssertElementInstanceOfTrait;
 
     /**
-     * @param ElementInterface $element
+     * @param ElementInterface|LabelAwareInterface $element
      *
      * @return string
      */
     public function render(ElementInterface $element): string
     {
+        // Every button should have a label (text).
+        $this->assertElementIsInstanceOf($element, LabelAwareInterface::class);
+
         $attributes = $element->attributes();
         $attributes = $this->buildCssClasses($attributes, 'element', $element);
 
         return sprintf(
-            '<input %s />',
-            $this->attributesToString($attributes)
+            '<button %1$s>%2$s</button>',
+            $this->attributesToString($attributes),
+            $element->label(),
         );
     }
 }

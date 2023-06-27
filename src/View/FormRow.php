@@ -55,39 +55,40 @@ class FormRow implements RenderableElementInterface
             : '';
 
         $label = $element instanceof LabelAwareInterface
+        && !in_array(
+            $element->type(),
+            ['submit', 'button', 'reset'],
+            true
+        )
             ? $this->factory->create(Label::class)
                 ->render($element)
             : '';
 
         $html = ($label !== '')
             ? sprintf(
-                '<th>%1$s</th><td>%2$s %3$s %4$s</td>',
+                '%1$s %2$s %3$s %4$s',
                 $label,
                 $field,
                 $description,
                 $errors
             )
             : sprintf(
-                '<td colspan="2">%1$s %2$s %3$s</td>',
+                '%1$s %2$s %3$s',
                 $field,
                 $description,
                 $errors
             );
 
-        $classes = ['form-row', 'form-row__' . $element->name(), 'form-row--' . $element->type()];
+        $rowAttributes = $this->buildCssClasses([], 'row', $element);;
         if ($errors !== '') {
-            $classes[] = 'form-row--has-errors';
+            $rowAttributes['class'] .= ' form-row--has-errors';
         }
         if ($element->type() === 'hidden') {
-            $classes[] = 'hidden';
+            $rowAttributes['class'] .= ' hidden';
         }
 
-        $rowAttributes = [
-            'class' => implode(' ', $classes),
-        ];
-
         return sprintf(
-            '<tr %s>%s</tr>',
+            '<div %s>%s</div>',
             $this->attributesToString($rowAttributes),
             $html
         );

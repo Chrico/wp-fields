@@ -105,7 +105,8 @@ class CollectionElementTest extends AbstractTestCase
         /** @var ErrorAwareInterface $element */
         $element = $testee->element($expected_element_name);
 
-        static::assertSame($expected_error, $element->errors());
+        static::assertCount(1, $element->errors());
+        static::assertSame(array_values($expected_error), array_values($element->errors()));
     }
 
     /**

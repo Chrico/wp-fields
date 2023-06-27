@@ -6,39 +6,70 @@ namespace ChriCo\Fields\ChoiceList;
  * Class ArrayChoiceList
  *
  * @package ChriCo\Fields\ChoiceList
+ *
+ * @psalm-type SelectOption = array{
+ *     label: string,
+ *     value: string|int,
+ *     disabled: boolean,
+ * }
  */
 class ArrayChoiceList implements ChoiceListInterface
 {
-
     /**
-     * @var array
+     * @var array<string|int, SelectOption>
      */
     protected array $choices;
 
     /**
-     * ArrayChoiceList constructor.
-     *
      * @param array $choices
      */
     public function __construct(array $choices = [])
     {
-        $this->choices = $choices;
+        $this->choices = $this->prepareChoices($choices);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function values(): array
     {
         return array_map('strval', array_keys($this->choices()));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function choices(): array
     {
         return $this->choices;
+    }
+
+    /**
+     * Internal function which migrates choices from [ $value => $name ]
+     * into the new [ $value => 'value' => $value, 'label' => $name, 'disabled' => false ]
+     * structure to allow more configuration and flexibility in future.
+     *
+     * @param array $choices
+     *
+     * @return array
+     */
+    protected function prepareChoices(array $choices): array
+    {
+        $prepared = [];
+        foreach ($choices as $value => $nameOrChoice) {
+            if (is_string($nameOrChoice)) {
+                $prepared[$value] = [
+                    'value' => $value,
+                    'label' => trim($nameOrChoice),
+                    'disabled' => false,
+                ];
+            } elseif (is_array($nameOrChoice)) {
+                $prepared[$value] = [
+                    'value' => $value,
+                    'label' => trim($nameOrChoice['label'] ?? ''),
+                    'disabled' => (bool) ($nameOrChoice['disabled'] ?? false),
+                ];
+            }
+        }
+
+        return array_filter(
+            $prepared,
+            static fn(array $choice) => $choice['label'] !== ''
+        );
     }
 
     /**

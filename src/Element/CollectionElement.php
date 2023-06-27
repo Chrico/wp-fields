@@ -136,16 +136,13 @@ class CollectionElement extends Element implements CollectionElementInterface
     {
         $this->allErrors = $errors;
 
-        array_walk(
-            $this->elements,
-            static function (ElementInterface $element) use ($errors): void {
-                $name = $element->name();
-                if (isset($errors[$name]) && $element instanceof ErrorAwareInterface) {
-                    $element->withErrors($errors);
-                    unset($errors[$name]);
-                }
+        foreach ($this->elements as $element) {
+            $name = $element->name();
+            if (isset($errors[$name]) && $element instanceof ErrorAwareInterface) {
+                $element->withErrors((array) $errors[$name]);
+                unset($errors[$name]);
             }
-        );
+        }
 
         // assign errors without matches to the collection itself.
         $this->errors = $errors;

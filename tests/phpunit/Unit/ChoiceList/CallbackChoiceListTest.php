@@ -30,7 +30,13 @@ class CallbackChoiceListTest extends AbstractTestCase
      */
     public function testGetChoices(): void
     {
-        $expected = ['foo' => 'bar'];
+        $expected = [
+            'foo' => [
+                'value' => 'foo',
+                'label' => 'Foo',
+                'disabled' => false,
+            ],
+        ];
 
         $callback = function () use ($expected) {
             return $expected;

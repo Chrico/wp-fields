@@ -4,6 +4,7 @@ namespace ChriCo\Fields\View;
 
 use ChriCo\Fields\Element\ChoiceElementInterface;
 use ChriCo\Fields\Element\ElementInterface;
+use ChriCo\Fields\Element\LabelAwareInterface;
 use ChriCo\Fields\Exception\InvalidClassException;
 
 /**
@@ -33,16 +34,17 @@ class Radio implements RenderableElementInterface
 
         $html = [];
 
-        foreach ($choices as $key => $name) {
+        foreach ($choices as $key => $choice) {
             $elementAttr = $attributes;
             $elementAttr['id'] .= '_'.$key;
             $elementAttr['value'] = $key;
+            $elementAttr['disabled'] = $choice['disabled'];
             $elementAttr['checked'] = isset($selected[$key]);
 
             $label = sprintf(
                 '<label for="%s">%s</label>',
                 $this->escapeAttribute($elementAttr['id']),
-                $this->escapeHtml($name)
+                $this->escapeHtml($choice['label'])
             );
 
             $html[] = sprintf(

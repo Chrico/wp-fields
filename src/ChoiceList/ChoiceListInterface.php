@@ -20,7 +20,7 @@ interface ChoiceListInterface
     /**
      * Returns a unique list of all values for the choices.
      *
-     * @return string[]
+     * @return string[]|int[]
      */
     public function values(): array;
 

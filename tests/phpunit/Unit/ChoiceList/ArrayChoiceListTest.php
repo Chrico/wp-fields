@@ -29,8 +29,15 @@ class ArrayChoiceListTest extends AbstractTestCase
      */
     public function testGetChoices(): void
     {
-        $expected = ['foo' => 'bar'];
-        $testee = new ArrayChoiceList($expected);
+        $input = ['foo' => 'bar'];
+        $expected = [
+            'foo' => [
+                'value' => 'foo',
+                'label' => 'bar',
+                'disabled' => false
+            ]
+        ];
+        $testee = new ArrayChoiceList($input);
 
         static::assertSame($expected, $testee->choices());
     }
@@ -49,8 +56,16 @@ class ArrayChoiceListTest extends AbstractTestCase
 
     public function provideGetValues(): Generator
     {
-        yield 'string values' => [['foo' => 'bar'], ['foo']];
-        yield 'int values' => [[0 => 'foo', 1 => 'bar'], ['0', '1']];
+        yield 'string values' => [
+            ['foo' => 'bar'],
+            ['foo']
+        ];
+
+
+        yield 'int values' => [
+            [0 => 'foo', 1 => 'bar'],
+            ['0', '1']
+        ];
     }
 
     /**
@@ -68,20 +83,31 @@ class ArrayChoiceListTest extends AbstractTestCase
 
     public function provideGetChoicesForValue(): Generator
     {
+        $option1 = [
+            'value' => 'foo',
+            'label' => 'Foo',
+            'disabled' => false,
+        ];
+        $option2 = [
+            'value' => 'bar',
+            'label' => 'Bar',
+            'disabled' => false,
+        ];
+
         yield '1 selected' => [
-            ['foo' => 'bar', 'baz' => 'bam'],
+            ['foo' => $option1, 'bar' => $option2],
             ['foo'],
-            ['foo' => 'bar'],
+            ['foo' => $option1],
         ];
 
         yield 'multiple selected' => [
-            ['foo' => 'bar', 'baz' => 'bam'],
-            ['foo', 'baz'],
-            ['foo' => 'bar', 'baz' => 'bam'],
+            ['foo' => $option1, 'bar' => $option2],
+            ['foo', 'bar'],
+            ['foo' => $option1, 'bar' => $option2],
         ];
 
         yield 'nothing selected' => [
-            ['foo' => 'bar', 'baz' => 'bam'],
+            ['foo' => $option1, 'bar' => $option2],
             [],
             [],
         ];
@@ -94,7 +120,7 @@ class ArrayChoiceListTest extends AbstractTestCase
 
         yield 'empty list' => [
             [],
-            ['foo' => 'bar'],
+            ['foo'],
             [],
         ];
     }

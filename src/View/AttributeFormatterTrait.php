@@ -2,6 +2,8 @@
 
 namespace ChriCo\Fields\View;
 
+use ChriCo\Fields\Element\ElementInterface;
+
 /**
  * Trait AttributeFormatterTrait
  *
@@ -9,7 +11,6 @@ namespace ChriCo\Fields\View;
  */
 trait AttributeFormatterTrait
 {
-
     /**
      * @var array
      */
@@ -93,5 +94,28 @@ trait AttributeFormatterTrait
     public function escapeHtml($value): string
     {
         return esc_html((string) $value);
+    }
+
+    /**
+     * Internal function to add additional selectors for type, type+elementName, type+elementType.
+     *
+     * @param array $attributes
+     * @param string $type
+     * @param ElementInterface $element
+     *
+     * @return array $attributes
+     */
+    public function buildCssClasses(array $attributes, string $type, ElementInterface $element): array
+    {
+        $classes = (array) ($attributes['class'] ?? []);
+
+        $classes[] = "form-{$type}";
+        if ($element->type() !== $type) {
+            $classes[] = "form-{$type}--{$element->type()}";
+        }
+
+        $attributes['class'] = implode(' ', $classes);
+
+        return $attributes;
     }
 }

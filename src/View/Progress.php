@@ -21,6 +21,8 @@ class Progress implements RenderableElementInterface
     {
         $attributes = $element->attributes();
 
+        $attributes = $this->buildCssClasses($attributes, 'element', $element);
+
         return sprintf(
             '<progress %s>%s</progress>',
             $this->attributesToString($attributes),

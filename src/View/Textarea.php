@@ -20,6 +20,7 @@ class Textarea implements RenderableElementInterface
     public function render(ElementInterface $element): string
     {
         $attributes = $element->attributes();
+        $attributes = $this->buildCssClasses($attributes, 'element', $element);
         unset($attributes['value']);
 
         return sprintf(

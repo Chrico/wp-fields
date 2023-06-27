@@ -16,7 +16,6 @@ use ChriCo\Fields\ViewFactory;
  */
 class Form implements RenderableElementInterface
 {
-
     use AttributeFormatterTrait;
     use AssertElementInstanceOfTrait;
 
@@ -37,9 +36,9 @@ class Form implements RenderableElementInterface
     /**
      * @param ElementInterface|FormInterface $element
      *
+     * @return string
      * @throws InvalidClassException|UnknownTypeException
      *
-     * @return string
      */
     public function render(ElementInterface $element): string
     {
@@ -57,20 +56,25 @@ class Form implements RenderableElementInterface
             ''
         );
 
+        $attributes = $element->attributes();
+        // Don't re-use the "type" as attribute on <form>-tag.
+        unset($attributes['type']);
+        $classes = (string) ($attributes['class'] ?? '');
+        $classes .= 'form';
+        $attributes['class'] = $classes;
+
         $errors = $element instanceof ErrorAwareInterface
             ? $this->factory->create(Errors::class)
                 ->render($element)
             : '';
-
-        $class = $errors !== ''
-            ? 'form-table--has-errors'
-            : '';
-
-        $html = sprintf('%1$s <table class="form-table %2$s">%3$s</table>', $errors, $class, $html);
+        if ($errors !== '') {
+            $attributes['class'] .= ' form--has-errors';
+        }
 
         return sprintf(
-            '<form %s>%s</form>',
-            $this->attributesToString($element->attributes()),
+            '<form %1$s>%2$s %3$s</form>',
+            $this->attributesToString($attributes),
+            $errors,
             $html
         );
     }

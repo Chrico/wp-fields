@@ -6,7 +6,7 @@ The `ChoiceElement` allows us to add different choices. This package ships 2 imp
 
 To show the differences for both, here's a short example for a `<select>` which shows posts:
 
-**1. ArrayChoiceList**
+## `ArrayChoiceList`
 ```php
 <?php
 use ChriCo\Fields\Element\ChoiceElement;
@@ -41,7 +41,7 @@ $select = createElement(
 );
 ```
 
-**2. CallbackChoiceList**
+## `CallbackChoiceList`
 ```php
 <?php
 use ChriCo\Fields\Element\ChoiceElement;
@@ -84,3 +84,49 @@ $select = createElement(
 ```
 
 The main difference is: The `CallbackChoiceList` only loads the choices, when they are first time accessed in view. The `ArrayChoiceList` has already assigned the complete choice-values in it's constructor.
+
+## Structure of choices
+
+The choices have a new structure since version 2.1 which will be used internally and allows more flexibility.
+
+**Old structure** (still works)
+
+```php
+use ChriCo\Fields\Element\ChoiceElement;
+use ChriCo\Fields\ChoiceList\ArrayChoiceList;
+$data = [
+    'M' => 'Male',
+    'F' => 'Female',
+    'D' => 'Diverse'
+];
+
+// normal ArrayChoiceList
+$select = (new ChoiceElement('select'))
+	->withAttributes([ 'type' => 'select' ])
+	->withChoices(new ArrayChoiceList($data));
+```
+
+**New structure**
+```php
+use ChriCo\Fields\Element\ChoiceElement;
+use ChriCo\Fields\ChoiceList\ArrayChoiceList;
+$data = [
+    'M' => [
+        'label' => 'Male',
+        'disabled' => true,
+    ],
+    'F' => [
+        'label' => 'Female',
+    ]
+    'D' => [
+        'label' => 'Diverse'
+    ]
+];
+
+// normal ArrayChoiceList
+$select = (new ChoiceElement('select'))
+	->withAttributes([ 'type' => 'select' ])
+	->withChoices(new ArrayChoiceList($data));
+```
+
+As you can see we now have instead of `array<string|int, string>` mapping a more complex structure `array<string|int, array<{ label: string, disabled?:boolean }>`, which will allow us to additionally set `disabled`. The result is the same, but the "old structure" will be internally converted to "new structure".

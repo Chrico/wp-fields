@@ -12,16 +12,15 @@ use ChriCo\Fields\Element\LabelAwareInterface;
  */
 class Label implements RenderableElementInterface
 {
-
     use AttributeFormatterTrait;
     use AssertElementInstanceOfTrait;
 
     /**
      * @param ElementInterface|LabelAwareInterface $element
      *
+     * @return string
      * @throws InvalidClassException
      *
-     * @return string
      */
     public function render(ElementInterface $element): string
     {
@@ -32,9 +31,10 @@ class Label implements RenderableElementInterface
         }
 
         $attributes = $element->labelAttributes();
-        if (! isset($attributes['for'])) {
+        if (!isset($attributes['for'])) {
             $attributes['for'] = $element->id();
         }
+        $attributes = $this->buildCssClasses($attributes, 'label', $element);
 
         return sprintf(
             '<label %s>%s</label>',

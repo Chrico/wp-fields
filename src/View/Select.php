@@ -12,22 +12,22 @@ use ChriCo\Fields\Exception\InvalidClassException;
  */
 class Select implements RenderableElementInterface
 {
-
     use AttributeFormatterTrait;
     use AssertElementInstanceOfTrait;
 
     /**
      * @param ElementInterface|ChoiceElementInterface $element
      *
+     * @return string
      * @throws InvalidClassException
      *
-     * @return string
      */
     public function render(ElementInterface $element): string
     {
         $this->assertElementIsInstanceOf($element, ChoiceElementInterface::class);
 
         $attributes = $element->attributes();
+        $attributes = $this->buildCssClasses($attributes, 'element', $element);
         unset($attributes['type'], $attributes['value']);
 
         return sprintf(
@@ -45,23 +45,24 @@ class Select implements RenderableElementInterface
      */
     protected function renderChoices(ChoiceListInterface $list, $currentValue): string
     {
-        if (! is_array($currentValue)) {
+        if (!is_array($currentValue)) {
             $currentValue = [$currentValue];
         }
 
         $selected = $list->choicesForValue($currentValue);
         $html = [];
 
-        foreach ($list->choices() as $key => $name) {
+        foreach ($list->choices() as $key => $choice) {
             $html[] = sprintf(
                 '<option %s>%s</option>',
                 $this->attributesToString(
                     [
                         'value' => $key,
                         'selected' => isset($selected[$key]),
+                        'disabled' => $choice['disabled'],
                     ]
                 ),
-                $this->escapeHtml($name)
+                $this->escapeHtml($choice['label'])
             );
         }
 

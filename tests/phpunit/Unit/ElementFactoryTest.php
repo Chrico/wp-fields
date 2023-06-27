@@ -249,21 +249,31 @@ class ElementFactoryTest extends AbstractTestCase
 
     public function provideCreateWithChoices(): Generator
     {
+        $choices = [
+            'foo' => [
+                'value' => 'foo',
+                'label' => 'bar',
+                'disabled' => false,
+            ],
+            'baz' => [
+                'value' => 'baz',
+                'label' => 'bam',
+                'disabled' => false,
+            ],
+        ];
+
         // normal choice list
         yield 'choice array' => [
             ['foo' => 'bar', 'baz' => 'bam'],
-            ['foo' => 'bar', 'baz' => 'bam'],
+            $choices,
             ArrayChoiceList::class,
         ];
 
-        // choice list with callback
-        $expected = ['foo' => 'bar', 'baz' => 'bam'];
-
         yield 'choices via callable' => [
-            function () use ($expected) {
-                return $expected;
+            function () use ($choices) {
+                return $choices;
             },
-            $expected,
+            $choices,
             CallbackChoiceList::class,
         ];
     }
