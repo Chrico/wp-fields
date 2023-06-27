@@ -19,8 +19,6 @@ class Form extends CollectionElement implements FormInterface
 
     protected bool $isValid = true;
 
-    protected bool $validated = false;
-
     protected bool $isSubmitted = false;
 
     /**
@@ -65,7 +63,6 @@ class Form extends CollectionElement implements FormInterface
             throw new LogicException('You cannot change data of a submitted form.');
         }
 
-        /** @var ElementInterface $element */
         foreach ($this->elements() as $name => $element) {
             $value = $data[$name] ?? '';
             $this->rawData[$name] = $value;
@@ -84,11 +81,9 @@ class Form extends CollectionElement implements FormInterface
      */
     public function submit(array $inputData = [])
     {
-        $this->validated = false;
         $this->isSubmitted = true;
         $this->isValid = true;
 
-        /** @var ElementInterface $element */
         foreach ($this->elements() as $name => $element) {
             // only validate elements which are not disabled.
             if ($element->isDisabled()) {
@@ -124,7 +119,7 @@ class Form extends CollectionElement implements FormInterface
     {
         if (!$this->isSubmitted) {
             throw new LogicException(
-                'Cannot check if a not submitted form is valid. Call Form::is_submitted() before Form::is_valid().'
+                'You need to call Form::submit() first, before checking Form::isValid().'
             );
         }
 
