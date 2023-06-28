@@ -12,7 +12,6 @@ use ChriCo\Fields\Exception\LogicException;
  */
 class Form extends CollectionElement implements FormInterface
 {
-
     protected array $attributes = [
         'method' => 'POST',
     ];
@@ -123,7 +122,9 @@ class Form extends CollectionElement implements FormInterface
             );
         }
 
-        return $this->isValid;
+        // Either on "submit" we have erroneous Elements, or the
+        // Form itself has errors assigned through Form::withErrors().
+        return $this->hasErrors() || $this->isValid;
     }
 
     /**
