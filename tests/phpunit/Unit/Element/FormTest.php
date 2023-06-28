@@ -61,6 +61,8 @@ class FormTest extends AbstractTestCase
             ->andReturn($expected_value);
         $element->allows('withErrors')
             ->with($expected_error);
+        $element->allows('hasErrors')
+            ->andReturnTrue();
         $element->allows('validate')
             ->andReturnFalse();
 

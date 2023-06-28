@@ -124,7 +124,11 @@ class Form extends CollectionElement implements FormInterface
 
         // Either on "submit" we have erroneous Elements, or the
         // Form itself has errors assigned through Form::withErrors().
-        return $this->hasErrors() || $this->isValid;
+        if ($this->hasErrors()) {
+            return false;
+        }
+
+        return $this->isValid;
     }
 
     /**
