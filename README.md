@@ -50,7 +50,7 @@ In fact, the API will eventually appear in WordPress in near - or far - future. 
 ## License
 Copyright (c) 2017 ChriCo.
 
-ChriCo Fields code is licensed under [MIT license](https://opensource.org/licenses/MIT).
+ChriCo Fields code is licensed under [GNU General Public License v3.0](/LICENSE).
 
 ```
    _____ _          _  _____      
