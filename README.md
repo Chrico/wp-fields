@@ -1,6 +1,6 @@
 # ChriCo WP-Fields [![Latest Stable Version](https://poser.pugx.org/chrico/wp-fields/v/stable)](https://packagist.org/packages/chrico/wp-fields) [![Project Status](http://opensource.box.com/badges/active.svg)](http://opensource.box.com/badges) [![Build Status](https://travis-ci.org/Chrico/wp-fields.svg?branch=master)](http://travis-ci.org/chrico/chrico-wp-fields) [![License](https://poser.pugx.org/chrico/wp-fields/license)](https://packagist.org/packages/chrico/wp-fields)
 
-ChriCo WP-Fields is a Composer package (not a plugin) that allows to generate form fields in WordPress.
+ChriCo WP-Fields is a library (not a plugin) that allows to generate form fields in WordPress.
 
 ---
 
