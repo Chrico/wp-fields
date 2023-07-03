@@ -44,7 +44,7 @@ class Radio implements RenderableElementInterface
             $label = sprintf(
                 '<label for="%s">%s</label>',
                 $this->escapeAttribute($elementAttr['id']),
-                $this->escapeHtml($choice['label'])
+                $choice['label']
             );
 
             $html[] = sprintf(
