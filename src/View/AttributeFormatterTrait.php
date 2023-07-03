@@ -113,6 +113,7 @@ trait AttributeFormatterTrait
         if ($element->type() !== $type) {
             $classes[] = "form-{$type}--{$element->type()}";
         }
+        $classes[] = "form-{$type}__{$element->id()}";
 
         $attributes['class'] = implode(' ', $classes);
 
