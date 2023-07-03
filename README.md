@@ -1,6 +1,6 @@
-# ChriCo WP-Fields [![Latest Stable Version](https://poser.pugx.org/chrico/wp-fields/v/stable)](https://packagist.org/packages/chrico/wp-fields) [![Project Status](http://opensource.box.com/badges/active.svg)](http://opensource.box.com/badges) [![Build Status](https://travis-ci.org/Chrico/wp-fields.svg?branch=master)](http://travis-ci.org/chrico/chrico-wp-fields) [![License](https://poser.pugx.org/chrico/wp-fields/license)](https://packagist.org/packages/chrico/wp-fields)
+# ChriCo WP-Fields [![Latest Stable Version](https://poser.pugx.org/chrico/wp-fields/v/stable)](https://packagist.org/packages/chrico/wp-fields) [![Project Status](http://opensource.box.com/badges/active.svg)](http://opensource.box.com/badges) [![Unit tests PHP](https://github.com/Chrico/wp-fields/actions/workflows/php-qa.yml/badge.svg)](https://github.com/Chrico/wp-fields/actions/workflows/php-qa.yml) [![License](https://poser.pugx.org/chrico/wp-fields/license)](https://packagist.org/packages/chrico/wp-fields)
 
-ChriCo WP-Fields is a Composer package (not a plugin) that allows to generate form fields in WordPress.
+ChriCo WP-Fields is a library (not a plugin) that allows to generate form fields in WordPress.
 
 ---
 
@@ -8,14 +8,14 @@ ChriCo WP-Fields is a Composer package (not a plugin) that allows to generate fo
 
 ChriCo Fields requires:
 
-* PHP 7+
+* PHP 8+
 * WordPress latest - 0.1
 * Composer to be installed
 
 When installed for development, via Composer, ChriCo Fields also requires:
 
-* "phpunit/phpunit" (BSD-3-Clause)
-* "brain/monkey" (MIT)
+* "phpunit/phpunit" 
+* "brain/monkey"
 
 ---
 
@@ -29,7 +29,7 @@ Documentation can be found in [`docs/`](docs/).
 
 > Why are you not just using existing packages like the [Symfony Forms](http://symfony.com/doc/current/forms.html) or [Zend Form](https://framework.zend.com/manual/2.4/en/modules/zend.form.intro.html)?
 
-That's a good question! As already mentioned above, WordPress has different pages and scenarios where to use form fields. Both packages are excellent and i worked a lot with them in past. 
+That's a good question! As already mentioned above, WordPress has different pages and scenarios where to use form fields. Both packages are excellent and I worked a lot with them in past. 
 
 *But:* They need a ton of dependencies. 
 
@@ -43,14 +43,14 @@ I guess you're wrong here. ;-)
 
 Nothing. There's a lot of weird and quirky code in it. No interfaces, no real abstraction, no strict return types, PHP 5.2, missing Unit Tests, ... _the list is endless, so i'll stop here._ 
 
-In fact, the API will eventually appear in WordPress in near - or far - future. But until then, everything is fine. If the API is really released, i'll adapt this code to fit on top of the Fields API.
+In fact, the API will eventually appear in WordPress in near - or far - future. But until then, everything is fine. If the API is really released, I'll adapt this code to fit on top of the Fields API.
 
 ---
 
 ## License
-Copyright (c) 2017 ChriCo.
+Copyright (c) since 1987 ChriCo.
 
-ChriCo Fields code is licensed under [MIT license](https://opensource.org/licenses/MIT).
+ChriCo Fields code is licensed under [GNU General Public License v3.0](/LICENSE).
 
 ```
    _____ _          _  _____      
