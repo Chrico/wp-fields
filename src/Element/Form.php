@@ -34,11 +34,11 @@ class Form extends CollectionElement implements FormInterface
      * @param string $key
      * @param string|array $value
      *
-     * @return ElementInterface
+     * @return static
      * @throws LogicException
      *
      */
-    public function withAttribute(string $key, $value): ElementInterface
+    public function withAttribute(string $key, $value): static
     {
         if ($key === 'value' && is_array($value)) {
             $this->withData($value);
@@ -52,11 +52,11 @@ class Form extends CollectionElement implements FormInterface
     /**
      * @param array $data
      *
-     * @return FormInterface
+     * @return static
      * @throws LogicException
      *
      */
-    public function withData(array $data = []): FormInterface
+    public function withData(array $data = []): static
     {
         if ($this->isSubmitted) {
             throw new LogicException('You cannot change data of a submitted form.');

@@ -48,6 +48,8 @@ class FormTest extends AbstractViewTestCase
         $expected_name = 'foo';
 
         $element_stub = Mockery::mock(ElementInterface::class);
+        $element_stub->allows('id')
+            ->andReturn($expected_name);
         $element_stub->allows('name')
             ->andReturn($expected_name);
         $element_stub->allows('type')

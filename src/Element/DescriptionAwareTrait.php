@@ -21,9 +21,9 @@ trait DescriptionAwareTrait
     /**
      * @param string $description
      *
-     * @return self
+     * @return static
      */
-    public function withDescription(string $description)
+    public function withDescription(string $description): static
     {
         $this->description = $description;
 

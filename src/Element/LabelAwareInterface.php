@@ -22,8 +22,6 @@ interface LabelAwareInterface
 
     /**
      * @param array $labelAttributes
-     *
-     * @return self
      */
     public function withLabelAttributes(array $labelAttributes = []);
 }

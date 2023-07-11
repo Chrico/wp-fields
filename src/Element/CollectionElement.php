@@ -33,9 +33,9 @@ class CollectionElement extends Element implements CollectionElementInterface
     /**
      * @param ElementInterface[] $elements
      *
-     * @return CollectionElement
+     * @return static
      */
-    public function withElement(ElementInterface ...$elements): CollectionElement
+    public function withElement(ElementInterface ...$elements): static
     {
         array_walk(
             $elements,
@@ -81,9 +81,9 @@ class CollectionElement extends Element implements CollectionElementInterface
      * @param string $key
      * @param bool|int|string $value
      *
-     * @return CollectionElement
+     * @return static
      */
-    public function withAttribute(string $key, $value): ElementInterface
+    public function withAttribute(string $key, $value): static
     {
         if ($key === 'value' && is_array($value)) {
             foreach ($this->elements as $name => $element) {
@@ -130,9 +130,9 @@ class CollectionElement extends Element implements CollectionElementInterface
      *
      * @param array $errors
      *
-     * @return CollectionElement
+     * @return static
      */
-    public function withErrors(array $errors = []): CollectionElement
+    public function withErrors(array $errors = []): static
     {
         $this->allErrors = $errors;
 

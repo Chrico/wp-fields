@@ -44,9 +44,9 @@ class Element implements
      * @param string $key
      * @param bool|int|string $value
      *
-     * @return Element
+     * @return static
      */
-    public function withAttribute(string $key, $value): ElementInterface
+    public function withAttribute(string $key, $value): static
     {
         $this->attributes[$key] = $value;
 
@@ -114,9 +114,9 @@ class Element implements
     /**
      * @param string $value
      *
-     * @return Element
+     * @return static
      */
-    public function withValue($value): Element
+    public function withValue($value): static
     {
         $this->withAttribute('value', $value);
 
@@ -134,9 +134,9 @@ class Element implements
     /**
      * @param array $attributes
      *
-     * @return Element
+     * @return static
      */
-    public function withAttributes(array $attributes = []): Element
+    public function withAttributes(array $attributes = []): static
     {
         $this->attributes = array_merge(
             $this->attributes,
@@ -157,9 +157,9 @@ class Element implements
     /**
      * @param array $options
      *
-     * @return Element
+     * @return static
      */
-    public function withOptions(array $options = []): Element
+    public function withOptions(array $options = []): static
     {
         $this->options = array_merge(
             $this->options,
@@ -173,9 +173,9 @@ class Element implements
      * @param string $key
      * @param int|string $value
      *
-     * @return Element
+     * @return static
      */
-    public function withOption(string $key, $value): Element
+    public function withOption(string $key, $value): static
     {
         $this->options[$key] = $value;
 
@@ -199,9 +199,9 @@ class Element implements
     /**
      * @param callable $callable
      *
-     * @return $this
+     * @return static
      */
-    public function withFilter(callable $callable): Element
+    public function withFilter(callable $callable): static
     {
         $this->filter = $callable;
 
@@ -220,9 +220,9 @@ class Element implements
     /**
      * @param callable $callable
      *
-     * @return $this
+     * @return static
      */
-    public function withValidator(callable $callable): Element
+    public function withValidator(callable $callable): static
     {
         $this->validator = $callable;
 

@@ -17,9 +17,9 @@ class ChoiceElement extends Element implements ChoiceElementInterface
     /**
      * @param ChoiceListInterface $list
      *
-     * @return ChoiceElement
+     * @return static
      */
-    public function withChoices(ChoiceListInterface $list): ChoiceElement
+    public function withChoices(ChoiceListInterface $list): static
     {
         $this->list = $list;
 

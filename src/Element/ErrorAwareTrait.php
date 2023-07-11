@@ -26,9 +26,9 @@ trait ErrorAwareTrait
     /**
      * @param array $errors
      *
-     * @return self
+     * @return static
      */
-    public function withErrors(array $errors = [])
+    public function withErrors(array $errors = []): static
     {
         $this->errors = array_merge($this->errors, $errors);
 
