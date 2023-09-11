@@ -62,10 +62,11 @@ class Form extends CollectionElement implements FormInterface
             throw new LogicException('You cannot change data of a submitted form.');
         }
 
-        foreach ($this->elements() as $name => $element) {
-            $value = $data[$name] ?? '';
-            $this->rawData[$name] = $value;
-
+        foreach ($data as $name => $value) {
+            if (!$this->elementExists($name)) {
+                continue;
+            }
+            $element = $this->element($name);
             $element->withValue($value);
             $this->data[$name] = $element->value();
         }
