@@ -63,7 +63,7 @@ class ElementFactoryTest extends AbstractTestCase
                     'name' => 'foo',
                 ],
                 'options' => [
-                    uniqid() => uniqid(),
+                    'foo' => 'bar',
                 ],
             ],
             ElementInterface::class,
@@ -383,7 +383,7 @@ class ElementFactoryTest extends AbstractTestCase
     public function testCreateSetOptionsForElement(): void
     {
         $options = [
-            uniqid() => uniqid(),
+            'foo' => 'bar',
         ];
         $elementSpec = [
             'attributes' => [
@@ -393,8 +393,8 @@ class ElementFactoryTest extends AbstractTestCase
             'options' => $options,
         ];
 
-        $elements = (new ElementFactory())->create($elementSpec);
+        $element = (new ElementFactory())->create($elementSpec);
 
-        static::assertEquals($options, $elements->options());
+        static::assertEquals($options, $element->options());
     }
 }
