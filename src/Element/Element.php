@@ -138,10 +138,9 @@ class Element implements
      */
     public function withAttributes(array $attributes = []): static
     {
-        $this->attributes = array_merge(
-            $this->attributes,
-            $attributes
-        );
+        foreach ($attributes as $key => $value) {
+            $this->withAttribute($key, $value);
+        }
 
         return $this;
     }
