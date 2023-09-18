@@ -160,10 +160,9 @@ class Element implements
      */
     public function withOptions(array $options = []): static
     {
-        $this->options = array_merge(
-            $this->options,
-            $options
-        );
+        foreach($options as $key => $value){
+            $this->withOption($key, $value);
+        }
 
         return $this;
     }
