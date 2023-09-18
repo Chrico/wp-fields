@@ -9,12 +9,10 @@ jobs:
       PHP_MATRIX: >-
         ["8.0", "8.1", "8.2"]
   coding-standards-analysis-php:
-    needs: lint-php
     uses: inpsyde/reusable-workflows/.github/workflows/coding-standards-php.yml@main
     with:
       PHPCS_ARGS: '--report=summary'
   tests-unit-php:
-    needs: [ coding-standards-analysis-php ]
     uses: inpsyde/reusable-workflows/.github/workflows/tests-unit-php.yml@main
     with:
       PHP_MATRIX: >-
