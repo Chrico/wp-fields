@@ -41,7 +41,6 @@ class Form extends CollectionElement implements FormInterface
      */
     public function submit(array $inputData = [])
     {
-        $this->isSubmitted = true;
         $this->isValid = true;
 
         foreach ($this->elements() as $name => $element) {
@@ -58,6 +57,9 @@ class Form extends CollectionElement implements FormInterface
                 $this->isValid = false;
             }
         }
+
+        // Submitted state is set on the end after all values are assigned.
+        $this->isSubmitted = true;
     }
 
     /**
