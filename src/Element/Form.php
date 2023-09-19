@@ -49,6 +49,8 @@ class Form extends CollectionElement implements FormInterface
         // A disabled form should not change its data upon submission.
         if ($this->isDisabled()) {
             $this->isSubmitted = true;
+
+            return;
         }
 
         // We also support as fallback that we send an array which contains
