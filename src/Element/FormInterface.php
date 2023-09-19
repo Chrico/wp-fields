@@ -14,7 +14,7 @@ interface FormInterface
      *
      * @param array $inputData
      */
-    public function submit(array $inputData = []);
+    public function submit(array $inputData = []): void;
 
     /**
      * Pre-assign data (values) to all Elements when the Form is not submitted.

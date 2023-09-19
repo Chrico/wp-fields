@@ -2,6 +2,7 @@
 
 namespace ChriCo\Fields\Tests\Unit\Element;
 
+use ChriCo\Fields\Element\Element;
 use ChriCo\Fields\Element\ElementInterface;
 use ChriCo\Fields\Element\ErrorAwareInterface;
 use ChriCo\Fields\Element\Form;
@@ -163,12 +164,72 @@ class FormTest extends AbstractTestCase
     /**
      * @test
      */
+    public function testSubmitWithSubNode(): void
+    {
+        $expectedValue = 'my-value';
+
+        $element = new Element('my-element');
+
+        $testee = new Form('my-form');
+        $testee->withElement($element);
+        $testee->submit(
+            [
+                'my-form' => [
+                    'my-element' => $expectedValue,
+                ],
+            ]
+        );
+
+        static::assertTrue($testee->isSubmitted());
+        static::assertSame($expectedValue, $testee->element('my-element')->value());
+    }
+
+    /**
+     * @test
+     */
     public function testSetDataAlreadySubmitted(): void
     {
         static::expectException(LogicException::class);
         $testee = new Form('');
         $testee->submit();
         $testee->withData(['foo' => 'bar']);
+    }
+
+    /**
+     * @test
+     */
+    public function testSubmitMultipleTimes(): void
+    {
+        static::expectException(LogicException::class);
+        $testee = new Form('');
+        $testee->submit();
+        $testee->submit();
+    }
+
+    /**
+     * @test
+     */
+    public function testSubmitDisabledForm(): void
+    {
+        $expectedValue = 'foo';
+        $element = new Element('my-element');
+        $element->withValue($expectedValue);
+
+        $testee = new Form('');
+        $testee->withElement($element);
+        $testee->withAttribute('disabled', true);
+
+        static::assertTrue($testee->isDisabled());
+        static::assertFalse($testee->isSubmitted());
+
+        static::assertTrue($element->isDisabled());
+        static::assertFalse($element->isSubmitted());
+
+        $testee->submit(['my-element' => 'data']);
+
+        static::assertTrue($testee->isSubmitted());
+        static::assertTrue($testee->isValid());
+        static::assertSame($expectedValue, $element->value());
     }
 
     /**

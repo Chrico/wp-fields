@@ -39,9 +39,21 @@ class Form extends CollectionElement implements FormInterface
     /**
      * {@inheritDoc}
      */
-    public function submit(array $inputData = [])
+    public function submit(array $inputData = []): void
     {
+        $this->assertNotSubmitted(__METHOD__);
+
+        // By default, the form is valid.
         $this->isValid = true;
+
+        // A disabled form should not change its data upon submission.
+        if ($this->isDisabled()) {
+            $this->isSubmitted = true;
+        }
+
+        // We also support as fallback that we send an array which contains
+        // the Form::name() as entry-node.
+        $inputData = $inputData[$this->name()] ?? $inputData;
 
         foreach ($this->elements() as $name => $element) {
             // only validate elements which are not disabled.
