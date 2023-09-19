@@ -28,7 +28,7 @@ class Checkbox implements RenderableElementInterface
         $this->assertElementIsInstanceOf($element, ChoiceElementInterface::class);
 
         $list = $element->choices();
-        $attributes = $element->attributes();
+        $attributes = $element->attributesForView();
         $choices = $list->choices();
         $selected = $list->choicesForValue((array) $element->value());
 
@@ -40,7 +40,7 @@ class Checkbox implements RenderableElementInterface
 
         $isMultiChoice = false;
         if (count($choices) > 1) {
-            $attributes['name'] = $element->name() . '[]';
+            $attributes['name'] = $attributes['name'] . '[]';
             $isMultiChoice = true;
         }
 
@@ -50,8 +50,8 @@ class Checkbox implements RenderableElementInterface
             $elementAttr['checked'] = isset($selected[$key]);
             $elementAttr['disabled'] = $choice['disabled'];
             $elementAttr['id'] = $isMultiChoice
-                ? $element->id() . '_' . $key
-                : $element->id();
+                ? $attributes['id'] . '_' . $key
+                : $attributes['id'];
             $elementAttr = $this->buildCssClasses($elementAttr, 'element', $element);
 
             $label = sprintf(

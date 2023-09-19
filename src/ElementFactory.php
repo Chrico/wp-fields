@@ -231,7 +231,10 @@ class ElementFactory extends AbstractFactory
      */
     protected static function configureElement(Element\ElementInterface $element, array $specs = [])
     {
-        $element->withAttributes($specs['attributes']);
+        $attributes = $specs['attributes'];
+        // Don't set name again.
+        unset($attributes['name']);
+        $element->withAttributes($attributes);
 
         if (!empty($specs['options'])) {
             $element->withOptions($specs['options']);

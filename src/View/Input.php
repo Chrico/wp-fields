@@ -21,7 +21,7 @@ class Input implements RenderableElementInterface
      */
     public function render(ElementInterface $element): string
     {
-        $attributes = $element->attributes();
+        $attributes = $element->attributesForView();
         $attributes = $this->buildCssClasses($attributes, 'element', $element);
 
         return sprintf(

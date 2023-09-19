@@ -48,10 +48,6 @@ class Collection implements RenderableElementInterface
         $html = array_reduce(
             $element->elements(),
             function ($html, ElementInterface $next) use ($element, $row): string {
-                // Adding the CollectionElement name to the Element name and ID as prefix.
-                $next->withAttribute('id', $element->id() . '_' . $next->id());
-                $next->withAttribute('name', $element->name() . '[' . $next->name() . ']');
-
                 // In case we have nested CollectionElement, then
                 // we don't want to nest those when rendering.
                 if ($next instanceof Element\CollectionElement) {
@@ -65,7 +61,7 @@ class Collection implements RenderableElementInterface
             ''
         );
 
-        $attributes = $element->attributes();
+        $attributes = $element->attributesForView();
         $attributes = $this->buildCssClasses($attributes, 'collection', $element);
         // we do not want to get the "name" and "type" rendered as attribute on wrapper.
         unset($attributes['name'], $attributes['type']);

@@ -2,14 +2,15 @@
 
 namespace ChriCo\Fields\Tests\Unit\Element;
 
+use ChriCo\Fields\Element\CollectionElement;
 use ChriCo\Fields\Element\Element;
 use ChriCo\Fields\Element\ElementInterface;
 use ChriCo\Fields\Element\LabelAwareInterface;
 use ChriCo\Fields\Tests\Unit\AbstractTestCase;
+use Inpsyde\PresentationElements\Contracts\FormElement;
 
 class ElementTest extends AbstractTestCase
 {
-
     /**
      * Basic test to check the default behavior of the class.
      *
@@ -39,6 +40,10 @@ class ElementTest extends AbstractTestCase
         static::assertCount(0, $testee->errors());
         static::assertFalse($testee->hasErrors());
 
+        static::assertFalse($testee->isDisabled());
+        static::assertNull($testee->parent());
+
+        static::assertFalse($testee->isSubmitted());
         static::assertFalse($testee->isDisabled());
     }
 
@@ -220,5 +225,48 @@ class ElementTest extends AbstractTestCase
         $testee->withFilter($filter);
 
         static::assertSame($expectedValue, $testee->value());
+    }
+
+    /**
+     * @test
+     */
+    public function testSetGetParent(): void
+    {
+        $parentElement = \Mockery::mock(CollectionElement::class);
+
+        $testee = new Element('my-element');
+        $testee->withParent($parentElement);
+
+        static::assertSame($parentElement, $testee->parent());
+    }
+
+    /**
+     * @test
+     */
+    public function testIsDisabledWithParent(): void
+    {
+        $parentElement = \Mockery::mock(CollectionElement::class);
+        $parentElement->expects('isDisabled')->andReturn(true);
+
+        $testee = new Element('my-element');
+        static::assertFalse($testee->isDisabled());
+
+        $testee->withParent($parentElement);
+        static::assertTrue($testee->isDisabled());
+    }
+
+    /**
+     * @test
+     */
+    public function testIsSubmittedWithParent(): void
+    {
+        $parentElement = \Mockery::mock(CollectionElement::class);
+        $parentElement->expects('isSubmitted')->andReturn(true);
+
+        $testee = new Element('my-element');
+        static::assertFalse($testee->isSubmitted());
+
+        $testee->withParent($parentElement);
+        static::assertTrue($testee->isSubmitted());
     }
 }

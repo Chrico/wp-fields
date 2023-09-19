@@ -15,19 +15,18 @@ class ChoiceElement extends Element implements ChoiceElementInterface
     protected ?ChoiceListInterface $list = null;
 
     /**
-     * @param ChoiceListInterface $list
-     *
-     * @return static
+     * {@inheritDoc}
      */
     public function withChoices(ChoiceListInterface $list): static
     {
+        $this->assertNotSubmitted(__METHOD__);
         $this->list = $list;
 
         return $this;
     }
 
     /**
-     * @return ChoiceListInterface
+     * {@inheritDoc}
      */
     public function choices(): ChoiceListInterface
     {

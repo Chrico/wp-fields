@@ -21,63 +21,23 @@ class Form extends CollectionElement implements FormInterface
     protected bool $isSubmitted = false;
 
     /**
-     * Contains the raw data assigned by Form::bind_data
+     * Contains the raw data assigned by Form::submit()
      */
     protected array $rawData = [];
 
     /**
-     * Contains the filtered data.
-     */
-    protected array $data = [];
-
-    /**
-     * @param string $key
-     * @param string|array $value
-     *
-     * @return static
-     * @throws LogicException
-     *
-     */
-    public function withAttribute(string $key, $value): static
-    {
-        if ($key === 'value' && is_array($value)) {
-            $this->withData($value);
-        }
-
-        parent::withAttribute($key, $value);
-
-        return $this;
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return static
-     * @throws LogicException
-     *
+     * {@inheritDoc}
      */
     public function withData(array $data = []): static
     {
-        if ($this->isSubmitted) {
-            throw new LogicException('You cannot change data of a submitted form.');
-        }
-
-        foreach ($data as $name => $value) {
-            if (!$this->elementExists($name)) {
-                continue;
-            }
-            $element = $this->element($name);
-            $element->withValue($value);
-            $this->data[$name] = $element->value();
-        }
+        $this->assertNotSubmitted(__METHOD__);
+        $this->withAttribute('value', $data);
 
         return $this;
     }
 
     /**
-     * @param array $inputData
-     *
-     * @throws ElementNotFoundException
+     * {@inheritDoc}
      */
     public function submit(array $inputData = [])
     {
@@ -94,8 +54,6 @@ class Form extends CollectionElement implements FormInterface
             $this->rawData[$name] = $value;
 
             $element->withValue($value);
-            $this->data[$name] = $element->value();
-
             if (!$element->validate()) {
                 $this->isValid = false;
             }
@@ -103,17 +61,15 @@ class Form extends CollectionElement implements FormInterface
     }
 
     /**
-     * @return array
+     * {@inheritDoc}
      */
     public function data(): array
     {
-        return $this->data;
+        return $this->value();
     }
 
     /**
-     * @return bool
-     * @throws LogicException
-     *
+     * {@inheritDoc}
      */
     public function isValid(): bool
     {
@@ -133,7 +89,7 @@ class Form extends CollectionElement implements FormInterface
     }
 
     /**
-     * @return bool
+     * {@inheritDoc}
      */
     public function isSubmitted(): bool
     {

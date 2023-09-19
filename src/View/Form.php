@@ -56,7 +56,7 @@ class Form implements RenderableElementInterface
             ''
         );
 
-        $attributes = $element->attributes();
+        $attributes = $element->attributesForView();
         // Don't re-use the "type" as attribute on <form>-tag.
         unset($attributes['type']);
         $classes = (string) ($attributes['class'] ?? '');

@@ -17,6 +17,13 @@ interface ElementInterface
     public function isDisabled(): bool;
 
     /**
+     * In case the element itself (or parent) is submitted.
+     *
+     * @return bool
+     */
+    public function isSubmitted(): bool;
+
+    /**
      * Proxy to get the "id" in field attributes.
      *
      * @return string
@@ -40,7 +47,7 @@ interface ElementInterface
     /**
      * Proxy to get the value in field attributes.
      *
-     * @return mixed
+     * @return bool|int|mixed|string|array
      */
     public function value();
 
@@ -50,6 +57,15 @@ interface ElementInterface
      * @param mixed $value
      */
     public function withValue($value);
+
+    /**
+     * Returns attributes prepared for the View with taking
+     * the parent into consideration for building correct
+     * "id" and "name" attributes.
+     *
+     * @return array
+     */
+    public function attributesForView(): array;
 
     /**
      * Get all field attributes for this element.
@@ -72,7 +88,7 @@ interface ElementInterface
     /**
      * @param string $key
      *
-     * @return int|string|bool $value
+     * @return bool|int|mixed|string|array $value
      */
     public function attribute(string $key);
 
@@ -124,4 +140,17 @@ interface ElementInterface
      * @param callable $callable
      */
     public function withValidator(callable $callable);
+
+    /**
+     * Setting a parent which can be either a Collection or Form itself
+     * to reuse internally to detect if the Element is disabled or submitted.
+     *
+     * @param CollectionElement $element
+     */
+    public function withParent(CollectionElement $element);
+
+    /**
+     * @return CollectionElement|null
+     */
+    public function parent(): ?CollectionElement;
 }

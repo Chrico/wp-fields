@@ -30,15 +30,16 @@ class Label implements RenderableElementInterface
             return '';
         }
 
-        $attributes = $element->labelAttributes();
-        if (!isset($attributes['for'])) {
-            $attributes['for'] = $element->id();
+        $labelAttributes = $element->labelAttributes();
+        $attributes = $element->attributesForView();
+        if (!isset($labelAttributes['for'])) {
+            $labelAttributes['for'] = $attributes['id'];
         }
-        $attributes = $this->buildCssClasses($attributes, 'label', $element);
+        $labelAttributes = $this->buildCssClasses($labelAttributes, 'label', $element);
 
         return sprintf(
             '<label %s>%s</label>',
-            $this->attributesToString($attributes),
+            $this->attributesToString($labelAttributes),
             $element->label()
         );
     }

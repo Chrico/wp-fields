@@ -43,17 +43,23 @@ class CollectionTest extends AbstractViewTestCase
      */
     public function testRenderNestedCollectionElements(): void
     {
-        $expectedName1 = 'name1';
-        $expectedName2 = 'name2';
-        $expectedTextElementName = 'text';
+        $rootCollectionName = 'rootCollection';
+        $childCollectionName = 'childCollection';
+        $textElementName = 'text';
+        $textElementWithLabelName = 'text-with-label';
 
-        $textElement = new Element($expectedTextElementName);
+        $textElement = new Element($textElementName);
         $textElement->withAttribute('type', 'text');
 
-        $childCollection = new CollectionElement($expectedName2);
-        $childCollection->withElement($textElement);
+        $textElementWithLabel = new Element($textElementWithLabelName);
+        $textElementWithLabel->withAttribute('type', 'text');
+        $textElementWithLabel->withLabel('Some Label');
 
-        $rootCollection = new CollectionElement($expectedName1);
+        $childCollection = new CollectionElement($childCollectionName);
+        $childCollection->withElement($textElement);
+        $childCollection->withElement($textElementWithLabel);
+
+        $rootCollection = new CollectionElement($rootCollectionName);
         $rootCollection->withElement($childCollection);
 
         $result = (new Collection())->render($rootCollection);

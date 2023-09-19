@@ -54,13 +54,13 @@ class FormTest extends AbstractViewTestCase
             ->andReturn($expected_name);
         $element_stub->allows('type')
             ->andReturn('text');
-        $element_stub->allows('attributes')
+        $element_stub->allows('attributesForView')
             ->andReturn([]);
 
         $form_stub = Mockery::mock(FormInterface::class, ElementInterface::class, CollectionElementInterface::class);
         $form_stub->allows('name')
             ->andReturn('form');
-        $form_stub->allows('attributes')
+        $form_stub->allows('attributesForView')
             ->andReturn([]);
         $form_stub->allows('elements')
             ->andReturn([$element_stub]);

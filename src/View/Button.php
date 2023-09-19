@@ -25,7 +25,7 @@ class Button implements RenderableElementInterface
         // Every button should have a label (text).
         $this->assertElementIsInstanceOf($element, LabelAwareInterface::class);
 
-        $attributes = $element->attributes();
+        $attributes = $element->attributesForView();
         $attributes = $this->buildCssClasses($attributes, 'element', $element);
 
         return sprintf(

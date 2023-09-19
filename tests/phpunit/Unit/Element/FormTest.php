@@ -65,6 +65,8 @@ class FormTest extends AbstractTestCase
             ->andReturnTrue();
         $element->allows('validate')
             ->andReturnFalse();
+        $element->allows('withParent')
+            ->andReturn($element);
 
         // element which has no validator assigned.
         $not_validated_element2 = $this->getElementStub($expected_key2);
@@ -72,10 +74,14 @@ class FormTest extends AbstractTestCase
             ->andReturns($expected_value2);
         $not_validated_element2->allows('validate')
             ->andReturnTrue();
+        $not_validated_element2->allows('withParent')
+            ->andReturn($not_validated_element2);
 
         // element which is disabled shouldn't't be validated
         $disabled_element = $this->getElementStub($expected_key3, true);
         $disabled_element->allows('validate')->never();
+        $disabled_element->allows('withParent')
+            ->andReturn($disabled_element);
 
         $testee = (new Form(''))
             ->withElement($element, $not_validated_element2, $disabled_element);
@@ -134,6 +140,8 @@ class FormTest extends AbstractTestCase
             ->andReturn($expected_value);
         $element->allows('isDisabled')
             ->andReturn(false);
+        $element->allows('withParent')
+            ->andReturn($element);
 
         $testee = new Form('');
         $testee->withElement($element)
@@ -176,6 +184,8 @@ class FormTest extends AbstractTestCase
             ->andReturn($expected_value);
         $element->allows('validate')
             ->andReturnTrue();
+        $element->allows('withParent')
+            ->andReturn($element);
 
         $testee = new Form('');
         $testee->withElement($element);

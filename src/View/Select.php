@@ -26,7 +26,7 @@ class Select implements RenderableElementInterface
     {
         $this->assertElementIsInstanceOf($element, ChoiceElementInterface::class);
 
-        $attributes = $element->attributes();
+        $attributes = $element->attributesForView();
         $attributes = $this->buildCssClasses($attributes, 'element', $element);
         unset($attributes['type'], $attributes['value']);
 

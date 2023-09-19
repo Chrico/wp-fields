@@ -9,7 +9,6 @@ namespace ChriCo\Fields\Element;
  */
 interface FormInterface
 {
-
     /**
      * Submits data to the form, filter and validates it.
      *
@@ -18,14 +17,12 @@ interface FormInterface
     public function submit(array $inputData = []);
 
     /**
-     * @return bool
-     */
-    public function isSubmitted(): bool;
-
-    /**
-     * Set data without re-validating and filtering it.
+     * Pre-assign data (values) to all Elements when the Form is not submitted.
+     * This method is a shorthand to Form::withValue($data) or Form::withAttribute('value', $data);
      *
      * @param array $data
+     *
+     * @deprecated ElementInterface::setValue()
      */
     public function withData(array $data = []);
 
@@ -33,6 +30,8 @@ interface FormInterface
      * Returns the assigned data.
      *
      * @return array
+     *
+     * @deprecated ElementInterface::value()
      */
     public function data(): array;
 

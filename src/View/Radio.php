@@ -28,7 +28,7 @@ class Radio implements RenderableElementInterface
         $this->assertElementIsInstanceOf($element, ChoiceElementInterface::class);
 
         $list = $element->choices();
-        $attributes = $element->attributes();
+        $attributes = $element->attributesForView();
         $choices = $list->choices();
         $selected = $list->choicesForValue((array) $element->value());
 

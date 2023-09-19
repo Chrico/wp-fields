@@ -6,8 +6,10 @@ use ChriCo\Fields\Element\CollectionElement;
 use ChriCo\Fields\Element\Element;
 use ChriCo\Fields\Element\ElementInterface;
 use ChriCo\Fields\Element\ErrorAwareInterface;
+use ChriCo\Fields\Element\Form;
 use ChriCo\Fields\Exception\ElementNotFoundException;
 use ChriCo\Fields\Tests\Unit\AbstractTestCase;
+use Inpsyde\PresentationElements\Contracts\FormElement;
 
 class CollectionElementTest extends AbstractTestCase
 {
@@ -166,4 +168,26 @@ class CollectionElementTest extends AbstractTestCase
 
         static::assertSame($expected, $testee->value());
     }
+
+
+    /**
+     * @return void
+     */
+    public function testSetGetMultipleParents(): void
+    {
+        $rootElement = new Form('my-form-element');
+        $parentElement = new CollectionElement('my-collection-element');
+        $element = new Element('my-element');
+
+        static::assertNull($rootElement->parent());
+        static::assertNull($parentElement->parent());
+        static::assertNull($element->parent());
+
+        $parentElement->withElement($element);
+        $rootElement->withElement($parentElement);
+
+        static::assertSame($rootElement, $parentElement->parent());
+        static::assertSame($parentElement, $element->parent());
+    }
+
 }

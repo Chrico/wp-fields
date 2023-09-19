@@ -31,16 +31,17 @@ class CollectionElement extends Element implements CollectionElementInterface
     private array $allErrors = [];
 
     /**
-     * @param ElementInterface[] $elements
-     *
-     * @return static
+     * {@inheritDoc}
      */
     public function withElement(ElementInterface ...$elements): static
     {
+        $this->assertNotSubmitted(__METHOD__);
+
         array_walk(
             $elements,
             function (ElementInterface $element): void {
                 $this->elements[$element->name()] = $element;
+                $element->withParent($this);
             }
         );
 
@@ -48,11 +49,7 @@ class CollectionElement extends Element implements CollectionElementInterface
     }
 
     /**
-     * @param string $name
-     *
-     * @return ElementInterface
-     * @throws ElementNotFoundException
-     *
+     * {@inheritDoc}
      */
     public function element(string $name): ElementInterface
     {
@@ -66,9 +63,7 @@ class CollectionElement extends Element implements CollectionElementInterface
     }
 
     /**
-     * @param string $name
-     *
-     * @return bool
+     * {@inheritDoc}
      */
     public function elementExists(string $name): bool
     {
@@ -78,17 +73,23 @@ class CollectionElement extends Element implements CollectionElementInterface
     /**
      * If the key is "value" and the $value an array, we assign all values to the children.
      *
-     * @param string $key
-     * @param bool|int|string $value
-     *
-     * @return static
+     * {@inheritDoc}
      */
     public function withAttribute(string $key, $value): static
     {
+        $this->assertNotSubmitted(__METHOD__);
+
         if ($key === 'value' && is_array($value)) {
-            foreach ($this->elements as $name => $element) {
-                $this->elements[$name]->withValue($value[$name] ?? '');
+            $assignedValues = [];
+            foreach ($value as $elementName => $elementValue) {
+                if (!$this->elementExists($elementName)) {
+                    continue;
+                }
+                $this->element($elementName)->withValue($elementValue);
+                $assignedValues[$elementName] = $elementValue;
             }
+
+            $this->attributes['value'] = $assignedValues;
 
             return $this;
         }
@@ -101,9 +102,7 @@ class CollectionElement extends Element implements CollectionElementInterface
     /**
      * Returns a list of values for each element inside the collection.
      *
-     * @param string $key
-     *
-     * @return array
+     * {@inheritDoc}
      */
     public function attribute(string $key)
     {
@@ -118,7 +117,7 @@ class CollectionElement extends Element implements CollectionElementInterface
     }
 
     /**
-     * @return array
+     * {@inheritDoc}
      */
     public function elements(): array
     {
@@ -128,16 +127,13 @@ class CollectionElement extends Element implements CollectionElementInterface
     /**
      * Delegate errors down to the children.
      *
-     * @param array $errors
-     *
-     * @return static
+     * {@inheritDoc}
      */
     public function withErrors(array $errors = []): static
     {
         $this->allErrors = $errors;
 
-        foreach ($this->elements as $element) {
-            $name = $element->name();
+        foreach ($this->elements as $name => $element) {
             if (isset($errors[$name]) && $element instanceof ErrorAwareInterface) {
                 $element->withErrors((array) $errors[$name]);
                 unset($errors[$name]);
@@ -151,7 +147,7 @@ class CollectionElement extends Element implements CollectionElementInterface
     }
 
     /**
-     * @return bool
+     * {@inheritDoc}
      */
     public function hasErrors(): bool
     {
@@ -167,6 +163,9 @@ class CollectionElement extends Element implements CollectionElementInterface
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function validate(): bool
     {
         $isValid = parent::validate();
