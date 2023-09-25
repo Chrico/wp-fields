@@ -150,6 +150,7 @@ class Element implements
             $id = $parentAttributes['id'];
             $name = $parentAttributes['name'];
 
+            $attributes['disabled'] = $this->isDisabled();
             $attributes['id'] = $id . '_' . $attributes['id'];
             $attributes['name'] = $name . '[' . $attributes['name'] . ']';
         }
