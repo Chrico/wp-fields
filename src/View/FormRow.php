@@ -84,7 +84,7 @@ class FormRow implements RenderableElementInterface
             $rowAttributes['class'] .= ' form-row--has-errors';
         }
         if ($element->isDisabled()) {
-            $rowAttributes['class'] .= 'form-row--is-disabled';
+            $rowAttributes['class'] .= ' form-row--is-disabled';
         }
         if ($element->type() === 'hidden') {
             $rowAttributes['class'] .= ' hidden';
