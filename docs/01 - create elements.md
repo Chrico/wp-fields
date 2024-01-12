@@ -22,7 +22,7 @@ use ChriCo\Fields\Element\Element;
 $text = (new Element('my-text'))
 	->withAttributes([ 'type' => 'text']);
 
-$number = (new Element('my-number'));
+$number = (new Element('my-number'))
 	->withAttributes([ 'type' => 'number' ]);
 ```
 
